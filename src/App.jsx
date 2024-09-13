@@ -1,11 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./routes/Home/page";
+import HistoriasPage from "./routes/Trancando-Historias/page";
 
 function App() {
   return (
     <BrowserRouter> 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/trancando-historias" element={<HistoriasPage/>}/>
       </Routes>
     </BrowserRouter>  
   );
