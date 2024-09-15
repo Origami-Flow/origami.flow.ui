@@ -3,6 +3,7 @@ import { request } from "../../axios/request";
 import Loading from "../../components/shared/Loading";
 import OrderSelect from "../../components/trancando_historias/OrderSelect";
 import SearchInput from "../../components/trancando_historias/SearchInput";
+import BookCard from "../../components/trancando_historias/BookCard";
 
 export default function HistoriasPage() {
   const inptRef = useRef();
@@ -29,10 +30,17 @@ export default function HistoriasPage() {
       });
   }
 
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      handlerSearchBooks();
+    }
+  }
+
+
   return (
-    <main className="p-2 h-screen">
-      <div className=" pl-4 flex flex-row items-center gap-5">
-        <SearchInput ref={inptRef} type="text" />
+    <main className="p-2 pl-6 h-screen">
+      <div className="flex flex-row items-center gap-5 w-[80%] m-auto ">
+        <SearchInput ref={inptRef} type="text" onKeyDown={handleKeyDown}/>
         <button
           onClick={handlerSearchBooks}
           className="border rounded-md py-[0.15rem] border-gray-300 px-3"
@@ -45,17 +53,9 @@ export default function HistoriasPage() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="grid grid-cols-3 gap-10 pt-5 w-full h-full">
+        <div className="grid justify-items-center grid-cols-1  md:grid-cols-2 xl:grid-cols-3 gap-10 pt-5  h-full">
           {books?.map((book) => (
-          <div key={book?.id} className="flex flex-col items-center">
-            <img
-              className="w-40 h-40 object-cover rounded-lg"
-              src={book?.thumbnail}
-              alt={book?.title}
-            />
-            <span className="text-center">{book?.title}</span>
-            <div>{book?.authors}</div>
-          </div>
+            <BookCard book={book} />
           ))}
         </div>
       )}
