@@ -55,7 +55,7 @@ export default function HistoriasPage() {
       ) : (
         <div className="grid justify-items-center grid-cols-1  md:grid-cols-2 xl:grid-cols-3 gap-10 pt-5  h-full">
           {books?.map((book) => (
-            <BookCard book={book} />
+            <BookCard book={book} key={book?.id} />
           ))}
         </div>
       )}

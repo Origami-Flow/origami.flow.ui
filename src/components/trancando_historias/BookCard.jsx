@@ -2,7 +2,7 @@ import clsx from "clsx"
 
 export default function BookCard({ book, className, ...rest }) {
     return (
-        <div className={clsx("flex flex-col items-center border-2 p-3 border-gray-400 rounded-lg w-60 h-80", className)} {...rest}>
+        <div className={clsx("flex flex-col items-center border-2 p-3 border-gray-400 rounded-lg w-60 h-80 shadow-lg cursor-pointer", className)} {...rest}>
             <img
                 className="w-40 h-52 object-cover rounded-lg"
                 src={book?.thumbnail}
