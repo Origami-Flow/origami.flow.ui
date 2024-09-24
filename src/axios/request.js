@@ -2,11 +2,10 @@ import axiosInstance from "../config/axiosConfig";
 
 const api = axiosInstance;
 
-const response = (resposta) => resposta.data;
 const request = {
-  getCep: async () => {
-    const result = await api.get("01001000/json/");
-    return response(result);
+  getBooks: async (queryParams = {}) => {
+    const result = await api.get(`/livros?title=${queryParams?.title}&order=${queryParams?.order} `);
+    return result;
   },
 };
 
