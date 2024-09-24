@@ -1,5 +1,4 @@
 import HeaderText from './HeaderText';
-import iconMenu from '../../assets/icon-menu.png';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 
@@ -22,7 +21,7 @@ const Header = () => {
   }
 
   return (
-    <div className="w-11/12 h-16 fixed flex justify-between items-center inset-0 mt-6 py-4 px-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-lg mx-auto">
+    <div className="w-11/12 h-16 fixed z-20 flex justify-between items-center inset-0 mt-6 py-4 px-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-lg mx-auto">
       <span className='lg:text-2xl font-laisha select-none md:text-xl'> SALGADO TRANÇAS </span>
       <div className='w-7/12 lg:flex justify-between lg:visible md:flex-none hidden'>
         <HeaderText item="Trança e afeto" />
@@ -33,7 +32,6 @@ const Header = () => {
       </div>
       <span className='max-lg:hidden text-lg font-bold hover:bg-roseprimary rounded-3xl cursor-pointer py-2 px-4'>Entrar</span>
       <Menu height={40} width={40} cursor={"pointer"} onClick={toggleMenu} className=' lg:hidden' alt='Ícone menu'/>
-
     </div>
   );
 }
