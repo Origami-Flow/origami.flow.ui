@@ -32,8 +32,7 @@ const Header = () => {
         <HeaderText item="Cuidados pós trança" />
       </div>
       <span className='max-lg:hidden text-lg font-bold hover:bg-roseprimary rounded-3xl cursor-pointer py-2 px-4'>Entrar</span>
-      <Menu height={40} width={40} cursor={"pointer"} onClick={toggleMenu} className=' lg:hidden' alt='Ícone menu'/>
-
+      <Menu size={40}  cursor={"pointer"} onClick={toggleMenu} className=' lg:hidden' alt='Ícone menu'/>
     </div>
   );
 }
