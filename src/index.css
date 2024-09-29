@@ -6,3 +6,7 @@
     --radius: 0.5rem
   }
 }
+@font-face {
+  font-family: 'Laisha';
+  src: url(assets/laisha/Laisha.ttf);
+}

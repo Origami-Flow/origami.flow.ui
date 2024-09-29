@@ -13,11 +13,11 @@ export default {
   			rosesecundary: '#ECCAC3',
   			marromsecundary: '#624836',
   			branconeutro: '#EFEFEF',
-  			pretoneutro: '#292726'
+  			pretoneutro: '#292726',
   		},
   		fontFamily: {
   			sans: ['Open Sans', 'sans serif'],
-  			laisha: ['Laisha', 'sans serif']
+  			laisha: ['Laisha'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
