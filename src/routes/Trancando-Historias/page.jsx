@@ -52,7 +52,7 @@ export default function HistoriasPage() {
         </h1>
         <img
           src={FormaFundo}
-          className="absolute top-0 left-0 -z-10 hidden xl:block"
+          className="absolute top-0 left-0 -z-10 hidden xl:block w-2/5"
           alt=""
         />
         <div className="flex flex-col md:flex-row mt-8 md:mt-0">
@@ -77,7 +77,7 @@ export default function HistoriasPage() {
         <div className="flex flex-col md:flex-row mt-16 md:mt-96 xl:mt-24 items-center gap-4 md:gap-7 w-full md:w-[90%] m-auto">
           <SearchInput
             ref={inptRef}
-            className="w-80 md:w-96 !bg-rosesecundary border-none p-3"
+            className="w-80 md:w-96 !bg-white border p-3"
             type="text"
             onKeyDown={handleKeyDown}
           />
