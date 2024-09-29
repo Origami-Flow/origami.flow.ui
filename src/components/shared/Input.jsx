@@ -6,7 +6,7 @@ const Input = React.forwardRef(({ className, type, ...props }, ref) => {
     <input
       type={type}
       className={clsx(
-        "flex bg-transparent text-black p-2 border border-gray-300 rounded-2xl w-56 text-sm h-7",
+        "flex bg-transparent text-black p-2 border-2 border-gray-300 rounded-xl text-sm ",
         className
       )}
       ref={ref}

@@ -7,7 +7,7 @@ const SearchInput = forwardRef(({onKeyDown,className ,...props}, ref) => {
   return (
     <div className="relative w-fit">
       <Input ref={ref} className={clsx("pr-8", className)} onKeyDown={onKeyDown} {...props} />
-      <Search className="absolute top-0 right-2"height={"100%"} />
+      <Search className="absolute top-0 right-2" height={"100%"} />
     </div>
   );
 });

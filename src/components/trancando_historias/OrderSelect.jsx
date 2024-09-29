@@ -1,16 +1,27 @@
-import { Flex, Select } from "@radix-ui/themes";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export default function OrderSelect({ value, setValue }) {
+export function OrderSelect({ value, setValue }) {
   return (
-    <Flex direction="column" maxWidth="160px">
-      <Select.Root value={value} onValueChange={setValue}>
-        <Select.Trigger />
-        <Select.Content position="popper">
-          <Select.Item value="none">Sem Ordenação</Select.Item>
-          <Select.Item value="asc">Crescente</Select.Item>
-          <Select.Item value="desc">Decrescente</Select.Item>
-        </Select.Content>
-      </Select.Root>
-    </Flex>
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger className="w-[180px] h-10  bg-roseprimary text-white font-semibold" > 
+        <SelectValue placeholder="Selecione a Ordenação" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Ordenação</SelectLabel>
+          <SelectItem value="none">Sem Ordenação</SelectItem>
+          <SelectItem value="asc">Crescente</SelectItem>
+          <SelectItem value="desc">Decrescente</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }

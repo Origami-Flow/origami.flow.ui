@@ -1,24 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
+    darkMode: ["class"],
+    content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors:{
-        roseprimary: '#B55B49',
-        verdeprimary: '#304517',
-        rosesecundary: '#ECCAC3',
-        marromsecundary: '#624836',
-        branconeutro: '#EFEFEF',
-        pretoneutro: '#292726'
-      },
-      fontFamily:{
-        sans: ['Open Sans', 'sans serif'],
-        laisha: ['Laisha', 'sans serif']
-      }
-    },
+  	extend: {
+  		colors: {
+  			roseprimary: '#B55B49',
+  			verdeprimary: '#304517',
+  			rosesecundary: '#ECCAC3',
+  			marromsecundary: '#624836',
+  			branconeutro: '#EFEFEF',
+  			pretoneutro: '#292726'
+  		},
+  		fontFamily: {
+  			sans: ['Open Sans', 'sans serif'],
+  			laisha: ['Laisha', 'sans serif']
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }

@@ -1,17 +1,34 @@
-import clsx from "clsx"
+import clsx from "clsx";
+import { BookText, FileDown } from "lucide-react";
+import Button from "../shared/Button";
 
 export default function BookCard({ book, className, ...rest }) {
-    return (
-        <div className={clsx("flex flex-col items-center border-2 p-3 border-gray-400 rounded-lg w-60 h-80 shadow-lg cursor-pointer", className)} {...rest}>
-            <img
-                className="w-40 h-52 object-cover rounded-lg"
-                src={book?.thumbnail}
-                alt={book?.title}
-            />
-            <div className="flex flex-col h-full py-1 justify-between">
-                <span className="text-center line-clamp-1">{book?.title}</span>
-                <span className="line-clamp-1 text-center">{book?.authors}</span>
-            </div>
+  return (
+    <div
+      className={clsx(
+        "flex items-center p-3 rounded-lg w-96 justify-around h-60 shadow-md hover:shadow-lg  transition-shadow",
+        className
+      )}
+      {...rest}
+    >
+      <img
+        className="w-40 h-52 object-cover rounded-lg"
+        src={book?.thumbnail}
+        alt={book?.title}
+      />
+      <div className="flex flex-col h-full py-1 justify-between">
+        <span className="text-center line-clamp-2">{book?.title}</span>
+        <div className="flex flex-col w-full items-center h-1/3 justify-between">
+          <Button className="bg-roseprimary text-white w-32 gap-2 font-semibold h-8">
+            <BookText />
+            Ler Online
+          </Button>
+          <Button className="bg-marromsecundary text-white w-32 gap-2 font-semibold h-8">
+            <FileDown />
+            Baixar
+          </Button>
         </div>
-    )
+      </div>
+    </div>
+  );
 }
