@@ -4,6 +4,7 @@ import Loading from "../../components/shared/Loading";
 import OrderSelect from "../../components/trancando_historias/OrderSelect";
 import SearchInput from "../../components/trancando_historias/SearchInput";
 import BookCard from "../../components/trancando_historias/BookCard";
+import Header from "../../components/shared/Header";
 
 export default function HistoriasPage() {
   const inptRef = useRef();
