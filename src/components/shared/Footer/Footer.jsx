@@ -12,7 +12,7 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="bg-verdeprimary w-full h-40 flex justify-center p-6 absolute -bottom-full">
+        <footer className="bg-verdeprimary w-full h-[25%] flex justify-center p-6 ">
             <div className="w-3/4 flex justify-evenly items-center">
                 <FooterText items={["Termos de uso", "Política de privacidade"]} />
                 <hr className="border h-4/6 border-rosesecundary" />
