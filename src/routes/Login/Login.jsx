@@ -1,5 +1,7 @@
 import Header from "../../components/shared/Header";
 import ImageLogin from "../../assets/icon-login.svg";
+import IconeGoogle from "../../assets/icon-google.svg";
+import InputLogin from "../../components/login/InputLogin";
 
 const Login = () => {
   return (
@@ -7,17 +9,38 @@ const Login = () => {
       <Header />
       <div className="flex h-[100%]" >
         <div className="w-1/2 ">
-          <div className=" h-[70%]">
-          
+          <div className=" h-[67.8%]">
+            <div className="flex items-center justify-center h-[110%]">
+             <p className="text-left text-6xl leading-[0.9] font-laisha ">
+                Seja<br/>
+                bem<br />
+                vindo<br />
+                de volta!
+              </p> 
+            </div>
           </div>
           <div>
             <img src={ImageLogin} alt="Imagem de Login" />
           </div>
         </div>
+        <div className="w-1/2 bg-roseprimary flex flex-col justify-center items-center gap-10">
         
+          <div className="flex flex-col justify-center items-center w-full">
+            <InputLogin/>
+          </div>  
+          
+          <button className=" justify-center bg-white border rounded-full w-[30%] h-[7%]">
+            <img className="w-[20%]" src={IconeGoogle} alt="Icone Google" />
+          </button>
+          <div className="flex flex-col items-center gap-4 w-full">
+            <h1 className="text-white">
+              não tem uma conta? <a href="#"><b>Cadastre-se</b></a>
+            </h1>
 
-        <div className="w-1/2 bg-roseprimary ">
-
+            <button className="justify-center text-white bg-verdeprimary rounded-md w-[20%] h-12">
+              Entrar
+            </button>
+          </div>
         </div>
       </div>
     </main>  
