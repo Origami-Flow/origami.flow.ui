@@ -11,6 +11,10 @@
   src: url(assets/laisha/Laisha.ttf);
 }
 
+p {
+  font-family: "Open Sans";
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }
