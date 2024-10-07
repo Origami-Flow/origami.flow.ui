@@ -47,7 +47,7 @@ const page = () => {
     setError(message);
     setTimeout(() => {
       setError("");
-    }, 2000);
+    }, 3000);
   };
 
   const validate = () => {
