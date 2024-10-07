@@ -44,9 +44,9 @@ export default function HistoriasPage() {
 
   return (
     <>
-      <main className="p-2 h-screen">
+      <main className="">
         <Header />
-        <div className="px-4 md:w-[94%] pt-28  md:mx-auto">
+        <div className="px-4 pt-28  md:mx-auto">
           <h1 className="text-3xl md:text-6xl xl:text-white font-laisha">
             Trançando Histórias
           </h1>
@@ -55,13 +55,13 @@ export default function HistoriasPage() {
             className="absolute top-0 left-0 -z-10 hidden xl:block"
             alt=""
           />
-          <div className="flex flex-col md:flex-row mt-8 md:mt-0">
+          <div className="flex flex-col md:flex-row h-fit mt-8 md:mt-0">
             <img
               src={Livro}
               alt="Imagem de um Livro aberto"
-              className="w-full md:w-1/2 h-auto"
+              className=""
             />
-            <div className="py-4 text-justify flex flex-col h-auto md:h-96 justify-between mt-4 md:mt-0 md:ml-8 max-w-xl mx-auto">
+            <div className="py-4 text-justify flex flex-col h-fit justify-between mt-4 md:mt-0 md:ml-8 max-w-xl mx-auto">
               <p className="text-lg md:text-2xl">
                 Aqui, conectamos leitores apaixonados, como você, criando uma
                 rede de compartilhamento que vai além das estantes físicas. Com
@@ -75,10 +75,10 @@ export default function HistoriasPage() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row mt-16 md:mt-96 xl:mt-24 items-center gap-4 md:gap-7 w-full md:w-[90%] m-auto">
+          <div className="flex flex-col pt-36 md:flex-row  items-center gap-4 md:gap-7 w-full md:w-[90%] m-auto">
             <SearchInput
               ref={inptRef}
-              className="w-80 md:w-96 bg-rosesecundary border-none  p-3"
+              className="w-80 md:w-96 !bg-rosesecundary border-none p-3"
               type="text"
               onKeyDown={handleKeyDown}
             />
@@ -105,8 +105,8 @@ export default function HistoriasPage() {
             </div>
           )}
         </div>
+        <Footer />
       </main>
-      <Footer />
     </>
   );
 }
