@@ -23,10 +23,12 @@ const Login = () => {
             <img src={ImageLogin} alt="Imagem de Login" />
           </div>
         </div>
-        <div className="w-1/2 bg-roseprimary flex flex-col justify-center items-center gap-10">
+        <div className="w-1/2     bg-roseprimary flex flex-col justify-center items-center gap-10">
         
-          <div className="flex flex-col justify-center items-center w-full">
-            <InputLogin/>
+          <div className="flex flex-col justify-center gap-6 items-center w-full">
+            <InputLogin name={"E-mail"} type={"email"} placeholder={" "} />
+            <InputLogin name={"Senha"} type={"password"} placeholder={" "} />
+
           </div>  
           
           <button className=" justify-center bg-white border rounded-full w-[30%] h-[7%]">
@@ -34,7 +36,7 @@ const Login = () => {
           </button>
           <div className="flex flex-col items-center gap-4 w-full">
             <h1 className="text-white">
-              não tem uma conta? <a href="#"><b>Cadastre-se</b></a>
+              Não Possui uma conta? <a href="#"><b>Cadastre-se</b></a>
             </h1>
 
             <button className="justify-center text-white bg-verdeprimary rounded-md w-[20%] h-12">
