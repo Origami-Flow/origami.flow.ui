@@ -15,7 +15,8 @@ const InputLogin = ({ type, name, placeholder, value, onChange, ...props}) => {
           value={value}
           onChange={onChange}
           {...props}
-          className=" border-white rounded-none block px-3 pb-2.5 pt-3 w-[20vw] text-white bg-transparent border appearance-none focus:outline-none focus:ring-0 peer"
+          pattern="[a-zA-Z0-9]{8,50}" required 
+          className="placeholder-slate-300 border-white rounded-none block px-3 pb-2.5 pt-3 w-[20vw] text-white bg-transparent border appearance-none focus:outline-none transition-all ease-in-out duration-1000"
         />
       </div>
  
