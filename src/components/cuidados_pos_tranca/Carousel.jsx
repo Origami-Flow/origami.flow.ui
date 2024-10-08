@@ -21,7 +21,7 @@ const CarouselComponent = () => {
     ]
 
     return (
-        <Carousel className="w-[90%] max-h-fit">
+        <Carousel className="w-[90%] max-h-fit max-md:w-[70%]">
             <CarouselContent className="-ml-1">
                 {videos.map((item, index) => (
                     <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
