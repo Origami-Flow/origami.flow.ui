@@ -4,6 +4,7 @@ export default {
     content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+	"./node_modules/flowbite/**/*.js"
   ],
   theme: {
   	extend: {
@@ -48,5 +49,8 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+	require("tailwindcss-animate"),
+	require('flowbite/plugin')
+],
 }
