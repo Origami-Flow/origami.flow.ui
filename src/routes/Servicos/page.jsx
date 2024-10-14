@@ -8,11 +8,12 @@ import ServiceCard from "@/components/servicos/ServiceCard";
 import Loading from "../../components/shared/Loading";
 import { useEffect, useState } from "react";
 import { TrashIcon } from "@radix-ui/react-icons";
+import ServiceDialog from "@/components/servicos/ServiceDialog";
 
 
 const ServicosPage = () => {
     const [services, setServices] = useState([
-        { id: 1, foto: imgPrincipal, titulo: "Nagô", valorSinal: 25.5 },
+        { id: 1, foto: imgPrincipal, titulo: "Nagô", valorSinal: 25.5, valorMinimo: 120.5, valorMaximo: 250.5 },
         { id: 2, foto: imgPrincipal, titulo: "Lemonade", valorSinal: 35.5 },
         { id: 3, foto: imgPrincipal, titulo: "Box Braids", valorSinal: 40.9 },
         { id: 4, foto: imgPrincipal, titulo: "Boho Braids", valorSinal: 25.5 },
@@ -51,13 +52,13 @@ const ServicosPage = () => {
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         if (selectedFile) {
-            setFile(selectedFile); 
+            setFile(selectedFile);
         }
     };
 
     const handleRemoveFile = () => {
         const inputFile = document.getElementById("large_size");
-        setFile(null); 
+        setFile(null);
         inputFile.value = "";
     };
 
@@ -70,20 +71,21 @@ const ServicosPage = () => {
                 <div className="flex flex-col h-28 justify-between">
                     <p className="text-2xl max-md:text-xl">Já tem uma referência?</p>
                     <div className="flex">
-                    <input className="block w-[50%] max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file" onChange={handleFileChange} />
-                   
-                    {file && (
-                        <button onClick={handleRemoveFile} className="text-marromsecundary">
-                            <TrashIcon width={"30px"} height={"30px"} className="ml-5"/>
-                        </button>
-                    )}
+                        <input className="block w-[50%] max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file" onChange={handleFileChange} />
+
+                        {file && (
+                            <button onClick={handleRemoveFile} className="text-marromsecundary">
+                                <TrashIcon width={"30px"} height={"30px"} className="ml-5" />
+                            </button>
+                        )}
                     </div>
                 </div>
                 {file && (
                     <div className="flex items-center space-x-2">
-                        <button className="bg-roseprimary shadow-sm hover:shadow-xl transition-shadow p-3 rounded-xl text-branconeutro w-[25%] max-md:w-full">
+                        {/* <button className="bg-roseprimary shadow-sm hover:shadow-xl transition-shadow p-3 rounded-xl text-branconeutro w-[25%] max-md:w-full">
                             Agendar
-                        </button>
+                        </button> */}
+                        <ServiceDialog />
                     </div>
                 )}
 
@@ -112,6 +114,8 @@ const ServicosPage = () => {
                                 foto={service.foto}
                                 titulo={service.titulo}
                                 valorSinal={service.valorSinal}
+                                valorMinimo={service.valorMinimo}
+                                valorMaximo={service.valorMaximo}
                             />
                         ))}
                     </div>
