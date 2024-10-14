@@ -20,7 +20,7 @@ const AfetoPage = () => {
             <Menu />
             <div className="flex justify-between w-11/12 h-2/4 relative z-10 items-center">
                 <div className="flex flex-col w-3/6 h-[80%] space-y-24 max-md:w-full max-md:space-y-10 max-lg:w-full max-lg:space-y-10">
-                    <span className="font-laisha text-6xl text-marromsecundary max-md:4xl max-md:px-8">Trança e Afeto</span>
+                    <span className="font-laisha text-5xl text-marromsecundary max-md:4xl max-md:px-8">Trança e Afeto</span>
                     <p className="text-2xl leading-relaxed max-md:xl max-md:px-8">O projeto "Trança e Afeto" é um curso de tranças que resgata a emoção e o afeto do ato de trançar. Muito mais que uma técnica de beleza, trançar envolve uma conexão profunda, carregando memórias afetivas e lembranças da infância, momentos de carinho, cuidado e vínculo entre gerações. O curso busca criar um espaço de aprendizado que também é um reencontro com a identidade, a história e a amorosidade transmitida por meio das tranças.</p>
                 </div>
                 <img src={imgPrincipal} alt="Paula e cliente" className="w-[45%] z-10 max-md:hidden max-sm:hidden max-lg:hidden" />
