@@ -2,6 +2,7 @@ import blobBotton from "@/assets/blob-botton.svg";
 import blobTop from "@/assets/blob-top.svg";
 import CorCabeloContent from "@/components/cadastro/CorCabeloContent";
 import GeneroContent from "@/components/cadastro/GeneroContent";
+import InformacoesContent from "@/components/cadastro/InformacoesContent";
 import PaginacaoCadastro from "@/components/cadastro/PaginacaoCadastro";
 import TipoCabeloContent from "@/components/cadastro/TipoCabeloContent";
 import Header from "@/components/shared/Header";
@@ -13,18 +14,36 @@ const page = () => {
   const [faseAtual, setFaseAtual] = useState(0);
 
   useEffect(() => {
-    if(fase < faseAtual){
-      setFase(faseAtual)
+    if (fase < faseAtual) {
+      setFase(faseAtual);
     }
   }, [faseAtual]);
-
+  // const inputRefs = {
+  //   nome: useRef(),
+  //   email: useRef(),
+  //   senha: useRef(),
+  //   confirmacaoSenha: useRef(),
+  //   telefone: useRef(),
+  //   dataNascimento: useRef(),
+  //   possuiProgressiva: useRef(),
+  //   primeiraVezTrancando: useRef(),
+  //   ocupacao: useRef(),
+  //   cep: useRef(),
+  // };
   const [value, setValue] = useState({
     genero: "",
     nome: "",
-    email: "",
-    senha: "",
     tipoCabelo: "",
     corDoCabelo: "",
+    email: "",
+    senha: "",
+    confirmacaoSenha: "",
+    telefone: "",
+    dataNascimento: "",
+    possuiProgressiva: "",
+    primeiraVezTrancando: "",
+    ocupacao: "",
+    cep: "",
   });
 
   const itemFase = [
@@ -39,6 +58,10 @@ const page = () => {
     {
       titulo: "Selecione a cor do seu cabelo",
       componente: <CorCabeloContent value={value} setValue={setValue} />,
+    },
+    {
+      titulo: "Selecione a cor do seu cabelo",
+      componente: <InformacoesContent value={value} setValue={setValue} />,
     },
   ];
   const [error, setError] = useState("");
