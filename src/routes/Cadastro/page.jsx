@@ -8,28 +8,19 @@ import TipoCabeloContent from "@/components/cadastro/TipoCabeloContent";
 import Header from "@/components/shared/Header";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { date, z } from "zod";
 
-const page = () => {
+const Page = () => {
   const [fase, setFase] = useState(0);
   const [faseAtual, setFaseAtual] = useState(0);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (fase < faseAtual) {
       setFase(faseAtual);
     }
   }, [faseAtual]);
-  // const inputRefs = {
-  //   nome: useRef(),
-  //   email: useRef(),
-  //   senha: useRef(),
-  //   confirmacaoSenha: useRef(),
-  //   telefone: useRef(),
-  //   dataNascimento: useRef(),
-  //   possuiProgressiva: useRef(),
-  //   primeiraVezTrancando: useRef(),
-  //   ocupacao: useRef(),
-  //   cep: useRef(),
-  // };
+
   const [value, setValue] = useState({
     genero: "",
     nome: "",
@@ -46,6 +37,83 @@ const page = () => {
     cep: "",
   });
 
+  const inputValidation = z
+    .object({
+      nome: z
+        .string()
+        .min(3, { message: "Nome deve ter pelo menos 3 caracteres" }),
+      email: z.string().email({ message: "Email inválido" }),
+      dataNascimento: z.string().regex( /^\d{4}-\d{2}-\d{2}$/,{ message: "Data de nascimento inválida" }),
+      senha: z
+        .string()
+        .min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
+      confirmacaoSenha: z.string(),
+      telefone: z
+        .string()
+        .min(11, { message: "Telefone deve ter pelo menos 11 caracteres" }),
+      ocupacao: z
+        .string()
+        .min(3, { message: "Ocupação deve ter pelo menos 3 caracteres" }),
+      primeiraVezTrancando: z.boolean({ message: "Selecione uma opção" }),
+      possuiProgressiva: z.boolean({ message: "Selecione uma opção" }),
+      cep: z
+        .string()
+        .min(8, { message: "CEP deve ter pelo menos 8 caracteres" }),
+    })
+    .refine((data) => data.senha === data.confirmacaoSenha, {
+      message: "A confirmação de senha deve ser igual à senha",
+      path: ["confirmacaoSenha"],
+    });
+
+  const handlerValidateInputs = (field) => {
+    const result = validateInputs(field);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: result,
+    }));
+  };
+
+  const validarFormulario = (dados) => {
+    try {
+      const validatedData = inputValidation.parse(dados);
+      return { success: true, data: validatedData };
+    } catch (error) {
+      return { success: false, errors: error.errors };
+    }
+  };
+
+  const handlerCadastrar = () => {
+    const validationResult = validarFormulario(value);
+    if (validationResult.success) {
+      console.log("Cadastro realizado com sucesso!");
+      
+    } else {
+      console.log("Erro ao realizar cadastro:", validationResult.errors);
+      
+      const newErrors = {};
+      validationResult.errors.forEach((error) => {
+        const fieldName = error.path[0]; 
+        newErrors[fieldName] = error.message; 
+      });
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        ...newErrors, 
+      }));
+    }
+  };
+
+  const validateInputs = (key) => {
+    if (key in value) {
+      const result = inputValidation.safeParse(value);
+      if (result.success) {
+        return "";
+      } else {
+        const error = result.error.errors.find((err) => err.path[0] === key);
+        return error ? error.message : "";
+      }
+    }
+  };
+
   const itemFase = [
     {
       titulo: "Selecione seu gênero",
@@ -61,9 +129,18 @@ const page = () => {
     },
     {
       titulo: "Selecione a cor do seu cabelo",
-      componente: <InformacoesContent value={value} setValue={setValue} />,
+      componente: (
+        <InformacoesContent
+          value={value}
+          setValue={setValue}
+          validateInputs={validateInputs}
+          handlerValidate={handlerValidateInputs}
+          errors={errors}
+        />
+      ),
     },
   ];
+
   const [error, setError] = useState("");
 
   const setErrorMessage = (message) => {
@@ -73,7 +150,7 @@ const page = () => {
     }, 3000);
   };
 
-  const validate = () => {
+  const validate = (etapa) => {
     const validations = [
       {
         condition: value.genero === "",
@@ -88,8 +165,12 @@ const page = () => {
         message: "Por favor, selecione a cor do seu cabelo",
       },
     ];
+    console.log(validations);
+    console.log(etapa);
+    const currentValidation = validations[etapa];
+    console.log(currentValidation);
+    console.log(currentValidation?.condition);
 
-    const currentValidation = validations[faseAtual];
     if (currentValidation && currentValidation.condition) {
       setErrorMessage(currentValidation.message);
       return false;
@@ -115,16 +196,17 @@ const page = () => {
             <p
               className={clsx(
                 "text-roseprimary font-semibold pb-2",
-                error == "" && "hidden"
+                error == "" && "hidden",
               )}
             >
               {error}
             </p>
             <PaginacaoCadastro
-              validate={() => validate()}
+              validate={validate}
               setFaseAtual={setFaseAtual}
               faseAtual={faseAtual}
               fase={fase}
+              handlerCadastrar={handlerCadastrar}
             />
           </div>
         </div>
@@ -138,4 +220,4 @@ const page = () => {
     </>
   );
 };
-export default page;
+export default Page;
