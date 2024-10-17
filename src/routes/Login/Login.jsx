@@ -1,7 +1,7 @@
 import Header from "../../components/shared/Header";
 import ImageLogin from "../../assets/icon-login.svg";
 import IconeGoogle from "../../assets/icon-google.svg";
-import InputLogin from "../../components/login/InputLogin";
+import InputFormulario from "../../components/shared/InputFormulario";
 
 const Login = () => {
   return (
@@ -27,12 +27,12 @@ const Login = () => {
         </div>
         <div className="w-1/2 bg-roseprimary flex flex-col justify-center items-center gap-10">
           <div className="flex flex-col justify-center gap-6 items-center w-full">
-            <InputLogin
+            <InputFormulario
               name={"E-mail"}
               type={"email"}
-              placeholder={"nome@gmail.com"}
+              placeholder={"nome@mail.com"}
             />
-            <InputLogin
+            <InputFormulario
               name={"Senha"}
               type={"password"}
               placeholder={"*******"}

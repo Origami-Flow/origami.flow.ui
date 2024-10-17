@@ -1,5 +1,5 @@
 import AccordionComponent from "@/components/cuidados_pos_tranca/Accordion";
-import CarouselComponent from "@/components/cuidados_pos_tranca/carousel";
+import CarouselComponent from "@/components/cuidados_pos_tranca/Carousel";
 import Footer from "@/components/shared/Footer/Footer";
 import Header from "@/components/shared/Header";
 import Menu from "@/components/shared/Menu";
