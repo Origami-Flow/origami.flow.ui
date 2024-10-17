@@ -81,7 +81,7 @@ const InformacoesContent = ({ value, setValue, handlerValidate, errors }) => {
 
   const commonInputProps = {
     bgColor: "bg-white",
-    color: "text-black",
+    color: "black",
   };
 
  
@@ -113,8 +113,8 @@ const InformacoesContent = ({ value, setValue, handlerValidate, errors }) => {
                       { value: false, label: "Não" },
                     ]}
                     onBlur={() => handlerValidate(field)}
-                    {...commonInputProps}
-                    color={clsx(errors[field] && "red-500")}
+                    bgColor={ "bg-white"}
+                    color={clsx(errors[field] ? "red-500" : "black")}
                   />
                   {errors[field] && (
                     <div className="text-red-500 text-sm">
@@ -131,8 +131,8 @@ const InformacoesContent = ({ value, setValue, handlerValidate, errors }) => {
                     value={value[field]}
                     onChange={(e) => handleChange(field, e.target.value)}
                     onBlur={() => handlerValidate(field)}
-                    {...commonInputProps}
-                    color={clsx(errors[field] && "red-500")}
+                    bgColor={ "bg-white"}
+                    color={clsx(errors[field] ? "red-500" : "black")}
                   />
                   {errors[field] && (
                     <div className="text-red-500 text-sm">
@@ -156,8 +156,8 @@ const InformacoesContent = ({ value, setValue, handlerValidate, errors }) => {
                     name={name}
                     placeholder={placeholder}
                     type={type}
-                    {...commonInputProps}
-                    color={clsx(errors[field] && "red-500")}
+                    bgColor={ "bg-white"}
+                    color={clsx(errors[field] ? "red-500" : "black")}
                   />
                 )}
               </ReactInputMask>

@@ -23,14 +23,15 @@ const InputFormulario = forwardRef(
         prevType === "password" ? "text" : "password"
       );
     };
+
     return (
       <div className={clsx("relative justify-center", bgColor)}>
         <label
           htmlFor={name}
           className={clsx(
-            "absolute left-3 px-1 transform -translate-y-1/2 text-sm transition-all",
+            "absolute left-3 px-1 transform -translate-y-1/2 text-lg transition-all",
             "peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400",
-            "peer-focus:top-2 peer-focus:text-sm",
+            "peer-focus:top-2 peer-focus:text-lg",
             `text-${color}`,
             bgColor
           )}
@@ -46,9 +47,9 @@ const InputFormulario = forwardRef(
           onChange={onChange}
           {...props}
           className={clsx(
-            "placeholder-slate-300 rounded-none  block px-3 pb-2.5 pt-3 w-[20vw] bg-transparent border appearance-none focus:outline-none transition-all ease-in-out duration-1000",
-            `text-${color}`,
-            `border-${color}`,
+            "px-3 pb-2.5 pt-3 w-[20vw] bg-transparent focus:outline-none transition-all ease-in-out duration-1000",
+            `border text-${color} border-${color} focus:ring-${color} focus:border-${color}`,
+            color === "white" && "placeholder-slate-200",
             type === "password" && "pr-10"
           )}
         />
@@ -56,7 +57,7 @@ const InputFormulario = forwardRef(
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+            className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-${color}`}
           >
             {inputType === "password" ? <EyeOffIcon /> : <Eye />}
           </button>
