@@ -6,6 +6,7 @@ import AfetoPage from "./routes/Tranca-e-Afeto/page";
 import CuidadosPage from "./routes/Cuidados-Pos-Tranca/page";
 import { NotFound } from "./routes/Not-Found/page";
 import ServicosPage from "./routes/Servicos/page";
+import ClientesPage from "./routes/Sistema-Clientes/page";
 import CadastroPage from "./routes/Cadastro/page";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/tranca-e-afeto" element={<AfetoPage/>}/>
         <Route path="/cuidados-pos-tranca" element={<CuidadosPage/>}/>
         <Route path="/servicos" element={<ServicosPage/>}/>
+        <Route path="/sistema-clientes" element={<ClientesPage/>}/>
         <Route path="/cadastro" element={<CadastroPage/>}/>
         <Route path="/*" element={<NotFound/>}/>
       </Routes>
