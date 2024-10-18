@@ -5,6 +5,7 @@ import AfetoPage from "./routes/Tranca-e-Afeto/page";
 import CuidadosPage from "./routes/Cuidados-Pos-Tranca/page";
 import { NotFound } from "./routes/Not-Found/page";
 import ServicosPage from "./routes/Servicos/page";
+import ClientesPage from "./routes/Sistema-Clientes/page";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/tranca-e-afeto" element={<AfetoPage/>}/>
         <Route path="/cuidados-pos-tranca" element={<CuidadosPage/>}/>
         <Route path="/servicos" element={<ServicosPage/>}/>
+        <Route path="/sistema-clientes" element={<ClientesPage/>}/>
         <Route path="/*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>  
