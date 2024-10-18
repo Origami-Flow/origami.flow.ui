@@ -190,11 +190,11 @@ const HomePage = () => {
         <h1 className="font-laisha text-7xl w-2/3 text-center ">
           Entrelaçando amorisidade em cada fio
         </h1>
-        <div className="hidden xl:flex gap-10 w-full">
+        <div className="hidden xl:flex justify-center gap-10 w-full">
           {imagensEntrelacando.map((imagem, index) => (
             <img
               key={index}
-              className="w-full object-cover"
+              className="w-1/4 object-cover"
               src={imagem.src}
               alt={imagem.alt}
             />
@@ -214,27 +214,18 @@ const HomePage = () => {
             className="w-full max-w-[90%]"
           >
             <CarouselContent className="-ml-1">
-              <CarouselItem className="basis-full">
-                <img
-                  className="w-full object-cover"
-                  src={Entrelacando1}
-                  alt=""
-                />
-              </CarouselItem>
-              <CarouselItem className="basis-full">
-                <img
-                  className="w-full object-cover"
-                  src={Entrelacando2}
-                  alt=""
-                />
-              </CarouselItem>
-              <CarouselItem className="basis-full">
-                <img
-                  className="w-full object-cover"
-                  src={Entrelacando3}
-                  alt=""
-                />
-              </CarouselItem>
+              {imagensEntrelacando.map((imagem, index) => (
+                <CarouselItem key={index} className="basis-full md:basis-1/2">
+                  <div className="flex w-full justify-center">
+
+                  <img
+                    className="w-full h-[35rem] object-cover"
+                    src={imagem.src}
+                    alt={imagem.alt}
+                    />
+                    </div>
+                </CarouselItem>
+              ))}
             </CarouselContent>
           </Carousel>
         </div>
