@@ -116,6 +116,7 @@ const ClientesPage = () => {
             primeiraVez: true
         },
     ]);
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     const tabs = [
         {text: "Todos"},
@@ -130,7 +131,7 @@ const ClientesPage = () => {
                 <span className="font-laisha text-4xl text-marromsecundary max-md:text-3xl">Clientes</span>
                 <div className="w-full h-[80%] shadow-lg rounded-lg flex flex-col p-6">
                     <div className="w-full flex justify-between max-md:flex-col">
-                        <TabsFilter tabs={tabs}/>
+                        <TabsFilter tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} />
                         <SearchInput />
                     </div>
                     <hr />

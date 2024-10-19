@@ -1,0 +1,190 @@
+import Header from "@/components/shared/header_sistema/Header";
+import SearchInput from "@/components/sistema_clientes/SearchInput";
+import TabsFilter from "@/components/sistema_clientes/TabsFilter";
+import EstoqueCard from "@/components/sistema_estoque/EstoqueCard";
+import { useState } from "react";
+
+const EstoquePage = () => {
+    const [produtos, setProdutos] = useState([
+        {
+            id: 1,
+            nome: 'Pomada',
+            unidades: 50,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '300',
+            unidadeDeMedida: 'gr',
+            marca: 'Lore Ipsum',
+            tipoEstoque: 'Salão',
+            precoCompra: 20.00,
+            precoVenda: null,
+        },
+        {
+            id: 2,
+            nome: 'Cabelo Sintético',
+            unidades: 100,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '100',
+            unidadeDeMedida: 'gr',
+            marca: 'HairPro',
+            tipoEstoque: 'Loja',
+            precoCompra: 40.00,
+            precoVenda: 80.00,
+        },
+        {
+            id: 3,
+            nome: 'Óleo Capilar',
+            unidades: 30,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '200',
+            unidadeDeMedida: 'ml',
+            marca: 'NaturalCare',
+            tipoEstoque: 'Salão',
+            precoCompra: 15.00,
+            precoVenda: null,
+        },
+        {
+            id: 4,
+            nome: 'Shampoo Hidratante',
+            unidades: 70,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '500',
+            unidadeDeMedida: 'ml',
+            marca: 'CurlsPlus',
+            tipoEstoque: 'Loja',
+            precoCompra: 25.00,
+            precoVenda: 45.00,
+        },
+        {
+            id: 5,
+            nome: 'Gel Fixador',
+            unidades: 80,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '250',
+            unidadeDeMedida: 'ml',
+            marca: 'FixPlus',
+            tipoEstoque: 'Salão',
+            precoCompra: 12.00,
+            precoVenda: null,
+        },
+        {
+            id: 6,
+            nome: 'Elástico para Tranças',
+            unidades: 200,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '50',
+            unidadeDeMedida: 'unidades',
+            marca: 'TrançasPro',
+            tipoEstoque: 'Loja',
+            precoCompra: 5.00,
+            precoVenda: 10.00,
+        },
+        {
+            id: 1,
+            nome: 'Pomada',
+            unidades: 50,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '300',
+            unidadeDeMedida: 'gr',
+            marca: 'Lore Ipsum',
+            tipoEstoque: 'Salão',
+            precoCompra: 20.00,
+            precoVenda: null,
+        },
+        {
+            id: 2,
+            nome: 'Cabelo Sintético',
+            unidades: 100,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '100',
+            unidadeDeMedida: 'gr',
+            marca: 'HairPro',
+            tipoEstoque: 'Loja',
+            precoCompra: 40.00,
+            precoVenda: 80.00,
+        },
+        {
+            id: 3,
+            nome: 'Óleo Capilar',
+            unidades: 30,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '200',
+            unidadeDeMedida: 'ml',
+            marca: 'NaturalCare',
+            tipoEstoque: 'Salão',
+            precoCompra: 15.00,
+            precoVenda: null,
+        },
+        {
+            id: 4,
+            nome: 'Shampoo Hidratante',
+            unidades: 70,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '500',
+            unidadeDeMedida: 'ml',
+            marca: 'CurlsPlus',
+            tipoEstoque: 'Loja',
+            precoCompra: 25.00,
+            precoVenda: 45.00,
+        },
+        {
+            id: 5,
+            nome: 'Gel Fixador',
+            unidades: 80,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '250',
+            unidadeDeMedida: 'ml',
+            marca: 'FixPlus',
+            tipoEstoque: 'Salão',
+            precoCompra: 12.00,
+            precoVenda: null,
+        },
+        {
+            id: 6,
+            nome: 'Elástico para Tranças',
+            unidades: 200,
+            foto: 'https://via.placeholder.com/150',
+            quantidadeEmbalagem: '50',
+            unidadeDeMedida: 'unidades',
+            marca: 'TrançasPro',
+            tipoEstoque: 'Loja',
+            precoCompra: 5.00,
+            precoVenda: 10.00,
+        },
+    ]);
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+    const tabs = [
+        { text: "Todos" },
+        { text: "Salão" },
+        { text: "Loja" }
+    ];
+
+    const filteredProducts = tabs[activeTabIndex].text === "Todos" 
+    ? produtos 
+    : produtos.filter(produto => produto.tipoEstoque === tabs[activeTabIndex].text);
+
+    return (
+        <main className="flex flex-col items-center justify-start relative pl-32 h-screen max-md:pl-0 max-md:pb-24">
+            <Header />
+            <div className="w-11/12 h-full items-start flex flex-col justify-evenly">
+                <span className="font-laisha text-4xl text-marromsecundary max-md:text-3xl">Estoque</span>
+                <div className="w-full h-[80%] shadow-lg rounded-lg flex flex-col p-6">
+                    <div className="w-full flex justify-between max-md:flex-col">
+                        <TabsFilter tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} />
+                        <SearchInput />
+                    </div>
+                    <hr />
+                    <div className="flex-1 overflow-y-auto max-h-[500px]">
+                        <div className="grid grid-cols-2 gap-4 p-4 max-lg:grid-cols-2 max-md:grid-cols-1">
+                            {filteredProducts.map((produto, index) => (
+                                <EstoqueCard key={index} produtoData={produto} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    )
+}
+
+export default EstoquePage;

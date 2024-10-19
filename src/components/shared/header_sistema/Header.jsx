@@ -18,7 +18,7 @@ const Header = () => {
             <HeaderText icon={IconAgenda} item="Agenda" path="/" visibilidade="flex"/>
             <HeaderText icon={IconFinancas} item="Finanças" path="/" visibilidade="flex"/>
             <HeaderText icon={IconMetricas} item="Métricas" path="/" visibilidade="flex"/>
-            <HeaderText icon={IconEstoque} item="Estoque" path="/" visibilidade="flex" />
+            <HeaderText icon={IconEstoque} item="Estoque" path="/sistema-estoque" visibilidade="flex" />
             <HeaderText icon={IconClientes} item="Clientes" path="/sistema-clientes" visibilidade="flex"/>
             <HeaderText icon={IconLogout} item="Sair" path="/" visibilidade="hidden max-md:flex" />
         </div>
