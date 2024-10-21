@@ -3,6 +3,8 @@ import SearchInput from "@/components/sistema_clientes/SearchInput";
 import TabsFilter from "@/components/sistema_clientes/TabsFilter";
 import EstoqueCard from "@/components/sistema_estoque/EstoqueCard";
 import { useState } from "react";
+import IconAdd from "../../assets/addIcon.svg";
+import ModalAdicionar from "@/components/sistema_estoque/ModalAdicionar";
 
 const EstoquePage = () => {
     const [produtos, setProdutos] = useState([
@@ -72,7 +74,7 @@ const EstoquePage = () => {
             unidades: 200,
             foto: 'https://via.placeholder.com/150',
             quantidadeEmbalagem: '50',
-            unidadeDeMedida: 'unidades',
+            unidadeDeMedida: 'gr',
             marca: 'TrançasPro',
             tipoEstoque: 'Loja',
             precoCompra: 5.00,
@@ -144,13 +146,61 @@ const EstoquePage = () => {
             unidades: 200,
             foto: 'https://via.placeholder.com/150',
             quantidadeEmbalagem: '50',
-            unidadeDeMedida: 'unidades',
+            unidadeDeMedida: 'ml',
             marca: 'TrançasPro',
             tipoEstoque: 'Loja',
             precoCompra: 5.00,
             precoVenda: 10.00,
         },
     ]);
+    const campos = [
+        {
+            name: "Tipo",
+            field: "tipoEstoque",
+            placeholder: "",
+            type: "select",
+        },
+        {
+            name: "Nome do produto",
+            field: "nome",
+            placeholder: "Digite o nome do produto",
+        },
+        {
+            name: "Preço de Compra (R$)",
+            field: "precoCompra",
+            placeholder: "Digite o preço de compra",
+            type: "number",
+        },
+        {
+            name: "Preço de Venda (R$)",
+            field: "precoVenda",
+            placeholder: "Digite o preço de venda",
+            type: "number",
+        },
+        {
+            name: "Quantidade por Embalagem",
+            field: "quantidadeEmbalagem",
+            placeholder: "ex: 300 (para 300ml)",
+            type: "number",
+        },
+        {
+            name: "Unidade de Medida",
+            field: "unidadeDeMedida",
+            placeholder: "ml, mg, gr",
+            type: "select",
+        },
+        {
+            name: "Marca",
+            field: "marca",
+            placeholder: "Digite a Marca",
+        },
+        {
+            name: "Unidades",
+            field: "unidades",
+            placeholder: "Digite a quantidade de produtos",
+            type: "number",
+        },
+    ];
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     const tabs = [
@@ -159,15 +209,28 @@ const EstoquePage = () => {
         { text: "Loja" }
     ];
 
-    const filteredProducts = tabs[activeTabIndex].text === "Todos" 
-    ? produtos 
-    : produtos.filter(produto => produto.tipoEstoque === tabs[activeTabIndex].text);
+    const filteredProducts = tabs[activeTabIndex].text === "Todos"
+        ? produtos
+        : produtos.filter(produto => produto.tipoEstoque === tabs[activeTabIndex].text);
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     return (
         <main className="flex flex-col items-center justify-start relative pl-32 h-screen max-md:pl-0 max-md:pb-24">
             <Header />
             <div className="w-11/12 h-full items-start flex flex-col justify-evenly">
-                <span className="font-laisha text-4xl text-marromsecundary max-md:text-3xl">Estoque</span>
+                <div className="flex items-center space-x-2">
+                    <span className="font-laisha text-4xl text-marromsecundary max-md:text-3xl">Estoque</span>
+                    <img src={IconAdd} alt="" className="cursor-pointer" onClick={openModal} />
+                </div>
                 <div className="w-full h-[80%] shadow-lg rounded-lg flex flex-col p-6">
                     <div className="w-full flex justify-between max-md:flex-col">
                         <TabsFilter tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} />
@@ -177,12 +240,13 @@ const EstoquePage = () => {
                     <div className="flex-1 overflow-y-auto max-h-[500px]">
                         <div className="grid grid-cols-2 gap-4 p-4 max-lg:grid-cols-2 max-md:grid-cols-1">
                             {filteredProducts.map((produto, index) => (
-                                <EstoqueCard key={index} produtoData={produto} />
+                                <EstoqueCard key={index} produtoData={produto} campos={campos}/>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
+            {isModalOpen && (<ModalAdicionar onClose={closeModal} campos={campos} />)}
         </main>
     )
 }

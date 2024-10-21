@@ -19,7 +19,7 @@ const SelectCadastro = forwardRef(
         <label
           htmlFor={name}
           className={clsx(
-            "absolute left-3 px-1 transform -translate-y-1/2 text-sm transition-all",
+            "absolute left-3 px-1 transform -translate-y-1/2 text-lg transition-all",
             "peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400",
             "peer-focus:top-2 peer-focus:text-sm",
             `text-${color}`,
@@ -41,7 +41,7 @@ const SelectCadastro = forwardRef(
           )}
         >
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option key={option.value} value={option.value} disabled={option.disabled}>
               {option.label}
             </option>
           ))}

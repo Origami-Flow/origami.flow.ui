@@ -1,35 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectCadastro from "../cadastro/SelectCadastro";
 import InputFormulario from "../shared/InputFormulario";
 
-const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
+const ModalAdicionar = ({ onClose, campos }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(false);
-    const [formValues, setFormValues] = useState({});
 
-    const produtoAtual = Array.isArray(produtoData) ?
-        produtoData.find(produto => produto.nome === nameProduct) : null;
-
-    useEffect(() => {
-        if (produtoAtual) {
-            setFormValues(produtoAtual);
-        }
-    }, [produtoAtual]);
-
-    const handleChange = (value, field) => {
-        if (value !== "" && field == "tipo") {
+    const handleChange = (value, type) => {
+        if (value !== "" && type == "select") {
             setIsOptionDisabled(true);
         }
-
-        setFormValues(prevValues => ({
-            ...prevValues,
-            [field]: value
-        }));
     };
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
-                <h2 className="text-xl font-bold mb-7 text-black">Editar</h2>
+                <h2 className="text-xl font-bold mb-7 text-black">Adicionar</h2>
 
                 <div className="grid grid-cols-2 gap-4">
                     {campos.map((campo, index) => (
@@ -41,7 +26,7 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                     onChange={(e) =>
                                         handleChange(
                                             e.target.value,
-                                            campo.field
+                                            campo.type
                                         )
                                     }
                                     options={[
@@ -49,7 +34,6 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                         { value: "Salão", label: "Salão" },
                                         { value: "Loja", label: "Loja" },
                                     ]}
-                                    value={formValues[campo.field] || ""}
                                     bgColor="bg-[#fff]"
                                     color="black"
                                 />
@@ -70,7 +54,6 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                         { value: "gr", label: "gr" },
                                         { value: "kl", label: "kl" },
                                     ]}
-                                    value={formValues[campo.field] || ""}
                                     bgColor="bg-[#fff]"
                                     color="black"
                                 />
@@ -82,7 +65,6 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                     placeholder={campo.placeholder}
                                     bgColor="bg-[#fff]"
                                     color="black"
-                                    value={formValues[campo.field] || ""}
                                     onChange={(e) => handleChange(e.target.value, campo.field)}
                                 />
                             )}
@@ -107,4 +89,4 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
     )
 }
 
-export default ModalEditar;
+export default ModalAdicionar;
