@@ -4,7 +4,7 @@ import ItemPaginacao from "./ItemPaginacao";
 
 const PaginacaoCadastro = ({ faseAtual, setFaseAtual, validate, fase, handlerCadastrar }) => {
   return (
-    <div className="w-screen">
+    <div className="w-full pt-2">
       <div className="w-1/2 justify-between flex items-center m-auto">
         <Button
           className={clsx(

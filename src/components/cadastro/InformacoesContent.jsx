@@ -71,20 +71,12 @@ const InformacoesContent = ({ value, setValue, handlerValidate, errors }) => {
     if (field == "telefone" || field == "cep") {
       newValue = newValue.replace(/\D/g, "");
     }
-    console.log(field, newValue);
     
     setValue((prevValue) => ({
       ...prevValue,
       [field]: newValue,
     }));
   };
-
-  const commonInputProps = {
-    bgColor: "bg-white",
-    color: "black",
-  };
-
- 
 
   return (
     <div className="grid grid-cols-2 gap-8 m-5">

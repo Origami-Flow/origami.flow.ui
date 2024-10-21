@@ -43,7 +43,11 @@ const Page = () => {
         .string()
         .min(3, { message: "Nome deve ter pelo menos 3 caracteres" }),
       email: z.string().email({ message: "Email inválido" }),
-      dataNascimento: z.string().regex( /^\d{4}-\d{2}-\d{2}$/,{ message: "Data de nascimento inválida" }),
+      dataNascimento: z
+        .string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/, {
+          message: "Data de nascimento inválida",
+        }),
       senha: z
         .string()
         .min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
@@ -86,18 +90,17 @@ const Page = () => {
     const validationResult = validarFormulario(value);
     if (validationResult.success) {
       console.log("Cadastro realizado com sucesso!");
-      
     } else {
       console.log("Erro ao realizar cadastro:", validationResult.errors);
-      
+
       const newErrors = {};
       validationResult.errors.forEach((error) => {
-        const fieldName = error.path[0]; 
-        newErrors[fieldName] = error.message; 
+        const fieldName = error.path[0];
+        newErrors[fieldName] = error.message;
       });
       setErrors((prevErrors) => ({
         ...prevErrors,
-        ...newErrors, 
+        ...newErrors,
       }));
     }
   };
@@ -128,7 +131,7 @@ const Page = () => {
       componente: <CorCabeloContent value={value} setValue={setValue} />,
     },
     {
-      titulo: "Selecione a cor do seu cabelo",
+      titulo: "Informações pessoais",
       componente: (
         <InformacoesContent
           value={value}
@@ -165,11 +168,7 @@ const Page = () => {
         message: "Por favor, selecione a cor do seu cabelo",
       },
     ];
-    console.log(validations);
-    console.log(etapa);
     const currentValidation = validations[etapa];
-    console.log(currentValidation);
-    console.log(currentValidation?.condition);
 
     if (currentValidation && currentValidation.condition) {
       setErrorMessage(currentValidation.message);
@@ -180,43 +179,41 @@ const Page = () => {
   };
   return (
     <>
-      <img className="absolute top-0 left-0 -z-10" src={blobTop} alt="" />
+      <div className="relative min-h-screen">
+        <img className="absolute top-0 left-0 -z-10" src={blobTop} alt="" />
 
-      <Header />
+        <Header />
 
-      <div className="flex flex-col pt-32 gap-10 items-center h-screen">
-        <h1 className="font-laisha text-4xl text-center">
-          Queremos te conhecer!
-        </h1>
+        <div className="flex flex-col pt-24 gap-4 items-center min-h-[95vh] h-screen">
+          <h1 className="font-laisha text-4xl text-center">
+            Queremos te conhecer!
+          </h1>
 
-        <div className="text-2xl text-center h-5/6 flex w-5/6 justify-between flex-col items-center ">
-          <p className="w-56">{itemFase[faseAtual]?.titulo}</p>
-          {itemFase[faseAtual].componente}
-          <div className="flex flex-col items-center">
-            <p
-              className={clsx(
-                "text-roseprimary font-semibold pb-2",
-                error == "" && "hidden",
-              )}
-            >
-              {error}
-            </p>
-            <PaginacaoCadastro
-              validate={validate}
-              setFaseAtual={setFaseAtual}
-              faseAtual={faseAtual}
-              fase={fase}
-              handlerCadastrar={handlerCadastrar}
-            />
+          <div className="text-2xl h-[80%] gap-5 text-center flex w-5/6 flex-col  justify-between items-center ">
+            <p className="w-56">{itemFase[faseAtual]?.titulo}</p>
+            {itemFase[faseAtual].componente}
+            <div className="flex w-full flex-col items-center">
+              <p
+                className={clsx(
+                  "text-roseprimary font-semibold pb-2",
+                  error == "" && "hidden"
+                )}
+              >
+                {error}
+              </p>
+              <PaginacaoCadastro
+                validate={validate}
+                setFaseAtual={setFaseAtual}
+                faseAtual={faseAtual}
+                fase={fase}
+                handlerCadastrar={handlerCadastrar}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <img
-        className="bottom-0 absolute right-0 -z-10"
-        src={blobBotton}
-        alt=""
-      />
+        <img className="bottom-0 absolute right-0 -z-10" src={blobBotton} alt="" />
+      </div>
     </>
   );
 };
