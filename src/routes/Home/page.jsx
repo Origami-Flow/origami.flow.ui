@@ -1,10 +1,13 @@
 import CardAvaliacoes from "@/components/home/CardAvaliacoes";
 import Button from "@/components/shared/Button";
+import Footer from "@/components/shared/Footer/Footer";
+import Header from "@/components/shared/Header";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import useUser from "@/hooks/useUser";
 import Autoplay from "embla-carousel-autoplay";
 import { useParallax } from "react-scroll-parallax";
 import Entrelacando1 from "../../assets/entrelacando1.svg";
@@ -16,10 +19,10 @@ import Imagem3 from "../../assets/imagem3_home.svg";
 import Imagem4 from "../../assets/imagem4_home.svg";
 import Imagem5 from "../../assets/imagem5_home.svg";
 import SvgHome from "../../assets/svg_home.svg";
-import Footer from "@/components/shared/Footer/Footer";
-import Header from "@/components/shared/Header";
 
 const HomePage = () => {
+  const { user, setUser } = useUser();
+
   const cardsAvaliacoes = [
     {
       nome: "Rafaela",
@@ -217,13 +220,12 @@ const HomePage = () => {
               {imagensEntrelacando.map((imagem, index) => (
                 <CarouselItem key={index} className="basis-full md:basis-1/2">
                   <div className="flex w-full justify-center">
-
-                  <img
-                    className="w-full h-[35rem] object-cover"
-                    src={imagem.src}
-                    alt={imagem.alt}
+                    <img
+                      className="w-full h-[35rem] object-cover"
+                      src={imagem.src}
+                      alt={imagem.alt}
                     />
-                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
