@@ -8,6 +8,8 @@ import { NotFound } from "./routes/Not-Found/page";
 import ServicosPage from "./routes/Servicos/page";
 import ClientesPage from "./routes/Sistema-Clientes/page";
 import CadastroPage from "./routes/Cadastro/page";
+import Agendamentos from "./routes/Agendamentos/page";
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Route path="/servicos" element={<ServicosPage/>}/>
         <Route path="/sistema-clientes" element={<ClientesPage/>}/>
         <Route path="/cadastro" element={<CadastroPage/>}/>
+        <Route path="/agendamentos" element={<Agendamentos/>}/>
         <Route path="/*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>  
