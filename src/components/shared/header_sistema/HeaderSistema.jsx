@@ -6,7 +6,7 @@ import IconMetricas from "../../../assets/icon-metricas.svg"
 import IconEstoque from "../../../assets/icon-estoque.svg"
 import IconClientes from "../../../assets/icon-clientes.svg"
 
-const Header = () => {
+const HeaderSistema = () => {
   return (
     <>
       <div className="w-[8%] h-11/12 z-20 fixed flex flex-col justify-between items-center inset-0 py-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-full my-2 ml-4 max-md:mt-auto max-md:mb-4 max-md:ml-0 max-md:w-full max-md:h-[10%] max-md:flex-row max-md:bottom-0 max-md:py-3 max-md:justify-evenly">
@@ -18,7 +18,7 @@ const Header = () => {
             <HeaderText icon={IconAgenda} item="Agenda" path="/" visibilidade="flex"/>
             <HeaderText icon={IconFinancas} item="Finanças" path="/" visibilidade="flex"/>
             <HeaderText icon={IconMetricas} item="Métricas" path="/" visibilidade="flex"/>
-            <HeaderText icon={IconEstoque} item="Estoque" path="/" visibilidade="flex" />
+            <HeaderText icon={IconEstoque} item="Estoque" path="/sistema-estoque" visibilidade="flex" />
             <HeaderText icon={IconClientes} item="Clientes" path="/sistema-clientes" visibilidade="flex"/>
             <HeaderText icon={IconLogout} item="Sair" path="/" visibilidade="hidden max-md:flex" />
         </div>
@@ -28,4 +28,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderSistema;
