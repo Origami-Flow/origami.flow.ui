@@ -4,6 +4,7 @@ import InputFormulario from "../shared/InputFormulario";
 
 const ModalAdicionar = ({ onClose, campos }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(false);
+    const [column, setColumn] = useState("");
 
     const handleChange = (value, type) => {
         if (value !== "" && type == "select") {
@@ -16,9 +17,9 @@ const ModalAdicionar = ({ onClose, campos }) => {
             <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
                 <h2 className="text-xl font-bold mb-7 text-black">Adicionar</h2>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
                     {campos.map((campo, index) => (
-                        <div key={index} className="h-20">
+                        <div key={index} className={"h-20 " + column}>
                             {campo.field === "tipoEstoque" ? (
                                 <SelectCadastro
                                     key={index}
@@ -57,6 +58,8 @@ const ModalAdicionar = ({ onClose, campos }) => {
                                     bgColor="bg-[#fff]"
                                     color="black"
                                 />
+                            ) : campo.field === "foto" ? (
+                                <input className="block w-full max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="large_size" type="file"/>
                             ) : (
                                 <InputFormulario
                                     key={index}

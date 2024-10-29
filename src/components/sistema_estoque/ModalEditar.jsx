@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import SelectCadastro from "../cadastro/SelectCadastro";
 import InputFormulario from "../shared/InputFormulario";
+import AlertDelete from "../shared/AlertDelete";
+import { TrashIcon } from "lucide-react";
 
 const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(false);
@@ -8,6 +10,16 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
 
     const produtoAtual = Array.isArray(produtoData) ?
         produtoData.find(produto => produto.nome === nameProduct) : null;
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     useEffect(() => {
         if (produtoAtual) {
@@ -27,7 +39,7 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
             <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
                 <h2 className="text-xl font-bold mb-7 text-black">Editar</h2>
 
@@ -74,6 +86,8 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                     bgColor="bg-[#fff]"
                                     color="black"
                                 />
+                            ) : campo.field === "foto" ? (
+                                <input className="block w-full max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="large_size" type="file"/>
                             ) : (
                                 <InputFormulario
                                     key={index}
@@ -90,17 +104,21 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                     ))}
                 </div>
 
-                <div className="flex justify-end mt-6 space-x-3">
-                    <button
-                        className="bg-roseprimary text-white px-6 py-2 rounded-md"
-                        onClick={onClose}>
-                        Cancelar
-                    </button>
-                    <button
-                        className="bg-marromsecundary text-white px-6 py-2 rounded-md"
-                        onClick={onClose}>
-                        Salvar
-                    </button>
+                <div className="flex mt-6 items-center w-full justify-between">
+                    <TrashIcon width={30} height={30} className="cursor-pointer" onClick={openModal} />
+                    {isModalOpen && (<AlertDelete closeModal={closeModal} title={"Deletar produto: " + nameProduct} description="Você tem certeza? Esse produto será excluído permanentemente!" />)}
+                    <div className="flex space-x-2">
+                        <button
+                            className="bg-roseprimary text-white px-6 py-2 rounded-md"
+                            onClick={onClose}>
+                            Cancelar
+                        </button>
+                        <button
+                            className="bg-marromsecundary text-white px-6 py-2 rounded-md"
+                            onClick={onClose}>
+                            Salvar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
