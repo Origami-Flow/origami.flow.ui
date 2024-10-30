@@ -67,7 +67,7 @@ const ServicosPage = () => {
             <Header />
             <Menu />
             <div className="w-11/12 flex flex-col space-y-16">
-                <span className="font-laisha text-5xl text-marromsecundary max-md:text-4xl ">Serviços</span>
+                <span className="font-laisha text-5xl text-marromsecundary max-md:text-4xl">Serviços</span>
                 <div className="flex flex-col h-28 justify-between">
                     <p className="text-2xl max-md:text-xl">Já tem uma referência?</p>
                     <div className="flex">
