@@ -1,8 +1,10 @@
-function HeaderText({item}){
+import { Link } from "react-router-dom";
+function HeaderText({item, path}){
     return(
-      <ul className="flex space-x-3 items-center hover:text-rosesecundary cursor-pointer">
+      
+      <Link to={path} className="flex space-x-3 items-center hover:text-rosesecundary cursor-pointer">
         {item}
-      </ul>
+      </Link>
     )
 }
 
