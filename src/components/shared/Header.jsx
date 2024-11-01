@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="w-11/12 h-16 z-20 fixed flex justify-between  items-center inset-0 mt-6 py-4 px-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-lg mx-auto">
+      <div className="w-11/12 h-16 z-30 fixed flex justify-between  items-center inset-0 mt-6 py-4 px-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-lg mx-auto">
         <span className="lg:text-2xl font-laisha select-none md:text-xl">
           <HeaderText item="SALGADO TRANÇAS" path="/" />
         </span>

@@ -3,11 +3,13 @@ import Footer from "../../components/shared/Footer/Footer";
 import IconPage from "../../assets/icon-page-nossa-historia.svg";
 import IconPaula from "../../assets/paula-historia 1.svg";
 import PaulaEClinte from "../../assets/paula-e-cliente-historia.svg";
+import Menu from "../../components/shared/Menu";
 
 const NossaHistoria = () => {
   return (
     <main className="flex flex-col items-center justify-start relative pt-36 max-md:pt-36 max-lg:pt-36">
       <Header />
+      <Menu />
       <div>
         <img
           src={IconPage}
