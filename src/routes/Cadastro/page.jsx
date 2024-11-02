@@ -8,7 +8,7 @@ import TipoCabeloContent from "@/components/cadastro/TipoCabeloContent";
 import Header from "@/components/shared/Header";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { date, z } from "zod";
+import { z } from "zod";
 
 const Page = () => {
   const [fase, setFase] = useState(0);
@@ -50,7 +50,7 @@ const Page = () => {
         }),
       senha: z
         .string()
-        .min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
+        .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
       confirmacaoSenha: z.string(),
       telefone: z
         .string()

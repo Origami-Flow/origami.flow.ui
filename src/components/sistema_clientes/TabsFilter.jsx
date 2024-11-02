@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const TabsFilter = ({ tabs }) => {
-    const [activeTab, setActiveTab] = useState(0);
+const TabsFilter = ({ tabs, initialTab }) => {
+    const [activeTab, setActiveTab] = useState(initialTab || 0);
 
     const handleTab = (tab) => {
         setActiveTab(tab);
