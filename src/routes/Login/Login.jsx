@@ -2,8 +2,16 @@ import Header from "../../components/shared/Header";
 import ImageLogin from "../../assets/icon-login.svg";
 import IconeGoogle from "../../assets/icon-google.svg";
 import InputFormulario from "../../components/shared/InputFormulario";
+import Menu from "../../components/shared/Menu";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const gotoCadastro = () => {
+    navigate('/cadastro');
+  };
+
   return (
     <main className="h-screen">
       <Header />
@@ -45,7 +53,7 @@ const Login = () => {
           <div className="flex flex-col items-center gap-4 w-full">
             <h1 className="text-white">
               Não possui uma conta?{" "}
-              <a href="#">
+              <a onClick={gotoCadastro} className="cursor-pointer">
                 <u>
                   <b>Cadastre-se</b>
                 </u>

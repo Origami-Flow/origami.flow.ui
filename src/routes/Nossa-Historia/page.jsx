@@ -3,6 +3,7 @@ import Footer from "../../components/shared/Footer/Footer";
 import IconPage from "../../assets/icon-page-nossa-historia.svg";
 import IconPaula from "../../assets/paula-historia 1.svg";
 import PaulaEClinte from "../../assets/paula-e-cliente-historia.svg";
+import Menu from "../../components/shared/Menu";
 
 const NossaHistoria = () => {
   return (
