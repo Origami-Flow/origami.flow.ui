@@ -9,7 +9,6 @@ const NossaHistoria = () => {
   return (
     <main className="flex flex-col items-center justify-start relative pt-36 max-md:pt-36 max-lg:pt-36">
       <Header />
-      <Menu />
       <div>
         <img
           src={IconPage}

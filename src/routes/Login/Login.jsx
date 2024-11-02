@@ -15,7 +15,6 @@ const Login = () => {
   return (
     <main className="h-screen">
       <Header />
-      <Menu />
       <div className="flex h-[100%]">
         <div className="w-1/2 ">
           <div className=" h-[67.8%]">
