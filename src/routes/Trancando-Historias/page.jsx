@@ -44,7 +44,7 @@ export default function HistoriasPage() {
 
   return (
     <>
-      <main className="p-2 h-screen">
+      <main className="h-full">
         <Header />
         <div className="px-4 md:w-[94%] pt-28  md:mx-auto">
           <h1 className="text-3xl md:text-6xl xl:text-white font-laisha">
@@ -75,10 +75,10 @@ export default function HistoriasPage() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row mt-16 md:mt-96 xl:mt-24 items-center gap-4 md:gap-7 w-full md:w-[90%] m-auto">
+          <div className="flex flex-col md:flex-row mt-16 md:mt-96 xl:mt-48 items-center gap-4 md:gap-7 w-full md:w-[90%] m-auto">
             <SearchInput
               ref={inptRef}
-              className="w-80 md:w-96 bg-rosesecundary border-none  p-3"
+              className="w-80 md:w-96 bg-rosesecundary p-3"
               type="text"
               onKeyDown={handleKeyDown}
             />
@@ -94,19 +94,19 @@ export default function HistoriasPage() {
           </div>
 
           {isLoading ? (
-            <div className="h-96">
+            <div className=" min-h-96 flex items-center justify-center">
               <Loading />
             </div>
           ) : (
-            <div className="grid justify-items-center grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 pt-5  h-full">
+            <div className="grid min-h-96 justify-items-center grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 pt-5  h-full">
               {books?.map((book) => (
                 <BookCard book={book} key={book?.id} />
               ))}
             </div>
           )}
         </div>
-      </main>
       <Footer />
+      </main>
     </>
   );
 }

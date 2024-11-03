@@ -3,6 +3,9 @@ import { BookText, FileDown } from "lucide-react";
 import Button from "../shared/Button";
 
 export default function BookCard({ book, className, ...rest }) {
+  const redirecionar = (link) => {
+    window.open(link, "_blank");
+  }
   return (
     <div
       className={clsx(
@@ -19,14 +22,19 @@ export default function BookCard({ book, className, ...rest }) {
       <div className="flex flex-col h-full py-1 justify-between">
         <span className="text-center line-clamp-2">{book?.title}</span>
         <div className="flex flex-col w-full items-center h-1/3 justify-between">
-          <Button className="bg-roseprimary text-white w-32 gap-2 font-semibold h-8">
-            <BookText />
-            Ler Online
-          </Button>
-          <Button className="bg-marromsecundary text-white w-32 gap-2 font-semibold h-8">
-            <FileDown />
-            Baixar
-          </Button>
+
+          {book?.previewLink && (
+            <Button onClick={() => redirecionar(book?.previewLink)} className="bg-roseprimary text-white w-32 gap-2 font-semibold h-8">
+              <BookText />
+              Ler Online
+            </Button>
+          )}
+          {book?.downloadLink && (
+            <Button onClick={() => redirecionar(book?.downloadLink)} className="bg-marromsecundary text-white w-32 gap-2 font-semibold h-8">
+              <FileDown />
+              Baixar
+            </Button>
+          )}
         </div>
       </div>
     </div>
