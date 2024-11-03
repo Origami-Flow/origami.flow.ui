@@ -1,15 +1,39 @@
-import Header from "../../components/shared/Header";
-import ImageLogin from "../../assets/icon-login.svg";
+import { request } from "@/axios/request";
+import Button from "@/components/shared/Button";
+import useUser from "@/hooks/useUser";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import IconeGoogle from "../../assets/icon-google.svg";
+import ImageLogin from "../../assets/icon-login.svg";
+import Header from "../../components/shared/Header";
 import InputFormulario from "../../components/shared/InputFormulario";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { setUsuario } = useUser();
+
+  const handleSubmit = () => {
+    request.postLogin({ email, senha: password })
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        toast.success("Login efetuado com sucesso");
+        setUsuario(response.data);
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Usuário ou senha inválidos");
+      });
+  };
+
   return (
     <main className="h-screen">
       <Header />
-      <div className="flex h-[100%]">
-        <div className="w-1/2 ">
-          <div className=" h-[67.8%]">
+      <div className="flex h-full">
+        <div className="w-1/2 h-full flex flex-col justify-between">
+          <div className="h-[67.8%]">
             <div className="flex items-center justify-center h-[120%]">
               <p className="text-left text-6xl leading-[0.9] font-laisha ">
                 Seja
@@ -28,12 +52,16 @@ const Login = () => {
         <div className="w-1/2 bg-roseprimary flex flex-col justify-center items-center gap-10">
           <div className="flex flex-col justify-center gap-6 items-center w-full">
             <InputFormulario
+              color="white"
               name={"E-mail"}
+              onChange={(e) => setEmail(e.target.value)}
               type={"email"}
               placeholder={"nome@mail.com"}
             />
             <InputFormulario
+              color="white"
               name={"Senha"}
+              onChange={(e) => setPassword(e.target.value)}
               type={"password"}
               placeholder={"*******"}
             />
@@ -44,17 +72,17 @@ const Login = () => {
           </button>
           <div className="flex flex-col items-center gap-4 w-full">
             <h1 className="text-white">
-              Não possui uma conta?{" "}
-              <a href="#">
+              Não possui uma conta?
+              <Link to={"/cadastro"}>
                 <u>
                   <b>Cadastre-se</b>
                 </u>
-              </a>
+              </Link>
             </h1>
 
-            <button className="justify-center text-white bg-verdeprimary rounded-xl w-[25%] h-12">
+            <Button onClick={() => handleSubmit()} className="justify-center text-white bg-verdeprimary rounded-xl w-[25%] h-12">
               <b>Entrar</b>
-            </button>
+            </Button>
           </div>
         </div>
       </div>

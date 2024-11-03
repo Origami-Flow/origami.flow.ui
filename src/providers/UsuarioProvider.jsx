@@ -6,11 +6,11 @@ export const UsuarioContext = createContext();
 const UsuarioProvider = ({ children }) => {
   const [usuario, setUsuario] = useState({});
 
-  useEffect(() => {
-    api.get("/usuario").then((res) => {
-      setUsuario(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   api.get("/usuario").then((res) => {
+  //     setUsuario(res.data);
+  //   });
+  // }, []);
 
   return (
     <UsuarioContext.Provider value={{ usuario, setUsuario }}>
