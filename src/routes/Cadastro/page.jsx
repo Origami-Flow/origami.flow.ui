@@ -1,5 +1,6 @@
 import blobBotton from "@/assets/blob-botton.svg";
 import blobTop from "@/assets/blob-top.svg";
+import { request } from "@/axios/request";
 import CorCabeloContent from "@/components/cadastro/CorCabeloContent";
 import GeneroContent from "@/components/cadastro/GeneroContent";
 import InformacoesContent from "@/components/cadastro/InformacoesContent";
@@ -8,13 +9,15 @@ import TipoCabeloContent from "@/components/cadastro/TipoCabeloContent";
 import Header from "@/components/shared/Header";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { date, z } from "zod";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { z } from "zod";
 
 const Page = () => {
   const [fase, setFase] = useState(0);
   const [faseAtual, setFaseAtual] = useState(0);
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (fase < faseAtual) {
       setFase(faseAtual);
@@ -22,19 +25,19 @@ const Page = () => {
   }, [faseAtual]);
 
   const [value, setValue] = useState({
-    genero: "",
     nome: "",
-    tipoCabelo: "",
-    corDoCabelo: "",
     email: "",
     senha: "",
-    confirmacaoSenha: "",
-    telefone: "",
     dataNascimento: "",
-    possuiProgressiva: "",
-    primeiraVezTrancando: "",
+    telefone: "",
     ocupacao: "",
     cep: "",
+    genero: "",
+    tipoCabelo: "",
+    corDoCabelo: "",
+    confirmacaoSenha: "",
+    possuiProgressiva: "",
+    primeiraVezTrancando: "",
   });
 
   const inputValidation = z
@@ -89,10 +92,28 @@ const Page = () => {
   const handlerCadastrar = () => {
     const validationResult = validarFormulario(value);
     if (validationResult.success) {
-      console.log("Cadastro realizado com sucesso!");
-    } else {
-      console.log("Erro ao realizar cadastro:", validationResult.errors);
+      request.postCadastro({
+        nome: value.nome,
+        email: value.email,
+        senha: value.senha,
+        dataNascimento: value.dataNascimento,
+        telefone: value.telefone,
+        ocupacao: value.ocupacao,
+        cep: value.cep,
+        genero: value.genero,
+        tipoCabelo: value.tipoCabelo,
+        corCabelo: value.corDoCabelo,
+      }).then(() => {
+        toast.success("Cadastro realizado com sucesso!");
 
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+        
+      }).catch(() => {
+        toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
+      })
+    } else {
       const newErrors = {};
       validationResult.errors.forEach((error) => {
         const fieldName = error.path[0];
@@ -184,7 +205,7 @@ const Page = () => {
 
         <Header />
 
-        <div className="flex flex-col pt-24 gap-4 items-center min-h-[95vh] h-screen">
+        <div className="flex flex-col pt-24 gap-4 items-center min-h-[95vh] h-full">
           <h1 className="font-laisha text-4xl text-center">
             Queremos te conhecer!
           </h1>

@@ -32,7 +32,7 @@ const InputFormulario = forwardRef(
             "absolute left-3 px-1 transform -translate-y-1/2 text-lg transition-all",
             "peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400",
             "peer-focus:top-2 peer-focus:text-lg",
-            `text-${color}`,
+            color === "white" ? "text-white" : `text-${color}`,
             bgColor
           )}
         >
@@ -48,7 +48,8 @@ const InputFormulario = forwardRef(
           {...props}
           className={clsx(
             "px-3 pb-2.5 pt-3 w-[20vw] bg-transparent focus:outline-none transition-all ease-in-out duration-1000",
-            `border text-${color} border-${color} focus:ring-${color} focus:border-${color}`,
+            `border focus:ring-2 focus:ring-${color} focus:border-${color}`,
+            color === "white" ? "border-white text-white focus:ring-white focus:border-white" : `border-${color} text-${color}`,
             color === "white" && "placeholder-slate-200",
             type === "password" && "pr-10"
           )}
@@ -57,7 +58,10 @@ const InputFormulario = forwardRef(
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-${color}`}
+            className={clsx(
+              "absolute right-2 top-1/2 transform -translate-y-1/2",
+              color === "white" ? "text-white" : `text-${color}`
+            )}
           >
             {inputType === "password" ? <EyeOffIcon /> : <Eye />}
           </button>

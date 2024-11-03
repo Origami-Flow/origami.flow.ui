@@ -7,7 +7,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import useUser from "@/hooks/useUser";
 import Autoplay from "embla-carousel-autoplay";
 import { useParallax } from "react-scroll-parallax";
 import Entrelacando1 from "../../assets/entrelacando1.svg";
@@ -21,8 +20,6 @@ import Imagem5 from "../../assets/imagem5_home.svg";
 import SvgHome from "../../assets/svg_home.svg";
 
 const HomePage = () => {
-  const { user, setUser } = useUser();
-
   const cardsAvaliacoes = [
     {
       nome: "Rafaela",
@@ -98,9 +95,9 @@ const HomePage = () => {
               <img className="h-full" src={Imagem4} alt="" />
             </div>
           </div>
-          <div className="flex items-center pr-16">
-            <p className="text-white font-laisha text-[2.55rem] text-center">
-              Onde a paixão <br /> pela beleza <div>e pelos cabelos se </div>
+          <div className="flex items-center px-16">
+            <p className="text-white font-laisha text-[2.55rem] w-80 text-center">
+              Onde a paixão pela beleza e pelos cabelos se 
               unem à&nbsp; <br />
               <span className="font-bold">criatividade</span>.
             </p>
