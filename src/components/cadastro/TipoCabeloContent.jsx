@@ -12,18 +12,18 @@ import CardCadastro from "./CardCadastro";
 
 const TipoCabeloContent = ({ value, setValue }) => {
   const cards = [
-    { text: "1", imagem: cabelo1 },
-    { text: "2A", imagem: cabelo2A },
-    { text: "2B", imagem: cabelo2B },
-    { text: "2C", imagem: cabelo2C },
-    { text: "3A", imagem: cabelo3A },
-    { text: "3B", imagem: cabelo3B },
-    { text: "3C", imagem: cabelo3C },
-    { text: "4A", imagem: cabelo4A },
-    { text: "4B", imagem: cabelo4B },
-    { text: "4C", imagem: cabelo4C },
+    { text: "1", imagem: cabelo1, value: "A1" },
+    { text: "2A", imagem: cabelo2A, value: "A2" },
+    { text: "2B", imagem: cabelo2B, value: "B2" },
+    { text: "2C", imagem: cabelo2C, value: "C2" },
+    { text: "3A", imagem: cabelo3A, value: "A3" },
+    { text: "3B", imagem: cabelo3B, value: "B3" },
+    { text: "3C", imagem: cabelo3C, value: "C3" },
+    { text: "4A", imagem: cabelo4A, value: "A4" },
+    { text: "4B", imagem: cabelo4B, value: "B4" },
+    { text: "4C", imagem: cabelo4C, value: "C4" },
   ];
-  
+
   const handleCardClick = (text) => {
     setValue((prev) => ({ ...prev, tipoCabelo: text }));
   };
@@ -33,8 +33,8 @@ const TipoCabeloContent = ({ value, setValue }) => {
       {cards.map((card) => (
         <CardCadastro
           key={card.text}
-          selected={value.tipoCabelo === card.text}
-          onClick={() => handleCardClick(card.text)}
+          selected={value.tipoCabelo === card.value}
+          onClick={() => handleCardClick(card.value)}
           className="py-2"
           text={card.text}
           imagem={card.imagem}
