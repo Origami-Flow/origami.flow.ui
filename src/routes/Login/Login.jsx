@@ -8,8 +8,6 @@ import IconeGoogle from "../../assets/icon-google.svg";
 import ImageLogin from "../../assets/icon-login.svg";
 import Header from "../../components/shared/Header";
 import InputFormulario from "../../components/shared/InputFormulario";
-import Menu from "../../components/shared/Menu";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -74,7 +72,7 @@ const Login = () => {
           </button>
           <div className="flex flex-col items-center gap-4 w-full">
             <h1 className="text-white">
-              Não possui uma conta?
+              Não possui uma conta? &nbsp;
               <Link to={"/cadastro"}>
                 <u>
                   <b>Cadastre-se</b>

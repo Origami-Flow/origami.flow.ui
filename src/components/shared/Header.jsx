@@ -1,8 +1,9 @@
+import useUser from "@/hooks/useUser";
 import { Calendar, LogOut, Menu as MenuIcon, Pencil, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import HeaderText from "./HeaderText";
 import Menu from "./Menu";
-import useUser from "@/hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +11,7 @@ const Header = () => {
   const { usuario, setUsuario } = useUser();
   const [nomeUsuario, setNomeUsuario] = useState();
   const userMenuRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (usuario?.nome) {
@@ -93,11 +95,11 @@ const Header = () => {
             )}
           </div>
         ) : (
-          <span className="max-lg:hidden text-lg font-bold hover:bg-roseprimary rounded-3xl cursor-pointer py-2 px-4">
-            <HeaderText item="Entrar" path="/login" />
+          <span onClick={() => navigate("/login")} className="max-lg:hidden text-lg font-bold hover:bg-roseprimary rounded-3xl cursor-pointer py-2 px-4">
+            <span>Entrar</span>
           </span>
         )}
-        
+
         <MenuIcon
           size={40}
           cursor={"pointer"}
