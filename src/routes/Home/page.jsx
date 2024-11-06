@@ -188,7 +188,7 @@ const HomePage = () => {
 
       <div className="w-11/12 m-auto flex flex-col gap-14 items-center pt-24">
         <h1 className="font-laisha text-7xl w-2/3 text-center ">
-          Entrelaçando amorisidade em cada fio
+          Entrelaçando amorosidade em cada fio
         </h1>
         <div className="hidden xl:flex justify-center gap-10 w-full">
           {imagensEntrelacando.map((imagem, index) => (

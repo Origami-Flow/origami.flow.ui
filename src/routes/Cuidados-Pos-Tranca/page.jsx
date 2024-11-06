@@ -30,7 +30,7 @@ const CuidadosPage = () => {
             </div>
 
             <div className="w-11/12 flex flex-col mt-20 space-y-5">
-                <span className="font-laisha text-xl text-marromsecundary">Ficou com duvídas?</span>
+                <span className="font-laisha text-xl text-marromsecundary">Ficou com dúvidas?</span>
                 <p className="leading-relaxed">Entre em contato com nossa equipe para receber mais dicas e orientações personalizadas. Juntos, vamos garantir que suas tranças continuem sendo uma expressão única de beleza e afeto.</p>
                 <button className="bg-marromsecundary w-[20%] max-md:w-[50%] p-3 text-branconeutro text-lg rounded-xl">Entre em contato</button>
             </div> 
