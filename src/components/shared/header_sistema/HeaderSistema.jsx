@@ -16,7 +16,7 @@ const HeaderSistema = () => {
         </span>
         <div className="w-full h-[80%] flex flex-col justify-evenly max-md:items-center max-md:flex-row max-md:w-full max-md:h-full">
             <HeaderText icon={IconAgenda} item="Agenda" path="/" visibilidade="flex"/>
-            <HeaderText icon={IconFinancas} item="Finanças" path="/" visibilidade="flex"/>
+            <HeaderText icon={IconFinancas} item="Finanças" path="/sistema-financas" visibilidade="flex"/>
             <HeaderText icon={IconMetricas} item="Métricas" path="/" visibilidade="flex"/>
             <HeaderText icon={IconEstoque} item="Estoque" path="/sistema-estoque" visibilidade="flex" />
             <HeaderText icon={IconClientes} item="Clientes" path="/sistema-clientes" visibilidade="flex"/>
