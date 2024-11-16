@@ -5,7 +5,7 @@ import { forwardRef, useState } from "react";
 const InputFormulario = forwardRef(
   (
     {
-      type = "text",
+      type,
       name,
       placeholder,
       value,

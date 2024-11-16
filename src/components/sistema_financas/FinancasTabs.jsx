@@ -40,7 +40,7 @@ const FinancasTabs = ({dados}) => {
     return (
         <Tabs value={activeTab}>
             <TabsHeader
-                className="rounded-none border-b border-blue-gray-50 bg-transparent p-0 w-full"
+                className="rounded-none border-b border-blue-gray-50 bg-transparent p-0 w-full z-0"
                 indicatorProps={{
                     className:
                         "bg-transparent border-b-2 border-roseprimary shadow-none rounded-none w-full",

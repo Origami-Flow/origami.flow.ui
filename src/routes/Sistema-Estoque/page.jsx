@@ -164,6 +164,7 @@ const EstoquePage = () => {
             name: "Nome do produto",
             field: "nome",
             placeholder: "Digite o nome do produto",
+            type: "text",
         },
         {
             name: "Preço de Compra (R$)",
@@ -193,6 +194,7 @@ const EstoquePage = () => {
             name: "Marca",
             field: "marca",
             placeholder: "Digite a Marca",
+            type: "text",
         },
         {
             name: "Unidades",
