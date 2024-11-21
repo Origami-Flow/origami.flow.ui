@@ -11,6 +11,24 @@ const request = {
   },
   postCadastro: async (data) => {
     return await api.post("/cadastros/cliente", data);
+  },
+  getClientes: async () => {
+    return await api.get("/clientes");
+  },
+  getProdutos: async () => {
+    return await api.get("/estoques");
+  },
+  getProdutosPorNome: async (nome) => {
+    return await api.get(`/produtos/filtro-nome?nome=${nome}`);
+  },
+  postProdutos: async (data) => {
+    return await api.post("/produtos", data);
+  },
+  deleteProdutos: async (id) => {
+    return await api.delete(`/produtos/${id}`, id);
+  },
+  deleteEstoque: async (id) => {
+    return await api.delete(`/estoques/${id}`, id);
   }
 };
 

@@ -1,162 +1,19 @@
 import SearchInput from "@/components/sistema_clientes/SearchInput";
 import TabsFilter from "@/components/sistema_clientes/TabsFilter";
 import EstoqueCard from "@/components/sistema_estoque/EstoqueCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IconAdd from "../../assets/addIcon.svg";
 import ModalAdicionar from "@/components/sistema_estoque/ModalAdicionar";
 import HeaderSistema from "@/components/shared/header_sistema/HeaderSistema";
+import { request } from "@/axios/request";
+import { toast } from "react-toastify";
 
 const EstoquePage = () => {
-    const [produtos, setProdutos] = useState([
-        {
-            id: 1,
-            nome: 'Pomada',
-            unidades: 50,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '300',
-            unidadeDeMedida: 'gr',
-            marca: 'Lore Ipsum',
-            tipoEstoque: 'Salão',
-            precoCompra: 20.00,
-            precoVenda: null,
-        },
-        {
-            id: 2,
-            nome: 'Cabelo Sintético',
-            unidades: 100,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '100',
-            unidadeDeMedida: 'gr',
-            marca: 'HairPro',
-            tipoEstoque: 'Loja',
-            precoCompra: 40.00,
-            precoVenda: 80.00,
-        },
-        {
-            id: 3,
-            nome: 'Óleo Capilar',
-            unidades: 30,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '200',
-            unidadeDeMedida: 'ml',
-            marca: 'NaturalCare',
-            tipoEstoque: 'Salão',
-            precoCompra: 15.00,
-            precoVenda: null,
-        },
-        {
-            id: 4,
-            nome: 'Shampoo Hidratante',
-            unidades: 70,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '500',
-            unidadeDeMedida: 'ml',
-            marca: 'CurlsPlus',
-            tipoEstoque: 'Loja',
-            precoCompra: 25.00,
-            precoVenda: 45.00,
-        },
-        {
-            id: 5,
-            nome: 'Gel Fixador',
-            unidades: 80,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '250',
-            unidadeDeMedida: 'ml',
-            marca: 'FixPlus',
-            tipoEstoque: 'Salão',
-            precoCompra: 12.00,
-            precoVenda: null,
-        },
-        {
-            id: 6,
-            nome: 'Elástico para Tranças',
-            unidades: 200,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '50',
-            unidadeDeMedida: 'gr',
-            marca: 'TrançasPro',
-            tipoEstoque: 'Loja',
-            precoCompra: 5.00,
-            precoVenda: 10.00,
-        },
-        {
-            id: 7,
-            nome: 'Pomada',
-            unidades: 50,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '300',
-            unidadeDeMedida: 'gr',
-            marca: 'Lore Ipsum',
-            tipoEstoque: 'Salão',
-            precoCompra: 20.00,
-            precoVenda: null,
-        },
-        {
-            id: 8,
-            nome: 'Cabelo Sintético',
-            unidades: 100,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '100',
-            unidadeDeMedida: 'gr',
-            marca: 'HairPro',
-            tipoEstoque: 'Loja',
-            precoCompra: 40.00,
-            precoVenda: 80.00,
-        },
-        {
-            id: 9,
-            nome: 'Óleo Capilar',
-            unidades: 30,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '200',
-            unidadeDeMedida: 'ml',
-            marca: 'NaturalCare',
-            tipoEstoque: 'Salão',
-            precoCompra: 15.00,
-            precoVenda: null,
-        },
-        {
-            id: 10,
-            nome: 'Shampoo Hidratante',
-            unidades: 70,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '500',
-            unidadeDeMedida: 'ml',
-            marca: 'CurlsPlus',
-            tipoEstoque: 'Loja',
-            precoCompra: 25.00,
-            precoVenda: 45.00,
-        },
-        {
-            id: 11,
-            nome: 'Gel Fixador',
-            unidades: 80,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '250',
-            unidadeDeMedida: 'ml',
-            marca: 'FixPlus',
-            tipoEstoque: 'Salão',
-            precoCompra: 12.00,
-            precoVenda: null,
-        },
-        {
-            id: 12,
-            nome: 'Elástico para Tranças',
-            unidades: 200,
-            foto: 'https://via.placeholder.com/150',
-            quantidadeEmbalagem: '50',
-            unidadeDeMedida: 'ml',
-            marca: 'TrançasPro',
-            tipoEstoque: 'Loja',
-            precoCompra: 5.00,
-            precoVenda: 10.00,
-        },
-    ]);
+    const [produtos, setProdutos] = useState([]);
     const campos = [
         {
             name: "Tipo",
-            field: "tipoEstoque",
+            field: "tipo",
             placeholder: "",
             type: "select",
         },
@@ -168,13 +25,13 @@ const EstoquePage = () => {
         },
         {
             name: "Preço de Compra (R$)",
-            field: "precoCompra",
+            field: "valorCompra",
             placeholder: "Digite o preço de compra",
             type: "number",
         },
         {
             name: "Preço de Venda (R$)",
-            field: "precoVenda",
+            field: "valorVenda",
             placeholder: "Digite o preço de venda",
             type: "number",
         },
@@ -186,7 +43,7 @@ const EstoquePage = () => {
         },
         {
             name: "Unidade de Medida",
-            field: "unidadeDeMedida",
+            field: "unidadeMedida",
             placeholder: "ml, mg, gr",
             type: "select",
         },
@@ -198,7 +55,7 @@ const EstoquePage = () => {
         },
         {
             name: "Unidades",
-            field: "unidades",
+            field: "quantidade",
             placeholder: "Digite a quantidade de produtos",
             type: "number",
         },
@@ -210,18 +67,51 @@ const EstoquePage = () => {
         },
     ];
     const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [nome, setNome] = useState("");
+
+    useEffect(() => {
+        const fetchProdutos = async () => {
+            try {
+                const response = await request.getProdutos();
+                setProdutos(response.data);
+            } catch (err) {
+                tconsole.log('Erro ao buscar os produtos');
+            }
+        }
+
+        fetchProdutos();
+    }, []);
 
     const tabs = [
         { text: "Todos" },
-        { text: "Salão" },
-        { text: "Loja" }
+        { text: "Salão", value: "SALAO" },
+        { text: "Loja", value: "LOJA" }
     ];
 
-    const filteredProducts = tabs[activeTabIndex]?.text === "Todos"
-        ? produtos
-        : produtos.filter(produto => produto?.tipoEstoque === tabs[activeTabIndex]?.text);
+    const filterProducts = (produtos, nomePesquisa, activeTabIndex) => {
+        let filtered = produtos;
 
-    const [isModalOpen, setModalOpen] = useState(false);
+        if (nomePesquisa) {
+            filtered = filtered.filter(produto =>
+                produto?.produto?.nome.toLowerCase().includes(nomePesquisa.toLowerCase())
+            );
+        }
+
+        if (tabs[activeTabIndex]?.text !== "Todos") {
+            filtered = filtered.filter(produto => produto?.produto.tipo === tabs[activeTabIndex]?.value);
+        }
+
+        return filtered;
+    };
+
+
+    const handleSearch = async (nomePesquisa) => {
+        setNome(nomePesquisa);
+        const filteredProducts = filterProducts(produtos, nomePesquisa, activeTabIndex);
+
+        setProdutos(filteredProducts);
+    };
 
     const openModal = () => {
         setModalOpen(true);
@@ -234,11 +124,11 @@ const EstoquePage = () => {
     const onMinusClick = (id) => {
         setProdutos(prevProdutos =>
             prevProdutos.map(produto =>
-                produto.id === id
+                produto.produto.id === id
                     ? {
                         ...produto,
-                        unidades: produto.unidades > 0
-                            ? produto.unidades - 1
+                        quantidade: produto.quantidade > 0
+                            ? produto.quantidade - 1
                             : 0
                     }
                     : produto
@@ -249,15 +139,17 @@ const EstoquePage = () => {
     const onPlusClick = (id) => {
         setProdutos(prevProdutos =>
             prevProdutos.map(produto =>
-                produto.id === id
+                produto.produto.id === id
                     ? {
-                        ...produto, 
-                        unidades: produto.unidades + 1
+                        ...produto,
+                        quantidade: produto.quantidade + 1
                     }
                     : produto
             )
         );
     };
+
+    const filteredProducts = filterProducts(produtos, nome, activeTabIndex);
 
     return (
         <main className="flex flex-col items-center justify-start relative pl-32 h-screen max-md:pl-0 max-md:pb-24">
@@ -270,7 +162,7 @@ const EstoquePage = () => {
                 <div className="w-full h-[80%] shadow-lg rounded-lg flex flex-col p-6">
                     <div className="w-full flex justify-between max-md:flex-col">
                         <TabsFilter tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} />
-                        <SearchInput />
+                        <SearchInput handleSearch={(e) => handleSearch(e.target.value)} />
                     </div>
                     <hr />
                     <div className="flex-1 overflow-y-auto max-h-[500px]">
@@ -280,15 +172,15 @@ const EstoquePage = () => {
                                     key={index}
                                     produtoData={produto}
                                     campos={campos}
-                                    onMinusClick={() => onMinusClick(produto?.id)}
-                                    onPlusClick={() => onPlusClick(produto?.id)}
+                                    onMinusClick={() => onMinusClick(produto?.produto.id)}
+                                    onPlusClick={() => onPlusClick(produto?.produto.id)}
                                 />
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
-            {isModalOpen && (<ModalAdicionar onClose={closeModal} campos={campos} />)}
+            {isModalOpen && (<ModalAdicionar onClose={closeModal} campos={campos} produtos={produtos} setProdutos={setProdutos} />)}
         </main>
     )
 }

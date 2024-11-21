@@ -3,13 +3,15 @@ import SelectCadastro from "../cadastro/SelectCadastro";
 import InputFormulario from "../shared/InputFormulario";
 import AlertDelete from "../shared/AlertDelete";
 import { TrashIcon } from "lucide-react";
+import { request } from "@/axios/request";
+import { toast } from "react-toastify";
 
-const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
+const ModalEditar = ({ onClose, nameProduct, idProduct, produtoData, campos }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(false);
     const [formValues, setFormValues] = useState({});
 
     const produtoAtual = Array.isArray(produtoData) ?
-        produtoData.find(produto => produto.nome === nameProduct) : null;
+        produtoData.find(produto => produto.produto.nome === nameProduct) : null;
 
     const [isModalOpen, setModalOpen] = useState(false);
 
@@ -38,6 +40,17 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
         }));
     };
 
+    const handleDelete = (id) => {
+        try {
+            request.deleteEstoque(id);
+            toast.success("Produto deletado com sucesso!", 3000);
+            closeModal();
+            window.location.reload();
+        } catch (error) {
+            toast.error("Erro ao deletar o produto");
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
             <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
@@ -46,7 +59,7 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                 <div className="grid grid-cols-2 gap-4">
                     {campos.map((campo, index) => (
                         <div key={index} className="h-20">
-                            {campo.field === "tipoEstoque" ? (
+                            {campo.field === "tipo" ? (
                                 <SelectCadastro
                                     key={index}
                                     name={campo.name}
@@ -58,14 +71,14 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                     }
                                     options={[
                                         { value: "", label: "Selecione uma opção", disabled: isOptionDisabled },
-                                        { value: "Salão", label: "Salão" },
-                                        { value: "Loja", label: "Loja" },
+                                        { value: "SALAO", label: "Salão" },
+                                        { value: "LOJA", label: "Loja" },
                                     ]}
                                     value={formValues[campo.field] || ""}
                                     bgColor="bg-[#fff]"
                                     color="black"
                                 />
-                            ) : campo.field === "unidadeDeMedida" ? (
+                            ) : campo.field === "unidadeMedida" ? (
                                 <SelectCadastro
                                     key={index}
                                     name={campo.name}
@@ -87,7 +100,7 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
                                     color="black"
                                 />
                             ) : campo.field === "foto" ? (
-                                <input className="block w-full max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="large_size" type="file"/>
+                                <input className="block w-full max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="large_size" type="file" />
                             ) : (
                                 <InputFormulario
                                     key={index}
@@ -106,7 +119,7 @@ const ModalEditar = ({ onClose, nameProduct, produtoData, campos }) => {
 
                 <div className="flex mt-6 items-center w-full justify-between">
                     <TrashIcon width={30} height={30} className="cursor-pointer" onClick={openModal} />
-                    {isModalOpen && (<AlertDelete closeModal={closeModal} title={"Deletar produto: " + nameProduct} description="Você tem certeza? Esse produto será excluído permanentemente!" />)}
+                    {isModalOpen && (<AlertDelete handleDelete={() => handleDelete(idProduct)} closeModal={closeModal} title={"Deletar produto: " + nameProduct} description="Você tem certeza? Esse produto será excluído permanentemente!" />)}
                     <div className="flex space-x-2">
                         <button
                             className="bg-roseprimary text-white px-6 py-2 rounded-md"

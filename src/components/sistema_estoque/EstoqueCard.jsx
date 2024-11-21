@@ -21,11 +21,11 @@ const EstoqueCard = ({ produtoData, campos, onPlusClick, onMinusClick }) => {
                 className="w-[30%] h-auto rounded-lg mr-5"
             />
             <div className="flex flex-col w-[70%] justify-evenly">
-                <span className="text-branconeutro font-bold text-lg">{produtoData?.nome || "Nome não disponível"}</span>
+                <span className="text-branconeutro font-bold text-lg">{produtoData?.produto.nome || "Nome não disponível"}</span>
                 {/* <span className="text-branconeutro text-lg max-md:text-base">Em estoque: {produtoData?.unidades || "Unidades não disponível"}</span> */}
                 <div className="flex space-x-3">
                     <CircleMinus color="#fefefe" className="cursor-pointer" onClick={onMinusClick}/>
-                    <span className="text-branconeutro">{produtoData?.unidades}</span>
+                    <span className="text-branconeutro">{produtoData?.quantidade}</span>
                     <CirclePlus color="#fefefe" className="cursor-pointer" onClick={onPlusClick}/>
                 </div>
                 <div className="flex justify-end w-full cursor-pointer" onClick={openModal}>
@@ -33,7 +33,7 @@ const EstoqueCard = ({ produtoData, campos, onPlusClick, onMinusClick }) => {
                     <Edit2Icon color="#fefefe" />
                 </div>
             </div>
-            {isModalOpen && (<ModalEditar onClose={closeModal} nameProduct={produtoData?.nome} produtoData={[produtoData]} campos={campos} />)}
+            {isModalOpen && (<ModalEditar idProduct={produtoData?.produto.id} onClose={closeModal} nameProduct={produtoData?.produto.nome} produtoData={[produtoData]} campos={campos} />)}
         </div>
     )
 }

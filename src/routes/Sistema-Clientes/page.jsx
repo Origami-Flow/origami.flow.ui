@@ -2,144 +2,32 @@ import HeaderSistema from "@/components/shared/header_sistema/HeaderSistema";
 import ClientCard from "@/components/sistema_clientes/ClientCard";
 import SearchInput from "@/components/sistema_clientes/SearchInput";
 import TabsFilter from "@/components/sistema_clientes/TabsFilter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { request } from '../../axios/request';
+
 
 
 const ClientesPage = () => {
-    const [clientes, setClientes] = useState([
-        {
-            nome: 'Larissa Souza',
-            email: 'larissasouza@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '00/00/0000',
-            endereco: 'Rua Lore Ipsum, Zona Lore',
-            ocupacao: 'Lore Ipsum',
-            fezProgressiva: true,
-            telefone: '(11) 90000-0000',
-            tipoCabelo: '3A',
-            primeiraVez: true,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Julia Hikari',
-            email: 'juliahikari@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '01/01/1990',
-            endereco: 'Rua Hikari, Bairro Luz',
-            ocupacao: 'Desenvolvedora',
-            fezProgressiva: false,
-            telefone: '(11) 90000-1111',
-            tipoCabelo: '2B',
-            primeiraVez: false,
-            tamanhoCabelo: "40cm",
-            corCabelo: "Loiro"
-        },
-        {
-            nome: 'Jean Rocha',
-            email: 'jeanrocha@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '05/05/1985',
-            endereco: 'Rua Rocha, Bairro Pedra',
-            ocupacao: 'Designer',
-            fezProgressiva: false,
-            telefone: '(11) 90000-2222',
-            tipoCabelo: '4C',
-            primeiraVez: true,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Larissa Souza',
-            email: 'larissasouza@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '00/00/0000',
-            endereco: 'Rua Lore Ipsum, Zona Lore',
-            ocupacao: 'Lore Ipsum',
-            fezProgressiva: true,
-            telefone: '(11) 90000-0000',
-            tipoCabelo: '3A',
-            primeiraVez: true,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Julia Hikari',
-            email: 'juliahikari@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '01/01/1990',
-            endereco: 'Rua Hikari, Bairro Luz',
-            ocupacao: 'Desenvolvedora',
-            fezProgressiva: false,
-            telefone: '(11) 90000-1111',
-            tipoCabelo: '2B',
-            primeiraVez: false,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Jean Rocha',
-            email: 'jeanrocha@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '05/05/1985',
-            endereco: 'Rua Rocha, Bairro Pedra',
-            ocupacao: 'Designer',
-            fezProgressiva: false,
-            telefone: '(11) 90000-2222',
-            tipoCabelo: '4C',
-            primeiraVez: true,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Larissa Souza',
-            email: 'larissasouza@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '00/00/0000',
-            endereco: 'Rua Lore Ipsum, Zona Lore',
-            ocupacao: 'Lore Ipsum',
-            fezProgressiva: true,
-            telefone: '(11) 90000-0000',
-            tipoCabelo: '3A',
-            primeiraVez: true,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Julia Hikari',
-            email: 'juliahikari@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '01/01/1990',
-            endereco: 'Rua Hikari, Bairro Luz',
-            ocupacao: 'Desenvolvedora',
-            fezProgressiva: false,
-            telefone: '(11) 90000-1111',
-            tipoCabelo: '2B',
-            primeiraVez: false,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Castanho"
-        },
-        {
-            nome: 'Jean Rocha',
-            email: 'jeanrocha@gmail.com',
-            foto: 'https://via.placeholder.com/50',
-            dataNascimento: '05/05/1985',
-            endereco: 'Rua Rocha, Bairro Pedra',
-            ocupacao: 'Designer',
-            fezProgressiva: false,
-            telefone: '(11) 90000-2222',
-            tipoCabelo: '4C',
-            primeiraVez: true,
-            tamanhoCabelo: "10cm",
-            corCabelo: "Preto"
-        },
-    ]);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const [clientes, setClientes] = useState([]);
+
+    useEffect(() => {
+        const fetchClientes = async () => {
+            try {
+                const response = await request.getClientes();
+                setClientes(response.data);
+            } catch (err) {
+                setError('Erro ao buscar os clientes');
+            }
+        }
+
+        fetchClientes();
+    }, []);
 
     const tabs = [
-        {text: "Todos"},
-        {text: "Próximos 7 dias"},
-        {text: "Próximos 15 dias"}
+        { text: "Todos" },
+        { text: "Próximos 7 dias" },
+        { text: "Próximos 15 dias" }
     ]
 
     return (
@@ -156,7 +44,7 @@ const ClientesPage = () => {
                     <div className="flex-1 overflow-y-auto max-h-[500px]">
                         <div className="grid grid-cols-2 gap-4 p-4 max-lg:grid-cols-1">
                             {clientes.map((cliente, index) => (
-                                <ClientCard key={index} clientData={cliente}/>
+                                <ClientCard key={index} clientData={cliente} />
                             ))}
                         </div>
                     </div>
