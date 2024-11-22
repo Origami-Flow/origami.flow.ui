@@ -18,6 +18,9 @@ const request = {
   getProdutos: async () => {
     return await api.get("/estoques");
   },
+  getProdutosPorId: async (id) => {
+    return await api.get(`/estoques/${id}`);
+  },
   getProdutosPorNome: async (nome) => {
     return await api.get(`/produtos/filtro-nome?nome=${nome}`);
   },
@@ -29,7 +32,13 @@ const request = {
   },
   deleteEstoque: async (id) => {
     return await api.delete(`/estoques/${id}`, id);
-  }
+  },
+  updateProduto: async (id, data) => {
+    return await api.put(`/produtos/${id}`, data)
+  },
+  updateEstoque: async (id, quantidade) => {
+    return await api.put(`/estoques/${id}?quantidade=${quantidade}`)
+  },
 };
 
 export { api, request };

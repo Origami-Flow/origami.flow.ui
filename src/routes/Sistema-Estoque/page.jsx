@@ -7,9 +7,11 @@ import ModalAdicionar from "@/components/sistema_estoque/ModalAdicionar";
 import HeaderSistema from "@/components/shared/header_sistema/HeaderSistema";
 import { request } from "@/axios/request";
 import { toast } from "react-toastify";
+import { X } from "lucide-react";
 
 const EstoquePage = () => {
     const [produtos, setProdutos] = useState([]);
+    const [produtosOriginais, setProdutosOriginais] = useState([]);
     const campos = [
         {
             name: "Tipo",
@@ -68,17 +70,23 @@ const EstoquePage = () => {
     ];
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [nome, setNome] = useState("");
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [inputOn, setInputOn] = useState(false);
 
     useEffect(() => {
         const fetchProdutos = async () => {
+            setIsLoading(true);
             try {
                 const response = await request.getProdutos();
-                setProdutos(response.data);
+                setProdutos(response.data || []);
+                setProdutosOriginais(response.data)
             } catch (err) {
-                tconsole.log('Erro ao buscar os produtos');
+                console.log('Erro ao buscar os produtos', err);
+            } finally {
+                setIsLoading(false);
             }
-        }
+        };
 
         fetchProdutos();
     }, []);
@@ -89,28 +97,20 @@ const EstoquePage = () => {
         { text: "Loja", value: "LOJA" }
     ];
 
-    const filterProducts = (produtos, nomePesquisa, activeTabIndex) => {
-        let filtered = produtos;
-
-        if (nomePesquisa) {
-            filtered = filtered.filter(produto =>
-                produto?.produto?.nome.toLowerCase().includes(nomePesquisa.toLowerCase())
-            );
-        }
-
-        if (tabs[activeTabIndex]?.text !== "Todos") {
-            filtered = filtered.filter(produto => produto?.produto.tipo === tabs[activeTabIndex]?.value);
-        }
-
-        return filtered;
-    };
-
-
     const handleSearch = async (nomePesquisa) => {
-        setNome(nomePesquisa);
-        const filteredProducts = filterProducts(produtos, nomePesquisa, activeTabIndex);
+        if (!nomePesquisa) return;
 
-        setProdutos(filteredProducts);
+        try {
+            const response = await request.getProdutosPorNome(nomePesquisa);
+            const produtoPesquisado = await request.getProdutosPorId(response.data.id);
+            const res = Array.isArray(produtoPesquisado.data) ? produtoPesquisado.data : [produtoPesquisado.data];
+
+            setActiveTabIndex(0);
+            setProdutos(res);
+        } catch (error) {
+            console.error('Erro ao buscar os produtos:', error);
+            toast.error('Nome inválido.');
+        }
     };
 
     const openModal = () => {
@@ -121,35 +121,81 @@ const EstoquePage = () => {
         setModalOpen(false);
     };
 
-    const onMinusClick = (id) => {
-        setProdutos(prevProdutos =>
-            prevProdutos.map(produto =>
-                produto.produto.id === id
-                    ? {
-                        ...produto,
-                        quantidade: produto.quantidade > 0
-                            ? produto.quantidade - 1
-                            : 0
-                    }
-                    : produto
-            )
-        );
+    const onMinusClick = async (id) => {
+        if (isUpdating) return;
+
+        setIsUpdating(true);
+
+        const produtoAtual = produtos.find(produto => produto.produto.id === id);
+        if (produtoAtual.quantidade > 0) {
+            const quantidade = produtoAtual.quantidade;
+            const novaQuantidade = produtoAtual.quantidade - 1;
+
+            try {
+                const response = await request.updateEstoque(id, quantidade - novaQuantidade);
+                setProdutos(prevProdutos =>
+                    prevProdutos.map(produto =>
+                        produto.produto.id === id
+                            ? { ...produto, quantidade: response.data.quantidade }
+                            : produto
+                    )
+                );
+
+                toast.success("Quantidade atualizada com sucesso!");
+            } catch (error) {
+                console.error("Erro ao atualizar o estoque:", error);
+                toast.error("Erro ao atualizar a quantidade. Tente novamente.");
+            } finally {
+                setIsUpdating(false);
+            }
+        } else {
+            setIsUpdating(false);
+        }
     };
 
-    const onPlusClick = (id) => {
-        setProdutos(prevProdutos =>
-            prevProdutos.map(produto =>
-                produto.produto.id === id
-                    ? {
-                        ...produto,
-                        quantidade: produto.quantidade + 1
-                    }
-                    : produto
-            )
-        );
+    const onPlusClick = async (id) => {
+        if (isUpdating) return;
+
+        setIsUpdating(true);
+
+        const produtoAtual = produtos.find(produto => produto.produto.id === id);
+
+        const quantidade = produtoAtual.quantidade;
+        const novaQuantidade = produtoAtual.quantidade + 1;
+
+
+        try {
+            const response = await request.updateEstoque(id, quantidade - novaQuantidade);
+
+            setProdutos(prevProdutos =>
+                prevProdutos.map(produto =>
+                    produto.produto.id === id
+                        ? { ...produto, quantidade: response.data.quantidade }
+                        : produto
+                )
+            );
+
+            toast.success("Quantidade atualizada com sucesso!");
+        } catch (error) {
+            console.error("Erro ao atualizar o estoque:", error);
+            toast.error("Erro ao atualizar a quantidade. Tente novamente.");
+        } finally {
+            setIsUpdating(false);
+        }
     };
 
-    const filteredProducts = filterProducts(produtos, nome, activeTabIndex);
+    const handleResetSearch = () => {
+        setProdutos(produtosOriginais);
+        setActiveTabIndex(0);
+        const input = document.getElementById("default-search");
+        input.value = "";
+        setInputOn(false)
+    };
+
+
+    const filteredProducts = activeTabIndex === 0
+        ? produtos
+        : produtos.filter(produto => produto.produto.tipo === tabs[activeTabIndex]?.value);
 
     return (
         <main className="flex flex-col items-center justify-start relative pl-32 h-screen max-md:pl-0 max-md:pb-24">
@@ -162,25 +208,36 @@ const EstoquePage = () => {
                 <div className="w-full h-[80%] shadow-lg rounded-lg flex flex-col p-6">
                     <div className="w-full flex justify-between max-md:flex-col">
                         <TabsFilter tabs={tabs} activeTabIndex={activeTabIndex} onTabClick={setActiveTabIndex} />
-                        <SearchInput handleSearch={(e) => handleSearch(e.target.value)} />
+                        <div className="flex items-center space-x-3">
+                            {inputOn && <X className="text-marromsecundary cursor-pointer" onClick={handleResetSearch} />}
+                            <SearchInput handleSearch={handleSearch} setInputOn={setInputOn}/>
+                        </div>
                     </div>
                     <hr />
                     <div className="flex-1 overflow-y-auto max-h-[500px]">
                         <div className="grid grid-cols-2 gap-4 p-4 max-lg:grid-cols-2 max-md:grid-cols-1">
-                            {Array.isArray(filteredProducts) && filteredProducts.map((produto, index) => (
-                                <EstoqueCard
-                                    key={index}
-                                    produtoData={produto}
-                                    campos={campos}
-                                    onMinusClick={() => onMinusClick(produto?.produto.id)}
-                                    onPlusClick={() => onPlusClick(produto?.produto.id)}
-                                />
-                            ))}
+                            {isLoading ? (
+                                <p>Carregando produtos...</p>
+                            ) : (
+                                filteredProducts.length > 0 ? (
+                                    filteredProducts.map((produto, index) => (
+                                        <EstoqueCard
+                                            key={index}
+                                            produtoData={produto}
+                                            campos={campos}
+                                            onMinusClick={() => onMinusClick(produto?.id)}
+                                            onPlusClick={() => onPlusClick(produto?.id)}
+                                        />
+                                    ))
+                                ) : (
+                                    <p>Nenhum produto encontrado.</p>
+                                )
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-            {isModalOpen && (<ModalAdicionar onClose={closeModal} campos={campos} produtos={produtos} setProdutos={setProdutos} />)}
+            {isModalOpen && (<ModalAdicionar onClose={closeModal} campos={campos} />)}
         </main>
     )
 }

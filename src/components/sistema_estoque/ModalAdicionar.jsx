@@ -20,7 +20,6 @@ const ModalAdicionar = ({ onClose, campos }) => {
     });
 
     const [tempValue, setTempValue] = useState({ ...value });
-    const [reload, setReload] = useState(false); 
 
     const handleTempChange = (campo, valor) => {
         setTempValue((prevState) => ({
@@ -42,7 +41,7 @@ const ModalAdicionar = ({ onClose, campos }) => {
             ...prevState,
             idSalao: idSalao || "1",
         }));
-    }, [reload]);
+    }, []);
 
 
     const handleSave = () => {

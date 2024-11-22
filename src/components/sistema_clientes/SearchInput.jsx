@@ -1,10 +1,16 @@
+import { useState } from "react";
 
-const SearchInput = ({ handleSearch }) => {
+const SearchInput = ({ handleSearch, setInputOn }) => {
+    const [searchValue, setSearchValue] = useState(""); 
+
     const handleSubmit = (e) => {
-        e.preventDefault(); 
-        const nome = e.target.searchInput.value; 
-        console.log("Valor do input no submit: ", nome); 
-        handleSearch(nome); 
+        e.preventDefault();
+        handleSearch(searchValue); 
+        setInputOn(true);
+    };
+
+    const handleChange = (e) => {
+        setSearchValue(e.target.value); 
     };
 
     return (
@@ -22,6 +28,8 @@ const SearchInput = ({ handleSearch }) => {
                     name="searchInput"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-rosesecundary focus:border-rosesecundary" 
                     placeholder="" 
+                    value={searchValue} 
+                    onChange={handleChange}
                     required />
                 <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-roseprimary hover:bg-marromsecundary transition-colors focus:ring-4 focus:outline-none focus:ring-rosesecundary font-medium rounded-lg text-sm px-4 py-2">Pesquisar</button>
             </div>

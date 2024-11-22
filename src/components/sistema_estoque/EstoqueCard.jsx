@@ -1,8 +1,8 @@
-import { CircleMinus, CirclePlus, Edit2Icon, TrashIcon } from "lucide-react";
+import { CircleMinus, CirclePlus, Edit2Icon } from "lucide-react";
 import ModalEditar from "./ModalEditar";
 import { useState } from "react";
 
-const EstoqueCard = ({ produtoData, campos, onPlusClick, onMinusClick }) => {
+const EstoqueCard = ({ produtoData, onPlusClick, onMinusClick }) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = () => {
@@ -33,7 +33,7 @@ const EstoqueCard = ({ produtoData, campos, onPlusClick, onMinusClick }) => {
                     <Edit2Icon color="#fefefe" />
                 </div>
             </div>
-            {isModalOpen && (<ModalEditar idProduct={produtoData?.produto.id} onClose={closeModal} nameProduct={produtoData?.produto.nome} produtoData={[produtoData]} campos={campos} />)}
+            {isModalOpen && (<ModalEditar idProduct={produtoData?.produto.id} onClose={closeModal} nameProduct={produtoData?.produto.nome} />)}
         </div>
     )
 }
