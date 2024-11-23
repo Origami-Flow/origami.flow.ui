@@ -140,6 +140,13 @@ const EstoquePage = () => {
                             : produto
                     )
                 );
+                setProdutosOriginais(prevProdutos =>
+                    prevProdutos.map(produto =>
+                        produto.produto.id === id
+                            ? { ...produto, quantidade: response.data.quantidade }
+                            : produto
+                    )
+                );
 
                 toast.success("Quantidade atualizada com sucesso!");
             } catch (error) {
@@ -168,6 +175,13 @@ const EstoquePage = () => {
             const response = await request.updateEstoque(id, quantidade - novaQuantidade);
 
             setProdutos(prevProdutos =>
+                prevProdutos.map(produto =>
+                    produto.produto.id === id
+                        ? { ...produto, quantidade: response.data.quantidade }
+                        : produto
+                )
+            );
+            setProdutosOriginais(prevProdutos =>
                 prevProdutos.map(produto =>
                     produto.produto.id === id
                         ? { ...produto, quantidade: response.data.quantidade }
