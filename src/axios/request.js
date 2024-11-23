@@ -7,6 +7,10 @@ const request = {
     const result = await api.get(`/livros?title=${queryParams?.title}&order=${queryParams?.order} `);
     return result;
   },
+  getClienteNome: async (nome = "") => {
+    const result = await api.get(`/clientes/nome-cliente?nome=${nome}`);
+    return result;
+  }
 };
 
 export { api, request };
