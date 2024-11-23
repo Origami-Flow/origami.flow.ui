@@ -1,16 +1,7 @@
-import { useEffect, useState } from "react";
-import InputFormulario from "../shared/InputFormulario";
-import { ComboboxAgendamentos } from "./ComboboxAgendamentos";
+import { useEffect } from "react";
+import ComboboxAgendamentos from "./ComboboxAgendamentos";
 
 const ModalAgendamento = ({ onClose, }) => {
-    const [isOptionDisabled, setIsOptionDisabled] = useState(false);
-    const [column, setColumn] = useState("");
-
-    const handleChange = (value, type) => {
-        if (value !== "" && type == "select") {
-            setIsOptionDisabled(true);
-        }
-    };
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === "Escape") {

@@ -1,86 +1,84 @@
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { useEffect, useRef, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
+const ComboboxAgendamentos = () => {
+    const options = [];
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredOptions, setFilteredOptions] = useState(options);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [search, setSearch] = useState("");
+    const comboboxRef = useRef(null);
 
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-]
+    const handleInputChange = (event) => {
+        const value = event.target.value;
+        handleSearch(value);
+        setSearchTerm(value);
 
-export function ComboboxAgendamentos() {
-    const [value, setValue] = React.useState("")
-    const [inputValue, setInputValue] = React.useState("")
-    const [isOpen, setIsOpen] = React.useState(false)
+        const filtered = options.filter((option) =>
+            option.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredOptions(filtered);
 
-    React.useEffect(() => {
-        console.log(value)
-        setInputValue(value)
-    },[value])
+        setIsDropdownOpen(filtered.length > 0);
+    };
+
+    const handleOptionClick = (option) => {
+        setSearchTerm(option);
+        setIsDropdownOpen(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (comboboxRef.current && !comboboxRef.current.contains(event.target)) {
+            setIsDropdownOpen(false);
+        }
+    };
+    useEffect(() => {
+        
+    },[search])
+
+    const handleSearch = useDebouncedCallback((value) => {
+        setSearch(value);
+    }, [500])
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
+        <div ref={comboboxRef} className="relative w-64">
+            <label
+                htmlFor="combobox"
+                className="block mb-2 text-sm font-medium text-gray-700"
+            >
+                Nome do cliente:
+            </label>
+            <input
+                id="combobox"
+                type="text"
+                value={searchTerm}
+                onChange={handleInputChange}
+                onFocus={() => setIsDropdownOpen(filteredOptions.length > 0)}
+                className="w-full px-3 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Digite o nome"
+            />
+            {isDropdownOpen && (
+                <ul className="absolute w-full mt-1 bg-white border border-gray-400 rounded-lg shadow-md max-h-40 overflow-y-auto">
+                    {filteredOptions.map((option) => (
+                        <li
+                            key={option}
+                            onClick={() => handleOptionClick(option)}
+                            className="px-3 py-2 cursor-pointer hover:bg-blue-100"
+                        >
+                            {option}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+};
 
-        <Command>
-            <CommandInput value={inputValue} onInput={(e) => setInputValue(e.target.value)} onClick={() => setIsOpen(true)} placeholder="Buscar cliente..." />
-            <CommandList >
-                <CommandGroup className="absolute bg-white rounded-sm w-64">
-                    {
-                        isOpen &&
-                        frameworks.map((framework) => (
-                            <CommandItem
-                                key={framework.value}
-                                value={framework.value}
-                                onSelect={(currentValue) => {
-                                    setValue(currentValue === value ? "" : currentValue)
-                                    setIsOpen(false)
-                                }}
-                            >
-                                <Check
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        value === framework.value ? "opacity-100" : "opacity-0"
-                                    )}
-                                />
-                                {framework.label}
-                            </CommandItem>
-                        ))
-                    }
-
-                </CommandGroup>
-            </CommandList>
-        </Command>
-
-    )
-}
+export default ComboboxAgendamentos;
