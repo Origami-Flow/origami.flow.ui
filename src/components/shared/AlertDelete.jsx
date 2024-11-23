@@ -1,7 +1,7 @@
 import React from "react";
 import { AlertTriangleIcon } from "lucide-react";
 
-const AlertDelete = ({ title, description, closeModal }) => {
+const AlertDelete = ({ title, description, closeModal, handleDelete }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -20,7 +20,7 @@ const AlertDelete = ({ title, description, closeModal }) => {
                         Cancelar
                     </button>
                     <button
-                        className="bg-marromsecundary text-white px-6 py-2 rounded-md" onClick={closeModal}>
+                        className="bg-marromsecundary text-white px-6 py-2 rounded-md" onClick={handleDelete}>
                         Deletar
                     </button>
                 </div>

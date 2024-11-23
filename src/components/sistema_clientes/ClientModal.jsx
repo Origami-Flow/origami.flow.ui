@@ -5,7 +5,7 @@ const ClientModal = ({ onClose, clientData }) => {
                 <h2 className="text-xl font-bold mb-4 text-black">Informações adicionais</h2>
                 <div className="flex items-center mb-4">
                     <img
-                        src={clientData.foto}
+                        src={clientData.foto || ""}
                         alt="Foto do Cliente"
                         className="w-24 h-24 rounded-full mr-4"
                     />
