@@ -39,6 +39,9 @@ const request = {
   updateEstoque: async (id, quantidade) => {
     return await api.put(`/estoques/${id}?quantidade=${quantidade}`)
   },
+  getServicos: async () => {
+    return await api.get("/servicos")
+  }
 };
 
 export { api, request };
