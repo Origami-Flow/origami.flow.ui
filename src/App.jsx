@@ -12,6 +12,8 @@ import CadastroPage from "./routes/Cadastro/page";
 import EstoquePage from "./routes/Sistema-Estoque/page";
 import FinancasPage from "./routes/Sistema-Financas/page";
 import MetricasPage from "./routes/Sistema-Metricas/page";
+import Agendamentos from "./routes/Agendamentos/page";
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
         <Route path="/sistema-financas" element={<FinancasPage/>}/>
         <Route path="/sistema-metricas" element={<MetricasPage/>}/>
         <Route path="/cadastro" element={<CadastroPage/>}/>
+        <Route path="/agendamentos" element={<Agendamentos/>}/>
         <Route path="/*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>  

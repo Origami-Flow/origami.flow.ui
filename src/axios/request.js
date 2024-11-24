@@ -39,6 +39,22 @@ const request = {
   updateEstoque: async (id, quantidade) => {
     return await api.put(`/estoques/${id}?quantidade=${quantidade}`)
   },
+  getClienteNome: async (nome = "") => {
+    const result = await api.get(`/clientes/nome-cliente?nome=${nome}`);
+    return result;
+  },
+  getAuxiliaNome: async (nome = "") => {
+    const result = await api.get(`/auxiliares/nome?nome=${nome}`);
+    return result;
+  },
+  getServicos: async () => {
+    const result = await api.get("/servicos");
+    return result;
+  },
+  postEvento: async (payload) => {
+    const result = await api.post("/eventos", payload);
+    return result;
+  },
 };
 
 export { api, request };
