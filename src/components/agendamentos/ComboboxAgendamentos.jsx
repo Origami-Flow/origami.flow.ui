@@ -76,7 +76,7 @@ const ComboboxAgendamento = ({ label, fetchOptions, setBuscaId }) => {
         </div>
       )}
       {!isLoading && isDropdownOpen && (
-        <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-md max-h-40 overflow-y-auto">
+        <ul className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-md max-h-40 overflow-y-auto">
           {filteredOptions.map((option) => (
             <li
               key={option.id}

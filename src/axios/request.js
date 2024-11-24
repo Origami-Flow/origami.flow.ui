@@ -15,6 +15,14 @@ const request = {
     const result = await api.get(`/auxiliares/nome?nome=${nome}`);
     return result;
   },
+  getServicos: async () => {
+    const result = await api.get("/servicos");
+    return result;
+  },
+  postEvento: async (payload) => {
+    const result = await api.post("/eventos", payload);
+    return result;
+  },
 };
 
 export { api, request };
