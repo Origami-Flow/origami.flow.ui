@@ -11,12 +11,23 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import ServiceDialog from "@/components/servicos/ServiceDialog";
 import { request } from "@/axios/request";
 import fotos from "./fotos";
+import usePagination from "@/hooks/usePagination";
+import PaginacaoServico from "@/components/servicos/PaginacaoServico";
 
 const ServicosPage = () => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedType, setSelectedType] = useState('todos');
     const [file, setFile] = useState(null);
+    const {
+        actualPage,
+        getItemsPage,
+        handleBackPage,
+        handleNextPage,
+        totalPages,
+        setActualPage
+    } = usePagination(services, 8);
+
 
     useEffect(() => {
         const fetchServicos = async () => {
@@ -39,8 +50,8 @@ const ServicosPage = () => {
     }, []);
 
     const filteredServices = selectedType === 'todos'
-        ? services
-        : services?.filter(service =>
+        ? getItemsPage()
+        : getItemsPage().filter(service =>
             service?.nome?.toLowerCase().includes(selectedType.toLowerCase())
         );
 
@@ -55,6 +66,10 @@ const ServicosPage = () => {
         const inputFile = document.getElementById("large_size");
         setFile(null);
         inputFile.value = "";
+    };
+
+    const handlePageChange = (value) => {
+        setActualPage(value);
     };
 
     return (
@@ -119,6 +134,12 @@ const ServicosPage = () => {
                     </div>
                 )}
             </div>
+            <PaginacaoServico
+                totalPages={totalPages}
+                currentPage={actualPage}
+                handleBackPage={handleBackPage}
+                handleNextPage={handleNextPage}
+                onPageChange={handlePageChange} />
             <Footer />
         </main>
     )

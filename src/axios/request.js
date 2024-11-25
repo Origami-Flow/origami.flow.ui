@@ -15,6 +15,9 @@ const request = {
   getClientes: async () => {
     return await api.get("/clientes");
   },
+  updateCliente: async (id, data) => {
+    return await api.put(`/clientes/${id}`, data)
+  },
   getProdutos: async () => {
     return await api.get("/estoques");
   },

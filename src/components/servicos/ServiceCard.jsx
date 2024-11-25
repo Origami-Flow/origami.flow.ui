@@ -2,11 +2,10 @@ import { useRef } from "react";
 import ServiceDialog from "./ServiceDialog";
 
 const ServiceCard = ({ foto, titulo, valorSinal, valorMinimo, valorMaximo, showTooltip }) => {
-    const infoRef = useRef(null);
     const cardRef = useRef(null);
 
     return (
-        <div ref={cardRef} className="h-[88%] w-[90%] max-md:w-full max-md:h-full max-lg:h-full max-lg:w-full p-4 flex flex-col rounded-xl border-black/10 border-2 justify-between shadow-md hover:shadow-xl transition-shadow relative">
+        <div ref={cardRef} className="h-[88%] w-[90%] min-h-[400px] max-md:w-full max-md:h-full max-lg:h-full max-lg:w-full p-4 flex flex-col rounded-xl border-black/10 border-2 justify-between shadow-md hover:shadow-xl transition-shadow relative">
             <img src={foto} alt={"Foto do serviço " + titulo || "N/A"} className="w-full h-[60%] object-cover rounded-xl" />
             <span className="text-2xl max-md:text-xl font-bold">{titulo || "N/A"}</span>
             <div className="flex justify-between w-full" >
@@ -27,9 +26,6 @@ const ServiceCard = ({ foto, titulo, valorSinal, valorMinimo, valorMaximo, showT
             </div>
             <span className="flex justify-between">Valor do sinal: R${valorSinal || "N/A"}</span>
             <ServiceDialog tipoTranca={titulo} valorSinal={valorSinal} imgModelo={foto} />
-            <div ref={infoRef} className="hidden p-4 border-marromsecundary border-opacity-5 border-2 w-[90%] h-fit absolute bg-branconeutro rounded-lg self-center bottom-4 max-lg:text-[14px] max-md:text-[12px]">
-                <p>O preço dessa trança varia entre R${valorMinimo || "00,00"} e R${valorMaximo || "00,00"}.</p>
-            </div>
         </div>
     )
 }
