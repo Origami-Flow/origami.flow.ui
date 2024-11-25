@@ -20,7 +20,7 @@ const monthNames = [
 ];
 
 export const CalendarMonth = ({
-  events = [],
+  events,
   setDataInicio,
   setDataFim,
   isLoading,
@@ -36,11 +36,11 @@ export const CalendarMonth = ({
   }));
 
   useEffect(() => {
-    const startDate = new Date(year, 0, 1); // 01/01/year
-    const endDate = new Date(year, 11, 31); // 31/12/year
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year, 11, 31);
     setDataInicio(startDate);
     setDataFim(endDate);
-  }, [year, setDataInicio, setDataFim]);
+  }, [setDataFim, setDataInicio, year]);
 
   const scrollToDay = (monthIndex, dayIndex) => {
     const targetDayIndex = dayRefs.current.findIndex(
@@ -181,7 +181,7 @@ export const CalendarMonth = ({
               </span>
               <div className="mt-9 flex flex-wrap flex-row gap-1">
                 {events
-                  .filter(
+                  ?.filter(
                     (event) =>
                       new Date(event.dataHoraInicio).toDateString() ==
                       new Date(year, month, day).toDateString()
@@ -192,8 +192,8 @@ export const CalendarMonth = ({
                       className={clsx(
                         "truncate rounded-md px-1 text-sm text-gray-800",
                         event.tipoEvento === "ATENDIMENTO"
-                          ? "bg-purple-400"
-                          : "bg-roseprimary"
+                          ? "bg-purple-400 "
+                          : "bg-roseprimary text-white"
                       )}
                     >
                       {event.servico?.nome || "Evento"}
@@ -212,7 +212,7 @@ export const CalendarMonth = ({
     ));
 
     return calendar;
-  }, [year]);
+  }, [events, handleDayClick, year]);
 
   useEffect(() => {
     const calendarContainer = document.querySelector(".calendar-container");
@@ -245,11 +245,11 @@ export const CalendarMonth = ({
   }, []);
 
   return (
-    <div className="no-scrollbar calendar-container max-h-full overflow-y-scroll rounded-t-2xl bg-white pb-10 text-slate-800 shadow-xl">
+    <>
       {isLoading ? (
         <Loading />
       ) : (
-        <>
+        <div className="no-scrollbar calendar-container max-h-full overflow-y-scroll rounded-t-2xl bg-white pb-10 text-slate-800 shadow-xl">
           <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7">
             <div className="mb-4 flex w-full flex-wrap items-center justify-between gap-6">
               <div className="flex flex-wrap gap-2">
@@ -292,9 +292,9 @@ export const CalendarMonth = ({
             </div>
           </div>
           <div className="pt-2 px-1">{generateCalendar}</div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

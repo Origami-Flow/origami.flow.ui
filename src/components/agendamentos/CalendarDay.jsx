@@ -11,7 +11,7 @@ const CalendarDay = ({ events, setDataInicio, setDataFim, isLoading }) => {
   useEffect(() => {
     setDataInicio(date);
     setDataFim(date);
-  }, [date]);
+  }, []);
 
   const convertHoursInNumber = (horas) => parseInt(horas.replace("h", ""));
 
@@ -71,9 +71,12 @@ const CalendarDay = ({ events, setDataInicio, setDataFim, isLoading }) => {
                   key={`${hour}`}
                   className="border-t border-r h-12 relative"
                 >
-                  {events.map((event, eventIndex) => {
+                  {events?.map((event, eventIndex) => {
                     const startDate = new Date(event?.dataHoraInicio);
-                    if (startDate.getHours() === convertHoursInNumber(hour)) {
+                    if (
+                      startDate.toDateString() === date.toDateString() &&
+                      startDate.getHours() === convertHoursInNumber(hour)
+                    ) {
                       const { top, height } = calculateEventPositionAndHeight(
                         event,
                         48
@@ -99,7 +102,8 @@ const CalendarDay = ({ events, setDataInicio, setDataFim, isLoading }) => {
                               ? event?.cliente?.nome +
                                 " - " +
                                 formatPhoneNumber(event?.cliente?.telefone)
-                              : event?.tipoEvento === "PESSOAL" && "Evento Pessoal"}
+                              : event?.tipoEvento === "PESSOAL" &&
+                                "Evento Pessoal"}
                           </p>
                         </div>
                       );

@@ -7,10 +7,10 @@ import Legend from "@/components/agendamentos/Legend";
 import ModalAgendamento from "@/components/agendamentos/ModalAgendamento";
 import HeaderSistema from "@/components/shared/header_sistema/HeaderSistema";
 import { Plus } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const Agendamentos = () => {
-  const [medidaTemporal, setMedidaTemporal] = useState(1);
+  const [medidaTemporal, setMedidaTemporal] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,7 @@ const Agendamentos = () => {
 
     return `${year}-${month}-${day}`;
   };
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     request
       .getEventosData(
         translateToLocalDate(dataInicio),
@@ -41,12 +41,12 @@ const Agendamentos = () => {
           containerRef.current.scrollTop = 336;
         }
       });
-  };
+  }, [dataInicio, dataFim]);
 
   useEffect(() => {
     setIsLoading(true);
     fetchEvents();
-  }, [dataInicio, dataFim, medidaTemporal]);
+  }, [dataInicio, dataFim, medidaTemporal, fetchEvents]);
 
   const openModal = () => {
     setIsOpen(true);
