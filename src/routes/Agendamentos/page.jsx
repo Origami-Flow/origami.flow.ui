@@ -1,3 +1,4 @@
+import { request } from "@/axios/request";
 import CalendarControls from "@/components/agendamentos/CalendarControls";
 import CalendarDay from "@/components/agendamentos/CalendarDay";
 import CalendarGrid from "@/components/agendamentos/CalendarGrid";
@@ -11,27 +12,41 @@ import { useEffect, useRef, useState } from "react";
 const Agendamentos = () => {
   const [medidaTemporal, setMedidaTemporal] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [dataInicio, setDataInicio] = useState(new Date());
+  const [dataFim, setDataFim] = useState(new Date());
   const tabs = [{ text: "Dia" }, { text: "Semana" }, { text: "Mês" }];
   const containerRef = useRef(null);
 
-  const events = [
-    {
-      title: "Reunião",
-      start: new Date("2024-11-18T08:00:00"),
-      end: new Date("2024-11-18T12:00:00"),
-    },
-    {
-      title: "Almoço",
-      start: new Date("2024-11-18T17:30:00"),
-      end: new Date("2024-11-18T18:30:00"),
-    },
-  ];
+  const translateToLocalDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+  const fetchEvents = async () => {
+    request
+      .getEventosData(
+        translateToLocalDate(dataInicio),
+        translateToLocalDate(dataFim)
+      )
+      .then((response) => {
+        setEvents(response.data);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        if (containerRef.current) {
+          containerRef.current.scrollTop = 336;
+        }
+      });
+  };
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = 336;
-    }
-  }, [medidaTemporal]);
+    setIsLoading(true);
+    fetchEvents();
+  }, [dataInicio, dataFim, medidaTemporal]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -59,7 +74,12 @@ const Agendamentos = () => {
             className="w-[100%] px-4 mt-8 max-h-[73%] overflow-auto"
             ref={containerRef}
           >
-            <CalendarDay events={events} />
+            <CalendarDay
+              events={events}
+              setDataInicio={setDataInicio}
+              setDataFim={setDataFim}
+              isLoading={isLoading}
+            />
           </div>
         )}
 
@@ -68,16 +88,31 @@ const Agendamentos = () => {
             className="w-[100%] px-4 mt-8 max-h-[73%] overflow-auto"
             ref={containerRef}
           >
-            <CalendarGrid events={events} />
+            <CalendarGrid
+              events={events}
+              setDataInicio={setDataInicio}
+              setDataFim={setDataFim}
+              isLoading={isLoading}
+            />
           </div>
         )}
         {medidaTemporal === "Mês" && (
           <div className="w-[100%] px-4 h-[84%]">
-            <CalendarMonth />
+            <CalendarMonth
+              events={events}
+              setDataInicio={setDataInicio}
+              setDataFim={setDataFim}
+              isLoading={isLoading}
+            />
           </div>
         )}
       </main>
-      {isOpen && <ModalAgendamento onClose={() => setIsOpen(false)} />}
+      {isOpen && (
+        <ModalAgendamento
+          onClose={() => setIsOpen(false)}
+          fetchEvents={fetchEvents}
+        />
+      )}
     </>
   );
 };

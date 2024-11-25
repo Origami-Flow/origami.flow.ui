@@ -3,12 +3,13 @@ import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DatePicker } from "../ui/datePicker";
 import ComboboxAgendamento from "./ComboboxAgendamentos";
+import { toast } from "react-toastify";
 
-const ModalAgendamento = ({ onClose }) => {
+const ModalAgendamento = ({ onClose, fetchEvents }) => {
   const [clienteId, setClienteId] = useState(null);
   const [auxiliarId, setAuxiliarId] = useState(null);
   const [data, setData] = useState(new Date());
-  const [tipoEvento, setTipoEvento] = useState("pessoal");
+  const [tipoEvento, setTipoEvento] = useState("PESSOAL");
   const [servico, setServico] = useState({});
   const [servicos, setServicos] = useState([]);
   const [startTime, setStartTime] = useState();
@@ -79,10 +80,13 @@ const ModalAgendamento = ({ onClose }) => {
         trancistaId: 1,
       };
     }
-    console.log(payload)
     request.postEvento(payload).then(() => {
-      
+      toast.success("Agendamento criado com sucesso!");
+      fetchEvents();
       onClose();
+    }).catch((e) => {
+      if(e.response.status === 409) toast.error("Horário conflitante");
+      else toast.error("Erro ao criar agendamento!");
     })
   };
 

@@ -55,6 +55,10 @@ const request = {
     const result = await api.post("/eventos", payload);
     return result;
   },
+  getEventosData: async (inicio, fim) => {
+    const result = await api.get(`/eventos/buscar-intervalo-tempo?inicioIntervalo=${inicio}&fimIntervalo=${fim}`);
+    return result;
+  },
 };
 
 export { api, request };
