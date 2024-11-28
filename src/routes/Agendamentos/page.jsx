@@ -3,6 +3,7 @@ import CalendarControls from "@/components/agendamentos/CalendarControls";
 import CalendarDay from "@/components/agendamentos/CalendarDay";
 import CalendarGrid from "@/components/agendamentos/CalendarGrid";
 import { CalendarMonth } from "@/components/agendamentos/CalendarMonth";
+import EventModal from "@/components/agendamentos/EventModal";
 import Legend from "@/components/agendamentos/Legend";
 import ModalAgendamento from "@/components/agendamentos/ModalAgendamento";
 import HeaderSistema from "@/components/shared/header_sistema/HeaderSistema";
@@ -16,6 +17,7 @@ const Agendamentos = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataInicio, setDataInicio] = useState(new Date());
   const [dataFim, setDataFim] = useState(new Date());
+  const [editModal, setEditModal] = useState({open: false, event: null});
   const tabs = [{ text: "Dia" }, { text: "Semana" }, { text: "Mês" }];
   const containerRef = useRef(null);
 
@@ -33,7 +35,7 @@ const Agendamentos = () => {
         translateToLocalDate(dataFim)
       )
       .then((response) => {
-        setEvents(response.data);
+        setEvents(response.data || []);
       })
       .finally(() => {
         setIsLoading(false);
@@ -76,6 +78,7 @@ const Agendamentos = () => {
           >
             <CalendarDay
               events={events}
+              setEditModal={setEditModal}
               setDataInicio={setDataInicio}
               setDataFim={setDataFim}
               isLoading={isLoading}
@@ -90,6 +93,7 @@ const Agendamentos = () => {
           >
             <CalendarGrid
               events={events}
+              setEditModal={setEditModal}
               setDataInicio={setDataInicio}
               setDataFim={setDataFim}
               isLoading={isLoading}
@@ -100,6 +104,7 @@ const Agendamentos = () => {
           <div className="w-[100%] px-4 h-[84%]">
             <CalendarMonth
               events={events}
+              setEditModal={setEditModal}
               setDataInicio={setDataInicio}
               setDataFim={setDataFim}
               isLoading={isLoading}
@@ -112,6 +117,9 @@ const Agendamentos = () => {
           onClose={() => setIsOpen(false)}
           fetchEvents={fetchEvents}
         />
+      )}
+      {editModal?.open && (
+        <EventModal onClose={() => setEditModal({ open: false})} editModal={editModal} />
       )}
     </>
   );

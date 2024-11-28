@@ -4,7 +4,7 @@ import { horas } from "@/utils/datas";
 import React, { useEffect } from "react";
 import clsx from "clsx";
 
-const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading }) => {
+const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditModal }) => {
   const startDate = startOfWeek(new Date(), { weekStartsOn: 0 });
   useEffect(() => {
     setDataInicio(startDate);
@@ -81,7 +81,7 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading }) => {
                 key={`${hour}-${dayIndex}`}
                 className="border-t border-r h-12 relative"
               >
-                {events.map((event, eventIndex) => {
+                {events?.map((event, eventIndex) => {
                   const startDate = new Date(event?.dataHoraInicio);
                   if (
                     startDate.getDate() === parseInt(day) &&
@@ -95,11 +95,12 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading }) => {
                       <div
                         key={eventIndex}
                         className={clsx(
-                          "border-l-8  border rounded-sm text-center bg-[#e6e6e6a6] absolute w-full z-10 overflow-hidden",
+                          "border-l-8  border rounded-sm text-center bg-[#e6e6e6a6] absolute w-full z-10 overflow-hidden cursor-pointer",
                           event.tipoEvento === "ATENDIMENTO"
                             ? "border-l-purple-400"
                             : "border-l-roseprimary"
                         )}
+                        onClick={() => setEditModal({event, open: true})}
                         style={{ top: `${top}px`, height: `${height}px` }}
                       >
                         <h1 className="truncate">{event?.servico?.nome}</h1>

@@ -25,8 +25,9 @@ export const CalendarMonth = ({
   setDataFim,
   isLoading,
   onClick,
+  setEditModal,
 }) => {
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
   const dayRefs = useRef([]);
   const [year, setYear] = useState(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(0);
@@ -86,7 +87,7 @@ export const CalendarMonth = ({
   };
   useEffect(() => {
     scrollToDay(today.getMonth(), today.getDate());
-  }, []);
+  }, [today]);
 
   const handlePrevYear = () => setYear((prevYear) => prevYear - 1);
   const handleNextYear = () => setYear((prevYear) => prevYear + 1);
@@ -179,18 +180,19 @@ export const CalendarMonth = ({
               >
                 {day}
               </span>
-              <div className="mt-9 flex flex-wrap flex-row gap-1">
+              <div className="mt-9 flex flex-wrap max-h-full flex-row gap-1 overflow-y-auto">
                 {events
                   ?.filter(
                     (event) =>
-                      new Date(event.dataHoraInicio).toDateString() ==
-                      new Date(year, month, day).toDateString()
+                      new Date(event.dataHoraInicio)?.toDateString() ==
+                      new Date(year, month, day)?.toDateString()
                   )
-                  .map((event, eventIndex) => (
+                  ?.map((event, eventIndex) => (
                     <div
                       key={eventIndex}
+                      onClick={() => setEditModal({open: true, event})}
                       className={clsx(
-                        "truncate rounded-md px-1 text-sm text-gray-800",
+                        "truncate rounded-md px-1 text-sm text-gray-800 cursor-pointer",
                         event.tipoEvento === "ATENDIMENTO"
                           ? "bg-purple-400 "
                           : "bg-roseprimary text-white"

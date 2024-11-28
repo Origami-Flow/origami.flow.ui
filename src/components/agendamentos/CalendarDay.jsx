@@ -4,14 +4,16 @@ import { DatePicker } from "../ui/datePicker";
 import Loading from "../shared/Loading";
 import clsx from "clsx";
 
-const CalendarDay = ({ events, setDataInicio, setDataFim, isLoading }) => {
+const CalendarDay = ({ events = [], setDataInicio, setDataFim, isLoading, setEditModal }) => {
   const today = new Date();
   const [date, setDate] = React.useState(new Date(today));
 
   useEffect(() => {
-    setDataInicio(date);
-    setDataFim(date);
-  }, []);
+    if (date) {
+      setDataInicio(date);
+      setDataFim(date);
+    }
+  }, [date, setDataFim, setDataInicio]);
 
   const convertHoursInNumber = (horas) => parseInt(horas.replace("h", ""));
 
@@ -74,7 +76,7 @@ const CalendarDay = ({ events, setDataInicio, setDataFim, isLoading }) => {
                   {events?.map((event, eventIndex) => {
                     const startDate = new Date(event?.dataHoraInicio);
                     if (
-                      startDate.toDateString() === date.toDateString() &&
+                      startDate?.toDateString() === date?.toDateString() &&
                       startDate.getHours() === convertHoursInNumber(hour)
                     ) {
                       const { top, height } = calculateEventPositionAndHeight(
@@ -85,12 +87,13 @@ const CalendarDay = ({ events, setDataInicio, setDataFim, isLoading }) => {
                         <div
                           key={eventIndex}
                           className={clsx(
-                            "border-l-8  border rounded-sm bg-[#e6e6e6a6] text-left pl-5 absolute w-full z-10 overflow-hidden",
+                            "border-l-8  border rounded-sm bg-[#e6e6e6a6] text-left pl-5 absolute w-full z-10 overflow-hidden cursor-pointer",
                             event.tipoEvento === "ATENDIMENTO"
                               ? "border-l-purple-400"
                               : "border-l-roseprimary"
                           )}
-                          style={{ top: `${top}px`, height: `${height}px` }}
+                          onClick={() => setEditModal({event, open: true})}
+                          style={{ top: `${top}px`, height: `${height}px`, minHeight: "2px" }}
                         >
                           <h1 className="truncate">{event?.servico?.nome}</h1>
                           <h1 className="truncate">
