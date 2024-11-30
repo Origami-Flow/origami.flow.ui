@@ -33,9 +33,7 @@ const CompletarModal = ({ onClose, modalOpen, fetchEvents }) => {
     ]);
   };
 
-  useEffect(() => {
-    console.log(produtos);
-  }, [produtos]);
+
   const handleProdutoChange = (index, field, value) => {
     const newProdutos = [...produtos];
     newProdutos[index][field] = value;
