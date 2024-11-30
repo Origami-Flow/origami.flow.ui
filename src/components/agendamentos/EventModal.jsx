@@ -1,16 +1,14 @@
+import { formatPhoneNumber } from "@/utils/formatar";
 import { Check, Edit, Mail, Phone, Trash, UserCircle2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import WhatsApp from "../../assets/WhatsApp.svg.png";
 import Tooltip from "../shared/Tooltip";
-import { formatPhoneNumber } from "@/utils/formatar";
-import { Link } from "react-router-dom";
 
-const EventModal = ({ onClose, editModal }) => {
+const EventModal = ({ onClose, editModal, setModalOpen }) => {
   const [alertaVisivel, setAlertaVisivel] = useState(false);
 
   const modalRef = useRef(null);
-  console.log(editModal);
   const event = editModal?.event;
-  console.log(event);
 
   const handleClickOutside = useCallback(
     (event) => {
@@ -70,6 +68,12 @@ Gostaria de confirmar? ✨`;
     }, 1500);
   };
 
+  const triggerModal = (modal) => {
+    setModalOpen({modal, event});
+    onClose()
+  };
+
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div ref={modalRef} className="bg-white rounded-lg shadow-lg w-80 p-4">
@@ -80,19 +84,19 @@ Gostaria de confirmar? ✨`;
           <div className="flex w-28 justify-evenly">
             <Tooltip text="Concluir">
               <Check
-                onClick={() => console.log(event.id)}
+                onClick={() => triggerModal("COMPLETAR")}
                 className="cursor-pointer size-5 text-gray-600 stroke-[3] hover:text-green-600"
               />
             </Tooltip>
             <Tooltip text="Editar">
               <Edit
-                onClick={() => console.log(event.id)}
+                onClick={() => {triggerModal("EDITAR")}}
                 className="cursor-pointer size-5 text-gray-600 hover:text-blue-500"
               />
             </Tooltip>
             <Tooltip text="Excluir">
               <Trash
-                onClick={() => console.log(event.id)}
+                onClick={() => triggerModal("EXCLUIR")}
                 className="cursor-pointer size-5 text-gray-600 hover:text-red-500"
               />
             </Tooltip>
@@ -116,21 +120,33 @@ Gostaria de confirmar? ✨`;
         </button>
         <div className="mt-4 text-xs text-gray-700 flex flex-col gap-1">
           {event?.cliente && (
-            <>
-              <div className="flex gap-1 w-full items-center">
-                <UserCircle2 className="size-3" />
-                <p>{event.cliente?.nome}</p>
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="flex gap-1 w-full items-center">
+                  <UserCircle2 className="size-3" />
+                  <p>{event.cliente?.nome}</p>
+                </div>
+                <div className="flex gap-1 w-full items-center">
+                  <Mail className="size-3" />
+                  <p>{event.cliente?.email}</p>
+                </div>
+                <div className="flex gap-1 w-full items-center">
+                  <Phone className="size-3" />
+                  <p>{formatPhoneNumber(event.cliente?.telefone)}</p>
+                </div>
               </div>
-              <div className="flex gap-1 w-full items-center">
-                <Mail className="size-3" />
-                <p>{event.cliente?.email}</p>
-              </div>
-              <div className="flex gap-1 w-full items-center">
-                <Phone className="size-3" />
-                <p>{formatPhoneNumber(event.cliente?.telefone)}</p>
-              </div>
-              <Link to={`https://wa.me/${event.cliente?.telefone}`}>Whatsapp</Link>
-            </>
+              <img
+                className="h-10 cursor-pointer"
+                onClick={() =>
+                  window.open(
+                    `https://wa.me/${event?.cliente?.telefone}`,
+                    "_blank"
+                  )
+                }
+                src={WhatsApp}
+                alt=""
+              />
+            </div>
           )}
         </div>
       </div>

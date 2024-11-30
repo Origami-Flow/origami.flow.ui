@@ -1,34 +1,36 @@
 import { request } from "@/axios/request";
-import { Clock } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { DatePicker } from "../ui/datePicker";
-import ComboboxAgendamento from "./ComboboxAgendamentos";
-import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Clock } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { DatePicker } from "../ui/datePicker";
+import ComboboxAgendamento from "./ComboboxAgendamentos";
 
-const ModalAgendamento = ({ onClose, fetchEvents }) => {
-  const [clienteId, setClienteId] = useState(null);
-  const [auxiliarId, setAuxiliarId] = useState(null);
-  const [data, setData] = useState(new Date());
-  const [tipoEvento, setTipoEvento] = useState("PESSOAL");
-  const [servico, setServico] = useState({});
+const EditModal = ({ onClose, modalOpen, fetchEvents }) => {
+  const event = modalOpen?.event;
+  const [clienteId, setClienteId] = useState(event?.cliente?.id || null);
+  const [auxiliarId, setAuxiliarId] = useState(event?.auxiliar?.id || null);
+  const [data, setData] = useState(
+    new Date(event?.dataHoraInicio || new Date())
+  );
+  const [tipoEvento, setTipoEvento] = useState(event?.tipoEvento || "PESSOAL");
+  const [servico, setServico] = useState(event?.servico || {});
   const [servicos, setServicos] = useState([]);
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
   const [inputStartTime, setInputStartTime] = useState(
-    new Date().toLocaleTimeString([], {
+    new Date(event?.dataHoraInicio || new Date()).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     })
   );
   const [inputEndTime, setInputEndTime] = useState(
-    new Date().toLocaleTimeString([], {
+    new Date(event?.dataHoraTermino || new Date()).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     })
   );
-
 
   const handleKeyDown = useCallback(
     (event) => {
@@ -45,7 +47,7 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [ handleKeyDown]);
+  }, [handleKeyDown]);
 
   useEffect(() => {
     const fetchServicos = async () => {
@@ -61,12 +63,11 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
   }, []);
 
   const formatDateTime = (date, time) => {
-    const formattedDate = format(date, 'yyyy-MM-dd', { locale: ptBR });
-    const formattedTime = time.length === 5 ? `${time}:00` : time; 
+    const formattedDate = format(date, "yyyy-MM-dd", { locale: ptBR });
+    const formattedTime = time.length === 5 ? `${time}:00` : time;
     return `${formattedDate}T${formattedTime}`;
   };
 
-  
   useEffect(() => {
     setStartTime(formatDateTime(data, inputStartTime));
     setEndTime(formatDateTime(data, inputEndTime));
@@ -79,33 +80,37 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
         tipoEvento,
         dataHoraInicio: startTime,
         dataHoraTermino: endTime,
+        idTrancista: 1,
       };
     } else {
       payload = {
         auxiliarId,
         clienteId,
         tipoEvento,
-        servicoId: servico,
+        idServico: servico.id,
         dataHoraInicio: startTime,
         dataHoraTermino: endTime,
-        trancistaId: 1,
+        idTrancista: 1,
       };
     }
-    request.postEvento(payload).then(() => {
-      toast.success("Agendamento criado com sucesso!");
-      fetchEvents();
-      onClose();
-    }).catch((e) => {
-      if(e.response.status === 409) toast.error("Horário conflitante");
-      else toast.error("Erro ao criar agendamento!");
-    })
+    request
+      .putEvento(event.id, payload)
+      .then(() => {
+        toast.success("Agendamento atualizado com sucesso!");
+        fetchEvents();
+        onClose();
+      })
+      .catch((e) => {
+        if (e.response.status === 409) toast.error("Horário conflitante");
+        else toast.error("Erro ao atualizar agendamento!");
+      });
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
         <h2 className="text-xl font-bold mb-7 text-black">
-          Adicionar Agendamento
+          Editar Agendamento
         </h2>
 
         <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
@@ -138,6 +143,7 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
                 <select
                   id="servico"
                   className="border border-gray-300 text-gray-900 text-sm rounded-lg w-[93%] focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                  value={servico?.id}
                   onChange={(e) => setServico(e.target.value)}
                 >
                   <option value="">Selecione um serviço</option>
@@ -157,11 +163,13 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
                 label="Nome do Cliente:"
                 fetchOptions={request.getClienteNome}
                 setBuscaId={setClienteId}
+                initialValue={event?.cliente?.nome || ""}
               />
               <ComboboxAgendamento
                 label="Nome da Auxiliar:"
                 fetchOptions={request.getAuxiliaNome}
                 setBuscaId={setAuxiliarId}
+                initialValue={event?.auxiliar?.nome || ""}
               />
             </>
           )}
@@ -233,7 +241,7 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
             className="bg-marromsecundary text-white px-6 py-2 rounded-md"
             onClick={handleSave}
           >
-            Criar Agendamento
+            Atualizar Agendamento
           </button>
         </div>
       </div>
@@ -241,4 +249,4 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
   );
 };
 
-export default ModalAgendamento;
+export default EditModal;

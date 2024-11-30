@@ -3,6 +3,7 @@ import CalendarControls from "@/components/agendamentos/CalendarControls";
 import CalendarDay from "@/components/agendamentos/CalendarDay";
 import CalendarGrid from "@/components/agendamentos/CalendarGrid";
 import { CalendarMonth } from "@/components/agendamentos/CalendarMonth";
+import EditModal from "@/components/agendamentos/EditModal";
 import EventModal from "@/components/agendamentos/EventModal";
 import Legend from "@/components/agendamentos/Legend";
 import ModalAgendamento from "@/components/agendamentos/ModalAgendamento";
@@ -17,7 +18,9 @@ const Agendamentos = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataInicio, setDataInicio] = useState(new Date());
   const [dataFim, setDataFim] = useState(new Date());
-  const [editModal, setEditModal] = useState({open: false, event: null});
+  const [editModal, setEditModal] = useState({ open: false, event: null });
+  const [modalOpen, setModalOpen] = useState({ modal: "", event: null });
+
   const tabs = [{ text: "Dia" }, { text: "Semana" }, { text: "Mês" }];
   const containerRef = useRef(null);
 
@@ -119,7 +122,18 @@ const Agendamentos = () => {
         />
       )}
       {editModal?.open && (
-        <EventModal onClose={() => setEditModal({ open: false})} editModal={editModal} />
+        <EventModal
+          setModalOpen={setModalOpen}
+          onClose={() => setEditModal({ open: false })}
+          editModal={editModal}
+        />
+      )}
+      {modalOpen.modal == "EDITAR" && (
+        <EditModal
+          modalOpen={modalOpen}
+          onClose={() => setModalOpen({ modal: "", event: null })}
+          fetchEvents={fetchEvents}
+        />
       )}
     </>
   );

@@ -54,7 +54,7 @@ const CalendarDay = ({
         <Loading />
       ) : (
         <>
-          <div className="grid grid-cols-[0.20fr,3fr] pb-1 bg-white text-center sticky top-0 z-20 ">
+          <div className="grid grid-cols-[0.20fr,3fr] pb-1 bg-white text-center sticky top-0 z-10 ">
             <span></span>
             <div className="flex">
               <DatePicker date={date} setDate={setDate} />

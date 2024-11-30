@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-const ComboboxAgendamento = ({ label, fetchOptions, setBuscaId }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const ComboboxAgendamento = ({
+  label,
+  fetchOptions,
+  setBuscaId,
+  initialValue,
+}) => {
+  const [searchTerm, setSearchTerm] = useState(initialValue || "");
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,9 +61,19 @@ const ComboboxAgendamento = ({ label, fetchOptions, setBuscaId }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (initialValue) {
+      setSearchTerm(initialValue);
+      setIsDropdownOpen(false);
+    }
+  }, [initialValue]);
+
   return (
     <div ref={comboboxRef} className="relative w-64">
-      <label htmlFor="combobox" className="block mb-2 text-sm font-medium text-gray-700">
+      <label
+        htmlFor="combobox"
+        className="block mb-2 text-sm font-medium text-gray-700"
+      >
         {label}
       </label>
       <input

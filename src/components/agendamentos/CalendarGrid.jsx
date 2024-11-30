@@ -47,8 +47,8 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditMod
 
   return (
     <div>
-      <div className="grid grid-cols-8 pb-1 text-center sticky top-0 z-20 ">
-        <div className="col-span-1 bg-white"></div>
+      <div className="grid grid-cols-[1.5fr,3fr,3fr,3fr,3fr,3fr,3fr,3fr] pb-1 text-center sticky top-0 z-10 bg-white">
+        <div className="col-span-1 "></div>
         {days.map((day, index) => (
           <div
             key={index}
@@ -61,7 +61,7 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditMod
         ))}
       </div>
 
-      <div className="grid grid-cols-8">
+      <div className="grid grid-cols-[1.5fr,3fr,3fr,3fr,3fr,3fr,3fr,3fr]">
         {horas.map((hour) => (
           <React.Fragment key={hour}>
             <div className="flex border justify-end pr-2">{hour}</div>
