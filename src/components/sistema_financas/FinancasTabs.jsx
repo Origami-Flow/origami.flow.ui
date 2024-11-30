@@ -7,8 +7,9 @@ import {
     TabPanel,
 } from "@material-tailwind/react";
 import Extrato from "./Extrato";
+import Loading from "../shared/Loading";
 
-const FinancasTabs = ({dados}) => {
+const FinancasTabs = ({ dados, loading, error, lastId }) => {
     const [activeTab, setActiveTab] = React.useState("geral");
     const data = [
         {
@@ -22,20 +23,22 @@ const FinancasTabs = ({dados}) => {
         {
             label: "Despesas",
             value: "despesas",
-        },
-        {
-            label: "Assistente",
-            value: "assistente",
         }
     ];
 
     const filtrarExtrato = () => {
-        if (activeTab === 'geral') {
-            return dados.extrato;
+        switch (activeTab) {
+            case "geral":
+                return dados.geral;
+            case "receitas":
+                return dados.receitas;
+            case "despesas":
+                return dados.despesas;
+            default:
+                return [];
         }
-
-        return dados.extrato.filter(item => item.tipo.toLowerCase() === activeTab);
     };
+
 
     return (
         <Tabs value={activeTab}>
@@ -60,7 +63,11 @@ const FinancasTabs = ({dados}) => {
             <TabsBody className="w-full">
                 {data.map(({ value }) => (
                     <TabPanel key={value} value={value}>
-                        <Extrato filtrarExtrato={filtrarExtrato} tipoExtrato={activeTab}/>
+                        {loading ? (
+                            <Loading />
+                        ) : (
+                            <Extrato filtrarExtrato={filtrarExtrato} tipoExtrato={activeTab} error={error} dados={dados} lastId={lastId} showTooltip/>
+                        )}
                     </TabPanel>
                 ))}
             </TabsBody>

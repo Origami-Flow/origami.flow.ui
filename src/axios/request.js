@@ -44,6 +44,21 @@ const request = {
   },
   getServicos: async () => {
     return await api.get("/servicos")
+  },
+  getTotalDespesas: async (inicio, fim) => {
+    return await api.get(`/despesas/total-desepesa?inicio=${inicio}&fim=${fim}`)
+  },
+  getDespesas: async () => {
+    return await api.get("/despesas")
+  },
+  postDespesa: async (data) => {
+    return await api.post("/despesas", data)
+  },
+  getAssistentes: async () => {
+    return await api.get("/auxiliares")
+  },
+  postAssistente: async (data) => {
+    return await api.post("/auxiliares", data)
   }
 };
 

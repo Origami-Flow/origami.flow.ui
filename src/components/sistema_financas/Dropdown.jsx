@@ -2,7 +2,7 @@ import { useState } from "react";
 import IconAdd from "../../assets/addIcon.svg";
 import ModalAdicionarFinanca from "./ModalAdicionarFinanca";
 
-const Dropdown = ({ options, tipoExtrato }) => {
+const Dropdown = ({ options, tipoExtrato, lastId }) => {
     const [drop, setDrop] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [type, setType] = useState(null);
@@ -37,7 +37,7 @@ const Dropdown = ({ options, tipoExtrato }) => {
             )}
 
             {openModal && (
-                <ModalAdicionarFinanca onClose={onClose} tipo={tipoExtrato} subTipo={type} />
+                <ModalAdicionarFinanca onClose={onClose} tipo={tipoExtrato} subTipo={type} lastId={lastId}/>
             )}
         </div>
 
