@@ -4,6 +4,7 @@ const Legend = () => {
   const legendItems = [
     { colorClass: "bg-roseprimary", label: "Pessoal" },
     { colorClass: "bg-purple-400 ", label: "Atendimento" },
+    { colorClass: "bg-green-400 ", label: "Concluído" },
   ];
 
   return (
