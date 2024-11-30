@@ -39,6 +39,10 @@ const request = {
   updateEstoque: async (id, quantidade) => {
     return await api.put(`/estoques/${id}?quantidade=${quantidade}`)
   },
+  getMetricas: async(mes, ano) => {
+    return await api.get(`/metricas?mes=${mes}&ano=${ano}`)
+  },
+
   getClienteNome: async (nome = "") => {
     const result = await api.get(`/clientes/nome-cliente?nome=${nome}`);
     return result;
