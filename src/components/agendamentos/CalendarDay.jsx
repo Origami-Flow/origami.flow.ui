@@ -52,7 +52,7 @@ const CalendarDay = ({
         <Loading />
       ) : (
         <>
-          <div className="grid grid-cols-[0.20fr,3fr] pb-1 bg-white text-center sticky top-0 z-10 ">
+          <div className="grid grid-cols-[0.20fr,3fr] pb-1 bg-white text-center sticky top-0 z-20 ">
             <span></span>
             <div className="flex">
               <DatePicker date={date} setDate={setDate} />
@@ -81,7 +81,7 @@ const CalendarDay = ({
                         <div
                           key={eventIndex}
                           className={clsx(
-                            "border-l-8  border rounded-sm bg-[#e6e6e6a6] text-left pl-5 absolute w-full z-20 overflow-hidden cursor-pointer",
+                            "border-l-8  border rounded-sm bg-[#e6e6e6a6] text-left pl-5 absolute w-full z-10 overflow-hidden cursor-pointer",
                             event.statusEvento === "FINALIZADO"
                               ? "border-l-green-400"
                               : event.tipoEvento === "ATENDIMENTO"
