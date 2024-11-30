@@ -43,6 +43,42 @@ const request = {
     return await api.get(`/metricas?mes=${mes}&ano=${ano}`)
   },
 
+  getClienteNome: async (nome = "") => {
+    const result = await api.get(`/clientes/nome-cliente?nome=${nome}`);
+    return result;
+  },
+  getAuxiliaNome: async (nome = "") => {
+    const result = await api.get(`/auxiliares/nome?nome=${nome}`);
+    return result;
+  },
+  getServicos: async () => {
+    const result = await api.get("/servicos");
+    return result;
+  },
+  postEvento: async (payload) => {
+    const result = await api.post("/eventos", payload);
+    return result;
+  },
+  getEventosData: async (inicio, fim) => {
+    const result = await api.get(`/eventos/buscar-intervalo-tempo?inicioIntervalo=${inicio}&fimIntervalo=${fim}`);
+    return result;
+  },
+  putEvento: async (id, payload) => {
+    const result = await api.put(`/eventos/${id}`, payload);
+    return result;
+  },
+  putFinalizarEvento: async (id, produtosUtilizadoRequestDTO) => {
+    const result = await api.put(`/eventos/finalizar/${id}`, produtosUtilizadoRequestDTO);
+    return result;
+  },
+  deleteEvento: async (id) => {
+    const result = await api.delete(`/eventos/${id}`);
+    return result;
+  },
+  getProdutoNome: async (nome = "") => {
+    const result = await api.get(`/produtos/filtro-nome?nome=${nome}`);
+    return result;
+  }
 };
 
 export { api, request };

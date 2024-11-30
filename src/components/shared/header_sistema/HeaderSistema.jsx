@@ -9,7 +9,7 @@ import IconClientes from "../../../assets/icon-clientes.svg"
 const HeaderSistema = () => {
   return (
     <>
-      <div className="w-[8%] h-11/12 z-20 fixed flex flex-col justify-between items-center inset-0 py-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-full my-2 ml-4 max-md:mt-auto max-md:mb-4 max-md:ml-0 max-md:w-full max-md:h-[10%] max-md:flex-row max-md:bottom-0 max-md:py-3 max-md:justify-evenly">
+      <div className="w-[8%] h-11/12 z-20 fixed flex flex-col justify-between items-center inset-0 py-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-3xl my-2 ml-4 max-md:mt-auto max-md:mb-4 max-md:ml-0 max-md:w-full max-md:h-[10%] max-md:flex-row max-md:bottom-0 max-md:py-3 max-md:justify-evenly">
         <span className="text-xl max-md:text-sm max-lg:text-sm font-laisha select-none text-rosesecundary text-center px-5 max-md:hidden">
           SALGADO 
           TRANÇAS
