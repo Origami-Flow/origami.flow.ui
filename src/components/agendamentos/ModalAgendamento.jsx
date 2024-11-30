@@ -61,6 +61,10 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
   }, []);
 
   const formatDateTime = (date, time) => {
+    if (!(date instanceof Date) || isNaN(date)) {
+      console.error("Invalid date value:", date);
+      return "";
+    }
     const formattedDate = format(date, 'yyyy-MM-dd', { locale: ptBR });
     const formattedTime = time.length === 5 ? `${time}:00` : time; 
     return `${formattedDate}T${formattedTime}`;

@@ -3,6 +3,7 @@ import CalendarControls from "@/components/agendamentos/CalendarControls";
 import CalendarDay from "@/components/agendamentos/CalendarDay";
 import CalendarGrid from "@/components/agendamentos/CalendarGrid";
 import { CalendarMonth } from "@/components/agendamentos/CalendarMonth";
+import CompletarModal from "@/components/agendamentos/CompletarModal";
 import EditModal from "@/components/agendamentos/EditModal";
 import EventModal from "@/components/agendamentos/EventModal";
 import Legend from "@/components/agendamentos/Legend";
@@ -125,11 +126,19 @@ const Agendamentos = () => {
         <EventModal
           setModalOpen={setModalOpen}
           onClose={() => setEditModal({ open: false })}
+          fetchEvents={fetchEvents}
           editModal={editModal}
         />
       )}
       {modalOpen.modal == "EDITAR" && (
         <EditModal
+          modalOpen={modalOpen}
+          onClose={() => setModalOpen({ modal: "", event: null })}
+          fetchEvents={fetchEvents}
+        />
+      )}
+      {modalOpen.modal == "COMPLETAR" && (
+        <CompletarModal
           modalOpen={modalOpen}
           onClose={() => setModalOpen({ modal: "", event: null })}
           fetchEvents={fetchEvents}

@@ -3,8 +3,10 @@ import { Check, Edit, Mail, Phone, Trash, UserCircle2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import WhatsApp from "../../assets/WhatsApp.svg.png";
 import Tooltip from "../shared/Tooltip";
+import { request } from "@/axios/request";
+import { toast } from "react-toastify";
 
-const EventModal = ({ onClose, editModal, setModalOpen }) => {
+const EventModal = ({ onClose, editModal, setModalOpen, fetchEvents }) => {
   const [alertaVisivel, setAlertaVisivel] = useState(false);
 
   const modalRef = useRef(null);
@@ -69,10 +71,29 @@ Gostaria de confirmar? ✨`;
   };
 
   const triggerModal = (modal) => {
-    setModalOpen({modal, event});
-    onClose()
+    setModalOpen({ modal, event });
+    onClose();
   };
 
+  const finalizarAgendamento = () => {
+    request.putFinalizarEvento(event.id, []).then(() => {
+      toast.success("Agendamento finalizado com sucesso!");
+      fetchEvents();
+      onClose();
+    }).catch(() => {
+      toast.error("Erro ao finalizar agendamento!");
+    });
+  };
+
+  const removerEvento = (id) => {
+    request.deleteEvento(id).then(() => {
+      toast.success("Evento removido com sucesso!");
+      fetchEvents();
+      onClose();
+    }).catch(() => {
+      toast.error("Erro ao remover evento!");
+    });
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -84,19 +105,25 @@ Gostaria de confirmar? ✨`;
           <div className="flex w-28 justify-evenly">
             <Tooltip text="Concluir">
               <Check
-                onClick={() => triggerModal("COMPLETAR")}
+                onClick={() => {
+                  event?.tipoEvento === "ATENDIMENTO"
+                    ? triggerModal("COMPLETAR")
+                    : finalizarAgendamento();
+                }}
                 className="cursor-pointer size-5 text-gray-600 stroke-[3] hover:text-green-600"
               />
             </Tooltip>
             <Tooltip text="Editar">
               <Edit
-                onClick={() => {triggerModal("EDITAR")}}
+                onClick={() => {
+                  triggerModal("EDITAR");
+                }}
                 className="cursor-pointer size-5 text-gray-600 hover:text-blue-500"
               />
             </Tooltip>
             <Tooltip text="Excluir">
               <Trash
-                onClick={() => triggerModal("EXCLUIR")}
+                onClick={() => removerEvento(event.id)}
                 className="cursor-pointer size-5 text-gray-600 hover:text-red-500"
               />
             </Tooltip>

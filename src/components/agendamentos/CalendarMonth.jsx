@@ -190,10 +190,12 @@ export const CalendarMonth = ({
                   ?.map((event, eventIndex) => (
                     <div
                       key={eventIndex}
-                      onClick={() => setEditModal({open: true, event})}
+                      onClick={() => setEditModal({ open: true, event })}
                       className={clsx(
                         "truncate rounded-md px-1 text-sm text-gray-800 cursor-pointer",
-                        event.tipoEvento === "ATENDIMENTO"
+                        event.statusEvento === "FINALIZADO"
+                          ? "bg-green-400 text-white"
+                          : event.tipoEvento === "ATENDIMENTO"
                           ? "bg-purple-400 "
                           : "bg-roseprimary text-white"
                       )}

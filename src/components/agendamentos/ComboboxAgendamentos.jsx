@@ -1,11 +1,14 @@
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 const ComboboxAgendamento = ({
   label,
   fetchOptions,
+  placeholder,
   setBuscaId,
   initialValue,
+  width,
 }) => {
   const [searchTerm, setSearchTerm] = useState(initialValue || "");
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -69,7 +72,7 @@ const ComboboxAgendamento = ({
   }, [initialValue]);
 
   return (
-    <div ref={comboboxRef} className="relative w-64">
+    <div ref={comboboxRef} className={clsx("relative", width ? `w-${width}`: "w-64" )}>
       <label
         htmlFor="combobox"
         className="block mb-2 text-sm font-medium text-gray-700"
@@ -80,10 +83,10 @@ const ComboboxAgendamento = ({
         id="combobox"
         type="text"
         value={searchTerm}
+        placeholder={placeholder || "Digite para buscar"}
         onChange={handleInputChange}
         onFocus={() => setIsDropdownOpen(filteredOptions.length > 0)}
         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Digite para buscar"
       />
       {isLoading && (
         <div className="absolute w-full mt-1 bg-white text-center py-2 border border-gray-300 rounded-lg shadow-md">

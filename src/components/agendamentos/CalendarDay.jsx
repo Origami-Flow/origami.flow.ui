@@ -46,8 +46,6 @@ const CalendarDay = ({
     });
   }
 
- 
-
   return (
     <div>
       {isLoading ? (
@@ -83,8 +81,10 @@ const CalendarDay = ({
                         <div
                           key={eventIndex}
                           className={clsx(
-                            "border-l-8  border rounded-sm bg-[#e6e6e6a6] text-left pl-5 absolute w-full z-10 overflow-hidden cursor-pointer",
-                            event.tipoEvento === "ATENDIMENTO"
+                            "border-l-8  border rounded-sm bg-[#e6e6e6a6] text-left pl-5 absolute w-full z-20 overflow-hidden cursor-pointer",
+                            event.statusEvento === "FINALIZADO"
+                              ? "border-l-green-400"
+                              : event.tipoEvento === "ATENDIMENTO"
                               ? "border-l-purple-400"
                               : "border-l-roseprimary"
                           )}
@@ -110,8 +110,8 @@ const CalendarDay = ({
                               {formatTime(event?.dataHoraTermino)}
                             </h1>
                             <p>
-                              {event?.cliente?.nome
-                                && event?.cliente?.nome +
+                              {event?.cliente?.nome &&
+                                event?.cliente?.nome +
                                   " - " +
                                   formatPhoneNumber(event?.cliente?.telefone)}
                             </p>

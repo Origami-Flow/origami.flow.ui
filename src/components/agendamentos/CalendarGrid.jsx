@@ -5,7 +5,13 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 import { formatPhoneNumber } from "@/utils/formatar";
 
-const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditModal }) => {
+const CalendarGrid = ({
+  events,
+  setDataInicio,
+  setDataFim,
+  isLoading,
+  setEditModal,
+}) => {
   const startDate = startOfWeek(new Date(), { weekStartsOn: 0 });
   useEffect(() => {
     setDataInicio(startDate);
@@ -19,7 +25,6 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditMod
       isToday: date.getDate() === new Date().getDate(),
     };
   });
-
 
   function formatTime(date) {
     date = new Date(date);
@@ -47,7 +52,7 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditMod
 
   return (
     <div>
-      <div className="grid grid-cols-[1.5fr,3fr,3fr,3fr,3fr,3fr,3fr,3fr] pb-1 text-center sticky top-0 z-10 bg-white">
+      <div className="grid grid-cols-[1.5fr,3fr,3fr,3fr,3fr,3fr,3fr,3fr] pb-1 text-center sticky top-0 z-20 bg-white">
         <div className="col-span-1 "></div>
         {days.map((day, index) => (
           <div
@@ -85,22 +90,26 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditMod
                         key={eventIndex}
                         className={clsx(
                           "border-l-8  border rounded-sm text-center bg-[#e6e6e6a6] absolute w-full z-10 overflow-hidden cursor-pointer",
-                          event.tipoEvento === "ATENDIMENTO"
+                          event.statusEvento === "FINALIZADO"
+                            ? "border-l-green-400"
+                            : event.tipoEvento === "ATENDIMENTO"
                             ? "border-l-purple-400"
                             : "border-l-roseprimary"
                         )}
-                        onClick={() => setEditModal({event, open: true})}
+                        onClick={() => setEditModal({ event, open: true })}
                         style={{ top: `${top}px`, height: `${height}px` }}
                       >
                         <h1 className="truncate">{event?.servico?.nome}</h1>
-                        
+
                         <p className="truncate ">
                           {event?.cliente?.nome
-                            ? event?.cliente?.nome 
+                            ? event?.cliente?.nome
                             : event?.tipoEvento === "PESSOAL" &&
                               "Evento Pessoal"}
                         </p>
-                        <p className="truncate">{formatPhoneNumber(event?.cliente?.telefone)}</p>
+                        <p className="truncate">
+                          {formatPhoneNumber(event?.cliente?.telefone)}
+                        </p>
                         <h1 className="truncate">
                           {formatTime(event?.dataHoraInicio)} -{" "}
                           {formatTime(event?.dataHoraTermino)}

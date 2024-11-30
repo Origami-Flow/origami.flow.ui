@@ -63,6 +63,18 @@ const request = {
     const result = await api.put(`/eventos/${id}`, payload);
     return result;
   },
+  putFinalizarEvento: async (id, produtosUtilizadoRequestDTO) => {
+    const result = await api.put(`/eventos/finalizar/${id}`, produtosUtilizadoRequestDTO);
+    return result;
+  },
+  deleteEvento: async (id) => {
+    const result = await api.delete(`/eventos/${id}`);
+    return result;
+  },
+  getProdutoNome: async (nome = "") => {
+    const result = await api.get(`/produtos/filtro-nome?nome=${nome}`);
+    return result;
+  }
 };
 
 export { api, request };
