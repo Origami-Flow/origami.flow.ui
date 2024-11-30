@@ -5,27 +5,6 @@ import KpiCard2 from "@/components/sistema_metricas/KpiCard2";
 import KpiCard3 from "@/components/sistema_metricas/KpiCard3";
 import { request } from "@/axios/request";
 
-// const dadosMockadosMetricas = {
-//   2024: {
-//     10: {
-//       vendas: 20,
-//       agendamentos: 10,
-//       clientes: 50,
-//       TrancaMaisRealizada: "Box Braids",
-//       taxaConversao: "40%",
-//       lucro: 5000,
-//     },
-//     11: {
-//       vendas: 15,
-//       agendamentos: 8,
-//       clientes: 40,
-//       TrancaMaisRealizada: "Nagô",
-//       taxaConversao: "35%",
-//       lucro: 4500, 
-//     },
-//   },
-// };
-
 const MetricasPage = () => {
   const [metricas, setMetricas] = useState({});
   const [mes, setMes] = useState(new Date().getMonth() + 1);
