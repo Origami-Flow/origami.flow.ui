@@ -251,7 +251,7 @@ export const CalendarMonth = ({
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="no-scrollbar calendar-container max-h-full overflow-y-scroll rounded-t-2xl bg-white pb-10 text-slate-800 shadow-xl">
+        <div className="no-scrollbar calendar-container max-h-full overflow-y-scroll rounded-t-2xl pb-10 pl-5 text-slate-800 shadow-xl">
           <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7">
             <div className="mb-4 flex w-full flex-wrap items-center justify-between gap-6">
               <div className="flex flex-wrap gap-2">

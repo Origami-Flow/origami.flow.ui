@@ -3,6 +3,7 @@ import { ptBR } from "date-fns/locale";
 import { horas } from "@/utils/datas";
 import React, { useEffect } from "react";
 import clsx from "clsx";
+import { formatPhoneNumber } from "@/utils/formatar";
 
 const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditModal }) => {
   const startDate = startOfWeek(new Date(), { weekStartsOn: 0 });
@@ -43,23 +44,11 @@ const CalendarGrid = ({ events, setDataInicio, setDataFim, isLoading, setEditMod
 
     return { top: startOffset, height };
   };
-  const formatPhoneNumber = (phoneNumber) => {
-    if (!phoneNumber) return "";
-
-    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
-
-    const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
-
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-    return phoneNumber;
-  };
 
   return (
     <div>
-      <div className="grid grid-cols-8 pb-1 text-center sticky top-0 bg-white z-20 border-b">
-        <div className="col-span-1"></div>
+      <div className="grid grid-cols-8 pb-1 text-center sticky top-0 z-20 ">
+        <div className="col-span-1 bg-white"></div>
         {days.map((day, index) => (
           <div
             key={index}

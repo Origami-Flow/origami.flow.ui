@@ -3,8 +3,15 @@ import React, { useEffect } from "react";
 import { DatePicker } from "../ui/datePicker";
 import Loading from "../shared/Loading";
 import clsx from "clsx";
+import { formatPhoneNumber } from "@/utils/formatar";
 
-const CalendarDay = ({ events = [], setDataInicio, setDataFim, isLoading, setEditModal }) => {
+const CalendarDay = ({
+  events = [],
+  setDataInicio,
+  setDataFim,
+  isLoading,
+  setEditModal,
+}) => {
   const today = new Date();
   const [date, setDate] = React.useState(new Date(today));
 
@@ -39,18 +46,7 @@ const CalendarDay = ({ events = [], setDataInicio, setDataFim, isLoading, setEdi
     });
   }
 
-  const formatPhoneNumber = (phoneNumber) => {
-    if (!phoneNumber) return "";
-
-    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
-
-    const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
-
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-    return phoneNumber;
-  };
+ 
 
   return (
     <div>
@@ -58,9 +54,9 @@ const CalendarDay = ({ events = [], setDataInicio, setDataFim, isLoading, setEdi
         <Loading />
       ) : (
         <>
-          <div className="grid grid-cols-[0.20fr,3fr] pb-1 w-full text-center sticky top-0 bg-white z-20 border-b">
+          <div className="grid grid-cols-[0.20fr,3fr] pb-1 bg-white text-center sticky top-0 z-20 ">
             <span></span>
-            <div className="flex w-full">
+            <div className="flex">
               <DatePicker date={date} setDate={setDate} />
             </div>
           </div>
@@ -92,22 +88,34 @@ const CalendarDay = ({ events = [], setDataInicio, setDataFim, isLoading, setEdi
                               ? "border-l-purple-400"
                               : "border-l-roseprimary"
                           )}
-                          onClick={() => setEditModal({event, open: true})}
-                          style={{ top: `${top}px`, height: `${height}px`, minHeight: "2px" }}
+                          onClick={() => setEditModal({ event, open: true })}
+                          style={{
+                            top: `${top}px`,
+                            height: `${height}px`,
+                            minHeight: "2px",
+                          }}
                         >
-                          <h1 className="truncate">{event?.servico?.nome}</h1>
-                          <h1 className="truncate">
-                            {formatTime(event?.dataHoraInicio)} -{" "}
-                            {formatTime(event?.dataHoraTermino)}
-                          </h1>
-                          <p>
-                            {event?.cliente?.nome
-                              ? event?.cliente?.nome +
-                                " - " +
-                                formatPhoneNumber(event?.cliente?.telefone)
-                              : event?.tipoEvento === "PESSOAL" &&
-                                "Evento Pessoal"}
-                          </p>
+                          <div className="flex gap-12">
+                            {event?.servico?.nome ? (
+                              <h1 className="truncate">
+                                {event?.servico?.nome}
+                              </h1>
+                            ) : (
+                              event?.tipoEvento === "PESSOAL" && (
+                                <h1 className="truncate">Evento Pessoal</h1>
+                              )
+                            )}
+                            <h1 className="truncate">
+                              {formatTime(event?.dataHoraInicio)} -{" "}
+                              {formatTime(event?.dataHoraTermino)}
+                            </h1>
+                            <p>
+                              {event?.cliente?.nome
+                                && event?.cliente?.nome +
+                                  " - " +
+                                  formatPhoneNumber(event?.cliente?.telefone)}
+                            </p>
+                          </div>
                         </div>
                       );
                     }
