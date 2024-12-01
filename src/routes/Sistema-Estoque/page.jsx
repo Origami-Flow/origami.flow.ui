@@ -102,11 +102,14 @@ const EstoquePage = () => {
 
         try {
             const response = await request.getProdutosPorNome(nomePesquisa);
-            const produtoPesquisado = await request.getProdutosPorId(response.data.id);
-            const res = Array.isArray(produtoPesquisado.data) ? produtoPesquisado.data : [produtoPesquisado.data];
-
+            const produtosPesquisados = await Promise.all(
+                response.data.map(async (produto) => {
+                    const produtoDetalhado = await request.getProdutosPorId(produto.id);
+                    return produtoDetalhado.data;
+                })
+            );
             setActiveTabIndex(0);
-            setProdutos(res);
+            setProdutos(produtosPesquisados);
         } catch (error) {
             console.error('Erro ao buscar os produtos:', error);
             toast.error('Nome inválido.');
