@@ -80,7 +80,28 @@ const request = {
   getProdutoNome: async (nome = "") => {
     const result = await api.get(`/produtos/filtro-nome?nome=${nome}`);
     return result;
-  }
+  },
+  getTotalDespesas: async (inicio, fim) => {
+    return await api.get(`/despesas/despesa/total?inicio=${inicio}&fim=${fim}`)
+  },
+  getFinancas: async (mes, ano) => {
+    return await api.get(`/financas?mes=${mes}&ano=${ano}`)
+  },
+  postDespesa: async (data) => {
+    return await api.post("/despesas", data)
+  },
+  getAssistentes: async () => {
+    return await api.get("/auxiliares")
+  },
+  postAssistente: async (data) => {
+    return await api.post("/auxiliares", data)
+  },
+  getCaixa: async (mes, ano) => {
+    return await api.get(`/caixas/por/mes?mes=${mes}&ano=${ano}`)
+  },
+  postCaixa: async (id) => {
+    return await api.post(`/caixas/${id}`)
+  },
 };
 
 export { api, request };

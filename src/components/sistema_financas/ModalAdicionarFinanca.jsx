@@ -3,60 +3,43 @@ import SelectCadastro from "../cadastro/SelectCadastro";
 import InputFormulario from "../shared/InputFormulario";
 import { z } from "zod";
 import { toast } from "react-toastify";
+import { request } from "@/axios/request";
 
 const camposPorTipo = {
-    receitas: {
-        Atendimento: [
-            { name: "Cliente", field: "cliente", type: "text", placeholder: "Digite o nome do cliente" },
-            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "Digite o valor" },
-            { name: "Data", field: "dataReceita", type: "date" }
-        ],
-        "Venda de produto": [
-            { name: "Produto", field: "nomeProduto", type: "select" },
-            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "Digite o valor" },
-            { name: "Quantidade", field: "quantidade", type: "number", placeholder: "Digite a quantidade" },
-            { name: "Cliente", field: "cliente", type: "text", placeholder: "Digite o nome do cliente" },
-            { name: "Data", field: "dataReceita", type: "date" }
-        ],
-        Outro: [
-            { name: "Tipo", field: "tipo", type: "text", placeholder: "Digite o tipo de receita" },
-            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "Digite o valor" },
-            { name: "Descrição", field: "descricao", type: "text", placeholder: "Digite a descrição da receita" },
-            { name: "Data", field: "dataReceita", type: "date" }
-        ]
-    },
     despesas: {
         Mercadoria: [
-            { name: "Nome", field: "nomeProduto", type: "text", placeholder: "Digite o nome do produto" },
-            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "Digite o valor" },
-            { name: "Fornecedor", field: "fornecedor", type: "text", placeholder: "Digite o nome do fornecedor" },
+            { name: "Nome", field: "nomeProduto", type: "text", placeholder: "Pomada" },
+            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "20" },
+            // { name: "Quantidade", field: "quantidade", type: "number", placeholder: "10" },
+            { name: "Data", field: "dataDespesa", type: "date" }
+        ],
+        Assistente: [
+            { name: "Nome Assistente", field: "nomeAssistente", type: "text", placeholder: "Maria Silva" },
+            { name: "Email", field: "email", type: "email", placeholder: "nome@dominio.com" },
+            { name: "Valor mão de obra (R$)", field: "valor", type: "number", placeholder: "100" },
+        ],
+        Pagamento: [
+            { name: "Nome Assistente", field: "nomeAssistente", type: "select" },
+            { name: "Valor mão de obra (R$)", field: "valor", type: "number", placeholder: "100" },
             { name: "Data", field: "dataDespesa", type: "date" }
         ],
         Outro: [
-            { name: "Tipo", field: "tipo", type: "text", placeholder: "Digite o tipo de despesa" },
-            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "Digite o valor" },
-            { name: "Descrição", field: "descricao", type: "text", placeholder: "Digite a descrição da despesa" },
+            { name: "Nome", field: "nomeOutro", type: "text", placeholder: "Conta de luz" },
+            { name: "Tipo", field: "tipo", type: "text", placeholder: "Conta" },
+            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "100" },
             { name: "Data", field: "dataDespesa", type: "date" }
-        ]
-    },
-    assistente: {
-        Pagamento: [
-            { name: "Nome do Assistente", field: "nomeAssistente", type: "select" },
-            { name: "Valor (R$)", field: "valorAssistente", type: "number", placeholder: "Digite o valor" },
-            { name: "Data", field: "dataAssistente", type: "date" }
-        ],
-        "Adicionar assistente": [
-            { name: "Nome do Assistente", field: "nomeAssistente", type: "text", placeholder: "Digite o nome do assistente" },
-            { name: "Telefone", field: "telefone", type: "text", placeholder: "Digite o telefone do assistente" }
         ]
     }
 };
 
-const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
+const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, onSuccess, caixaId }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(false);
     const [selectedFields, setSelectedFields] = useState([]);
     const [formValues, setFormValues] = useState({});
     const [errors, setErrors] = useState({});
+    const [produtos, setProdutos] = useState([]);
+    const [clientes, setClientes] = useState([]);
+    const [assistentes, setAssistentes] = useState([]);
 
     useEffect(() => {
         if (tipo && subTipo) {
@@ -69,14 +52,57 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
             }, {});
             setFormValues(initialValues);
         }
+
+        const fetchProdutos = async () => {
+            try {
+                const response = await request.getProdutos();
+                setProdutos(response.data || []);
+            } catch (err) {
+                console.log('Erro ao buscar os produtos', err);
+            }
+        };
+
+        const fetchClientes = async () => {
+            try {
+                const response = await request.getClientes();
+                setClientes(response.data || []);
+            } catch (err) {
+                console.log('Erro ao buscar os clientes', err);
+            }
+        };
+
+        const fetchAssistentes = async () => {
+            try {
+                const response = await request.getAssistentes();
+                setAssistentes(response.data || []);
+            } catch (err) {
+                console.log('Erro ao buscar os clientes', err);
+            }
+        };
+
+        fetchProdutos();
+        fetchClientes();
+        fetchAssistentes();
     }, [tipo, subTipo]);
 
     const handleInputChange = (field, value) => {
+        setIsOptionDisabled(true);
+
         setFormValues((prev) => ({
             ...prev,
             [field]: value,
         }));
-    
+
+        if (field === "nomeAssistente") {
+            const assistenteSelecionado = assistentes.find((assistente) => assistente.nome === value);
+            if (assistenteSelecionado) {
+                setFormValues((prev) => ({
+                    ...prev,
+                    valor: assistenteSelecionado.valorMaoDeObra,
+                }));
+            }
+        }
+
         try {
             const schema = getValidationSchema();
             schema.parse({ ...formValues, [field]: value });
@@ -95,12 +121,12 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
             }
         }
     };
-    
+
     const getValidationSchema = () => {
         const schemaShape = selectedFields.reduce((shape, campo) => {
             switch (campo.type) {
                 case "text":
-                    shape[campo.field] = z.string().min(4, `${campo.name} deve ter pelo menos 4 caracteres`);
+                    shape[campo.field] = z.string().min(3, `${campo.name} deve ter pelo menos 3 caracteres`);
                     break;
                 case "number":
                     shape[campo.field] = z.preprocess(
@@ -111,15 +137,18 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
                     break;
                 case "date":
                     shape[campo.field] = z
-                    .string().regex(/^\d{4}-\d{2}-\d{2}$/, `${campo.name} deve ter o formato de data 'YYYY-MM-DD'`)
-                    .refine((value) => {
-                        const [year, month, day] = value.split('-').map(Number);
-                        const date = new Date(year, month - 1, day);
-                        return date.getFullYear() === year && date.getMonth() + 1 === month && date.getDate() === day;
-                    }, `Não é uma data válida`);
+                        .string().regex(/^\d{4}-\d{2}-\d{2}$/, `${campo.name} deve ter o formato de data 'YYYY-MM-DD'`)
+                        .refine((value) => {
+                            const [year, month, day] = value.split('-').map(Number);
+                            const date = new Date(year, month - 1, day);
+                            return date.getFullYear() === year && date.getMonth() + 1 === month && date.getDate() === day;
+                        }, `Não é uma data válida`);
                     break;
                 case "select":
                     shape[campo.field] = z.string().min(1, `${campo.name} é obrigatório`);
+                    break;
+                case "email":
+                    shape[campo.field] = z.string().email().min(1, `${campo.name} é obrigatório`);
                     break;
                 default:
                     break;
@@ -131,12 +160,56 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
 
     const handleSave = () => {
         const schema = getValidationSchema();
+
         try {
             schema.parse(formValues);
             setErrors({});
-            console.log("Dados válidos:", formValues);
-            toast.success("Dados salvos com sucesso!", { autoClose: 3000 });
-            onClose();
+            const produtoEncontrado = produtos.find(produto => produto?.produto?.nome === formValues.nomeProduto);
+            const idProduto = produtoEncontrado?.produto?.id || null;
+
+            if (tipo == "despesas" && subTipo != "Assistente") {
+                const despesaData = {
+                    nome: formValues.nomeProduto || formValues.nomeAssistente || formValues.nomeOutro || "Despesa Geral",
+                    descricao: formValues.tipo || subTipo ||"",
+                    valor: Number(formValues.valor) || 0,
+                    data: formValues.dataDespesa || "",
+                    idCaixa: caixaId,
+                    idProduto: idProduto,
+                };
+
+                request.postDespesa(
+                    despesaData
+                ).then(() => {
+                    toast.success("Despesa cadastrada com sucesso!");
+                    onClose();
+                    window.location.reload()
+                    // if (onSuccess) {
+                    //     onSuccess();
+                    // }
+                }).catch(() => {
+                    toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
+                })
+
+            } else {
+                const assistenteData = {
+                    nome: formValues.nomeAssistente || "Despesa Pagamento",
+                    email: formValues.email || "",
+                    valorMaoDeObra: formValues.valor || 0
+                };
+                console.log("Dados válidos:", assistenteData);
+
+                request.postAssistente(
+                    assistenteData
+                ).then(() => {
+                    toast.success("Assistente cadastrada com sucesso!");
+                    onClose();
+                }).catch(() => {
+                    toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
+                })
+
+                onClose();
+            }
+
         } catch (err) {
             if (err.errors) {
                 const newErrors = err.errors.reduce((acc, e) => {
@@ -165,8 +238,24 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
                                     }
                                     options={[
                                         { value: "", label: "Selecione uma opção", disabled: isOptionDisabled },
-                                        { value: "Mercadoria", label: "Mercadoria" },
-                                        { value: "Loja", label: "Loja" },
+                                        ...(campo.field === "nomeProduto"
+                                            ? produtos.map((produto) => ({
+                                                value: produto.produto.nome,
+                                                label: produto.produto.nome,
+                                            }))
+                                            : campo.field === "cliente"
+                                                ? clientes.map((cliente) => ({
+                                                    value: cliente.nome,
+                                                    label: cliente.nome,
+                                                }))
+                                                : campo.field === "nomeAssistente"
+                                                    ? assistentes.map((assistente) => ({
+                                                        value: assistente.nome,
+                                                        label: assistente.nome,
+                                                    })) : [
+                                                        { value: "Mercadoria", label: "Mercadoria" },
+                                                        { value: "Loja", label: "Loja" },
+                                                    ]),
                                     ]}
                                     bgColor="bg-[#fff]"
                                     color="black"
@@ -201,6 +290,7 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo }) => {
                         onClick={handleSave}>
                         Salvar
                     </button>
+
                 </div>
             </div>
         </div>
