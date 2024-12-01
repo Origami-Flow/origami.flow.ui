@@ -4,14 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import HeaderText from "./HeaderText";
 import Menu from "./Menu";
 import { useNavigate } from "react-router-dom";
+import useLogout from "@/hooks/useLogOut";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { usuario, setUsuario } = useUser();
+  const { usuario } = useUser();
   const [nomeUsuario, setNomeUsuario] = useState();
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
+  const { logOut } = useLogout();
 
   useEffect(() => {
     if (usuario?.nome) {
@@ -50,11 +52,7 @@ const Header = () => {
     };
   }, []);
 
-  const logOut = () => {
-    localStorage.removeItem("token");
-    setUsuario({});
-    window.location.reload();
-  }
+
   return (
     <>
       <div className="w-11/12 h-16 z-30 fixed flex justify-between  items-center inset-0 mt-6 py-4 px-10 text-base text-branconeutro font-medium bg-verdeprimary/90 rounded-lg mx-auto">

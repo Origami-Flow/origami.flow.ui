@@ -7,7 +7,7 @@ const request = {
     return await api.get(`/livros?title=${queryParams?.title}&order=${queryParams?.order} `);
   },
   postLogin: async (data) => {
-    return await api.post("/logins/cliente", data);
+    return await api.post("/logins", data);
   },
   postCadastro: async (data) => {
     return await api.post("/cadastros/cliente", data);

@@ -8,6 +8,7 @@ import IconeGoogle from "../../assets/icon-google.svg";
 import ImageLogin from "../../assets/icon-login.svg";
 import Header from "../../components/shared/Header";
 import InputFormulario from "../../components/shared/InputFormulario";
+import { encryptText } from "@/utils/criptografar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,13 +16,25 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUsuario } = useUser();
 
+  const saveId = (id) => {
+    const idCriptografado = encryptText(id);
+    localStorage.setItem("id", idCriptografado);
+  }
+
   const handleSubmit = () => {
     request.postLogin({ email, senha: password })
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
+        const resposta = response.data;
+        localStorage.setItem("token", resposta.token);
         toast.success("Login efetuado com sucesso");
-        setUsuario(response.data);
-        navigate("/");
+        setUsuario(resposta);
+
+        if(resposta.authorities?.includes("ROLE_ADMIN")){
+          saveId(resposta?.id);
+          navigate("/agendamentos");
+        } else{ 
+          navigate("/");
+        }
       })
       .catch(() => {
         toast.error("Usuário ou senha inválidos");

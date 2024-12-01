@@ -6,6 +6,7 @@ import ComboboxAgendamento from "./ComboboxAgendamentos";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { decryptText } from "@/utils/criptografar";
 
 const ModalAgendamento = ({ onClose, fetchEvents }) => {
   const [clienteId, setClienteId] = useState(null);
@@ -78,11 +79,14 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
 
   const handleSave = () => {
     let payload = {};
+    const trancistaId = decryptText(localStorage.getItem("id"));
+
     if (tipoEvento === "PESSOAL") {
       payload = {
         tipoEvento,
         dataHoraInicio: startTime,
         dataHoraTermino: endTime,
+        trancistaId,
       };
     } else {
       payload = {
@@ -92,7 +96,7 @@ const ModalAgendamento = ({ onClose, fetchEvents }) => {
         servicoId: servico,
         dataHoraInicio: startTime,
         dataHoraTermino: endTime,
-        trancistaId: 1,
+        trancistaId,
       };
     }
     request.postEvento(payload).then(() => {
