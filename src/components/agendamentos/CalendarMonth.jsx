@@ -174,7 +174,7 @@ export const CalendarMonth = ({
               className={`relative z-10 m-[-0.5px] group aspect-square flex w-full grow cursor-pointer h-24 rounded-md border font-medium transition-all hover:z-20 hover:border-roseprimary`}
             >
               <span
-                className={`ml-1 mt-1 flex size-7 items-center justify-center rounded-full text-lg ${
+                className={`ml-1 mt-1 flex size-7 py-2 px-2 items-center justify-center rounded-full text-lg ${
                   isToday ? "bg-roseprimary font-semibold text-white" : ""
                 }`}
               >
