@@ -7,7 +7,7 @@ const request = {
     return await api.get(`/livros?title=${queryParams?.title}&order=${queryParams?.order} `);
   },
   postLogin: async (data) => {
-    return await api.post("/logins/cliente", data);
+    return await api.post("/logins", data);
   },
   postCadastro: async (data) => {
     return await api.post("/cadastros/cliente", data);
@@ -44,6 +44,42 @@ const request = {
   },
   getServicos: async () => {
     return await api.get("/servicos")
+  },
+  getMetricas: async(mes, ano) => {
+    return await api.get(`/metricas?mes=${mes}&ano=${ano}`)
+  },
+
+  getClienteNome: async (nome = "") => {
+    const result = await api.get(`/clientes/nome-cliente?nome=${nome}`);
+    return result;
+  },
+  getAuxiliaNome: async (nome = "") => {
+    const result = await api.get(`/auxiliares/nome?nome=${nome}`);
+    return result;
+  },
+  postEvento: async (payload) => {
+    const result = await api.post("/eventos", payload);
+    return result;
+  },
+  getEventosData: async (inicio, fim) => {
+    const result = await api.get(`/eventos/buscar-intervalo-tempo?inicioIntervalo=${inicio}&fimIntervalo=${fim}`);
+    return result;
+  },
+  putEvento: async (id, payload) => {
+    const result = await api.put(`/eventos/${id}`, payload);
+    return result;
+  },
+  putFinalizarEvento: async (id, produtosUtilizadoRequestDTO) => {
+    const result = await api.put(`/eventos/finalizar/${id}`, produtosUtilizadoRequestDTO);
+    return result;
+  },
+  deleteEvento: async (id) => {
+    const result = await api.delete(`/eventos/${id}`);
+    return result;
+  },
+  getProdutoNome: async (nome = "") => {
+    const result = await api.get(`/produtos/filtro-nome?nome=${nome}`);
+    return result;
   }
 };
 

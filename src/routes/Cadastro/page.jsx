@@ -53,7 +53,7 @@ const Page = () => {
         }),
       senha: z
         .string()
-        .min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
+        .min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
       confirmacaoSenha: z.string(),
       telefone: z
         .string()
@@ -96,6 +96,7 @@ const Page = () => {
         nome: value.nome,
         email: value.email,
         senha: value.senha,
+        role: "USER",
         dataNascimento: value.dataNascimento,
         telefone: value.telefone,
         ocupacao: value.ocupacao,
