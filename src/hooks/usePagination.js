@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const usePagination = (data, itensPerPage) => {
   const [actualPage, setActualPage] = useState(1);
@@ -18,6 +18,10 @@ const usePagination = (data, itensPerPage) => {
 
     return data.slice(firstIndex, lastIndex);
   };
+
+  useEffect(() => {
+    setActualPage(1);
+  }, [data]);
 
   return {
     actualPage,

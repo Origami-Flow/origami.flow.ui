@@ -19,6 +19,13 @@ const ServicosPage = () => {
     const [loading, setLoading] = useState(false);
     const [selectedType, setSelectedType] = useState('todos');
     const [file, setFile] = useState(null);
+
+    const filteredServices = services.filter((service) =>
+        selectedType === "todos"
+            ? true
+            : service?.nome?.toLowerCase().includes(selectedType.toLowerCase())
+    );
+
     const {
         actualPage,
         getItemsPage,
@@ -26,7 +33,7 @@ const ServicosPage = () => {
         handleNextPage,
         totalPages,
         setActualPage
-    } = usePagination(services, 8);
+    } = usePagination(filteredServices, 8);
 
 
     useEffect(() => {
@@ -38,7 +45,9 @@ const ServicosPage = () => {
                     ...service,
                     foto: fotos[service.descricao.toLowerCase()] || fotos["default"],
                 }));
-                setServices(servicesWithImages);
+
+                const filteredServices = servicesWithImages.filter(service => service.descricao.includes('-'));
+                setServices(filteredServices);
             } catch (err) {
                 console.log('Erro ao buscar os serviços', err);
             } finally {
@@ -49,11 +58,8 @@ const ServicosPage = () => {
         fetchServicos();
     }, []);
 
-    const filteredServices = selectedType === 'todos'
-        ? getItemsPage()
-        : getItemsPage().filter(service =>
-            service?.nome?.toLowerCase().includes(selectedType.toLowerCase())
-        );
+    const paginatedServices = getItemsPage();
+
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -115,8 +121,8 @@ const ServicosPage = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 gap-4">
-                        {filteredServices.length > 0 ? (
-                            filteredServices.map((service) => (
+                        {paginatedServices.length > 0 ? (
+                            paginatedServices.map((service) => (
                                 <ServiceCard
                                     key={service.id}
                                     foto={service.foto}
