@@ -15,6 +15,13 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUsuario } = useUser();
 
+  
+
+  const saveId = (id) => {
+
+    localStorage.setItem("id", id);
+  }
+
   const handleSubmit = () => {
     request.postLogin({ email, senha: password })
       .then((response) => {
@@ -24,6 +31,7 @@ const Login = () => {
         setUsuario(resposta);
 
         if(resposta.authorities?.includes("ROLE_ADMIN")){
+          saveId(resposta.id);
           navigate("/agendamentos");
         } else{ 
           navigate("/");
