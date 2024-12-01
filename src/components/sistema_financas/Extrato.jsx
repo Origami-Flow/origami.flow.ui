@@ -19,15 +19,7 @@ const optionsDespesa = [
     }
 ]
 
-const Extrato = ({ filtrarExtrato, tipoExtrato, error, dados, lastId, showTooltip }) => {
-    const extratoFiltrado = filtrarExtrato();
-
-    const receita = extratoFiltrado
-        .filter(item => item.tipo === 'receitas')
-        .reduce((total, item) => total + (item.valor ?? 0), 0);
-
-    const lucro = receita - dados.totalDespesas;
-
+const Extrato = ({ tipoExtrato, error, dados, showTooltip }) => {
 
     const formatarData = (data) => {
         if (!Array.isArray(data) || data.length !== 3) return "Data inválida";
@@ -42,17 +34,17 @@ const Extrato = ({ filtrarExtrato, tipoExtrato, error, dados, lastId, showToolti
                 {tipoExtrato == "despesas" ? (
                     <span className="text-2xl font-semibold">{`R$ ${dados.totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}</span>
                 ) : tipoExtrato == "receitas" ? (
-                    <span className="text-2xl font-semibold">{`R$ ${receita.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}</span>
+                    <span className="text-2xl font-semibold">{`R$ ${dados.totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}</span>
                 ) : (
-                    <span className={`text-2xl font-semibold ${lucro < 0 ? `text-red-500` : `text-green-500`}`}
-                    >{`R$ ${lucro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
+                    <span className={`text-2xl font-semibold ${dados.lucro < 0 ? `text-red-500` : `text-green-500`}`}
+                    >{`R$ ${dados.lucro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`}
                     </span>
                 )}
 
                 {tipoExtrato == "receitas" ? (
-                    <Dropdown options={optionsReceita} tipoExtrato={tipoExtrato} lastId={lastId} />
+                    <Dropdown options={optionsReceita} tipoExtrato={tipoExtrato} caixaId={dados?.caixaId} />
                 ) : tipoExtrato == "despesas" ? (
-                    <Dropdown options={optionsDespesa} tipoExtrato={tipoExtrato} lastId={lastId} />
+                    <Dropdown options={optionsDespesa} tipoExtrato={tipoExtrato} caixaId={dados?.caixaId} />
                 ) : ""}
 
                 {tipoExtrato == "geral" && showTooltip && (
@@ -76,8 +68,26 @@ const Extrato = ({ filtrarExtrato, tipoExtrato, error, dados, lastId, showToolti
                     {tipoExtrato != "receitas" && dados.despesas.map((item, index) => (
                         <li key={`item-${index}`} className="grid grid-cols-3 w-full gap-8 border-b items-center pb-2">
                             <div className="flex flex-col">
-                                <span>{item.descricao || "Sem nome"}</span>
-                                <span className="text-gray-400">Despesa</span>
+                                <span>{item.nome || "Sem nome"}</span>
+                                <span className="text-gray-400">{item.descricao}</span>
+                            </div>
+
+                            <span className="text-center">
+                                {item.valor
+                                    ? `R$ ${item.valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+                                    : "R$ 0,00"}
+                            </span>
+
+                            <span className="text-right">
+                                {formatarData(item.data)}
+                            </span>
+                        </li>
+                    ))}
+
+                    {tipoExtrato != "despesas" && dados.receitas.map((item, index) => (
+                        <li key={`item-${index}`} className="grid grid-cols-3 w-full gap-8 border-b items-center pb-2">
+                            <div className="flex flex-col">
+                                <span>Cliente: {item.nomeCliente || "Sem nome"}</span>
                             </div>
 
                             <span className="text-center">

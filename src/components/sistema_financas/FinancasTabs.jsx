@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Tabs,
     TabsHeader,
@@ -9,7 +9,7 @@ import {
 import Extrato from "./Extrato";
 import Loading from "../shared/Loading";
 
-const FinancasTabs = ({ dados, loading, error, lastId }) => {
+const FinancasTabs = ({ dados, loading, error }) => {
     const [activeTab, setActiveTab] = React.useState("geral");
     const data = [
         {
@@ -25,20 +25,6 @@ const FinancasTabs = ({ dados, loading, error, lastId }) => {
             value: "despesas",
         }
     ];
-
-    const filtrarExtrato = () => {
-        switch (activeTab) {
-            case "geral":
-                return dados.geral;
-            case "receitas":
-                return dados.receitas;
-            case "despesas":
-                return dados.despesas;
-            default:
-                return [];
-        }
-    };
-
 
     return (
         <Tabs value={activeTab}>
@@ -66,7 +52,7 @@ const FinancasTabs = ({ dados, loading, error, lastId }) => {
                         {loading ? (
                             <Loading />
                         ) : (
-                            <Extrato filtrarExtrato={filtrarExtrato} tipoExtrato={activeTab} error={error} dados={dados} lastId={lastId} showTooltip/>
+                            <Extrato tipoExtrato={activeTab} error={error} dados={dados} showTooltip/>
                         )}
                     </TabPanel>
                 ))}

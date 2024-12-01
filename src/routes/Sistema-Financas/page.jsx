@@ -1,15 +1,20 @@
 import HeaderSistema from "@/components/shared/header_sistema/HeaderSistema";
 import FinancasTabs from "@/components/sistema_financas/FinancasTabs";
 import { useFinancas } from "@/hooks/useFinancas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const FinancasPage = () => {
     const [mes, setMes] = useState(new Date().getMonth() + 1);
     const [ano, setAno] = useState(new Date().getFullYear());
-    const { dados, loading, error, id } = useFinancas(mes, ano);
+    const { dados, loading, error, fetchDespesas } = useFinancas(mes, ano);
+    const [dadosCarregados, setDadosCarregados] = useState(false);
 
-    console.log("id atual: " + id)
+    useEffect(() => {
+        if (!dadosCarregados) {
+            fetchDespesas().then(() => setDadosCarregados(true)); 
+        }
+    }, [mes, ano, dadosCarregados, fetchDespesas]);
 
     const handleMesAnterior = () => {
         if (mes === 1) {
@@ -46,7 +51,7 @@ const FinancasPage = () => {
                     <button className="text-2xl" onClick={handleProximoMes}>{'>'}</button>
                 </div>
                 <div className="w-full">
-                    <FinancasTabs dados={dados} loading={loading} error={error} lastId={id}/>
+                    <FinancasTabs dados={dados} loading={loading} error={error}/>
                 </div>
             </div>
         </main>

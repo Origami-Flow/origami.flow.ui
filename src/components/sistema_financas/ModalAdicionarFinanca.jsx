@@ -35,7 +35,7 @@ const camposPorTipo = {
     }
 };
 
-const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, lastId }) => {
+const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, onSuccess, caixaId }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(false);
     const [selectedFields, setSelectedFields] = useState([]);
     const [formValues, setFormValues] = useState({});
@@ -164,25 +164,23 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, lastId }) => {
 
     const handleSave = () => {
         const schema = getValidationSchema();
+
         try {
             schema.parse(formValues);
             setErrors({});
             const produtoEncontrado = produtos.find(produto => produto?.produto?.descricao === formValues.nomeProduto);
             const idProduto = produtoEncontrado?.produto?.id || null;
 
-            if (!produtoEncontrado && subTipo == "Mercadoria") {
-                console.error("Produto não encontrado:", formValues.nomeProduto);
-            }
-
-
             if (tipo == "despesas" && (subTipo == "Pagamento" || subTipo == "Mercadoria")) {
                 const despesaData = {
-                    descricao: formValues.nomeProduto || formValues.nomeAssistente,
+                    nome: formValues.nomeProduto || formValues.nomeAssistente || "Despesa Geral",
+                    descricao: subTipo || "",
                     valor: Number(formValues.valor) || 0,
                     data: formValues.dataDespesa || "",
-                    idCaixa: 1,
-                    produto_id: idProduto,
+                    idCaixa: caixaId,
+                    idProduto: idProduto,
                 };
+
                 console.log("Dados válidos:", despesaData);
 
                 request.postDespesa(
@@ -191,7 +189,7 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, lastId }) => {
 
                     if (subTipo == "Mercadoria" && idProduto != null) {
                         const produtoData = {
-                            nome: formValues.nomeProduto || formValues.nomeAssistente,
+                            nome: formValues.nomeProduto,
                             valorCompra: Number(formValues.valor) || 0,
                             quantidade: Number(formValues.quantidade),
                             idSalao: 1,
@@ -211,19 +209,21 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, lastId }) => {
                             toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
                         })
 
-                        toast.success("Despesa cadastrada com sucesso!");
                     }
 
+                    toast.success("Despesa cadastrada com sucesso!");
+                    if (onSuccess) {
+                        onSuccess();
+                    }
                     onClose();
                 }).catch(() => {
                     toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
                 })
 
                 setId(prevId => prevId + 1);
-                window.location.reload();
-            } else if (tipo == "despesas") {
+            } else if (tipo == "despesas" && subTipo == "Assistente") {
                 const assistenteData = {
-                    nome: formValues.nomeAssistente || "",
+                    nome: formValues.nomeAssistente || "Despesa Pagamento",
                     email: formValues.email || "",
                     valorMaoDeObra: formValues.valor
                 };
@@ -321,6 +321,7 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, lastId }) => {
                         onClick={handleSave}>
                         Salvar
                     </button>
+
                 </div>
             </div>
         </div>
