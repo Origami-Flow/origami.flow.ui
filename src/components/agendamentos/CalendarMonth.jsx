@@ -180,7 +180,7 @@ export const CalendarMonth = ({
               >
                 {day}
               </span>
-              <div className="mt-9 flex flex-wrap max-h-full flex-row gap-1 overflow-y-auto">
+              <div className="mt-9 flex flex-wrap max-h-[40%] flex-row gap-1 overflow-y-auto w-full max-w-full">
                 {events
                   ?.filter(
                     (event) =>
@@ -205,7 +205,7 @@ export const CalendarMonth = ({
                   ))}
               </div>
               {isNewMonth && (
-                <span className="absolute bottom-0.5 left-0 w-full truncate px-1.5 text-sm font-semibold text-slate-500">
+                <span className="absolute h-fit bg-white bottom-0.5 left-0 w-full truncate px-1.5 text-sm font-semibold text-slate-500">
                   {monthNames[month]}
                 </span>
               )}

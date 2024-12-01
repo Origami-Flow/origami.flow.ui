@@ -39,7 +39,7 @@ const Agendamentos = () => {
         translateToLocalDate(dataFim)
       )
       .then((response) => {
-        setEvents(response.data || []);
+        setEvents(response?.data || []);
       })
       .finally(() => {
         setIsLoading(false);
