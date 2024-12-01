@@ -171,16 +171,16 @@ export const CalendarMonth = ({
               data-month={month}
               data-day={day}
               onClick={() => handleDayClick(day, month, year)}
-              className={`relative z-10 m-[-0.5px] group aspect-square w-full grow cursor-pointer h-24 rounded-md border font-medium transition-all hover:z-20 hover:border-roseprimary`}
+              className={`relative z-10 m-[-0.5px] group aspect-square flex w-full grow cursor-pointer h-24 rounded-md border font-medium transition-all hover:z-20 hover:border-roseprimary`}
             >
               <span
-                className={`absolute left-1 top-1 flex size-7 items-center justify-center rounded-full text-lg ${
+                className={`ml-1 mt-1 flex size-7 items-center justify-center rounded-full text-lg ${
                   isToday ? "bg-roseprimary font-semibold text-white" : ""
                 }`}
               >
                 {day}
               </span>
-              <div className="mt-9 flex flex-wrap max-h-[40%] flex-row gap-1 overflow-y-auto w-full max-w-full">
+              <div className="flex flex-wrap max-h-[78%] flex-row gap-1 overflow-y-auto w-full max-w-full h-fit">
                 {events
                   ?.filter(
                     (event) =>
