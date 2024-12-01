@@ -9,44 +9,56 @@ import Loading from "../../components/shared/Loading";
 import { useEffect, useState } from "react";
 import { TrashIcon } from "@radix-ui/react-icons";
 import ServiceDialog from "@/components/servicos/ServiceDialog";
-
+import { request } from "@/axios/request";
+import fotos from "./fotos";
+import usePagination from "@/hooks/usePagination";
+import PaginacaoServico from "@/components/servicos/PaginacaoServico";
 
 const ServicosPage = () => {
-    const [services, setServices] = useState([
-        { id: 1, foto: imgPrincipal, titulo: "Nagô", valorSinal: 25.5, valorMinimo: 120.5, valorMaximo: 250.5 },
-        { id: 2, foto: imgPrincipal, titulo: "Lemonade", valorSinal: 35.5 },
-        { id: 3, foto: imgPrincipal, titulo: "Box Braids", valorSinal: 40.9 },
-        { id: 4, foto: imgPrincipal, titulo: "Boho Braids", valorSinal: 25.5 },
-        { id: 5, foto: imgPrincipal, titulo: "Faux Locs", valorSinal: 47.5 },
-        { id: 6, foto: imgPrincipal, titulo: "Lemonade", valorSinal: 25.5 },
-        { id: 7, foto: imgPrincipal, titulo: "Gypsy Braids", valorSinal: 28.5 },
-        { id: 8, foto: imgPrincipal, titulo: "Twist", valorSinal: 25.5 }
-    ]);
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedType, setSelectedType] = useState('todos');
     const [file, setFile] = useState(null);
 
-    /******* conexão com a API *******/
-    // const fetchServices = async () => {
-    //     try {
-    //         const response = await fetch('');
-    //         const data = await response.json();
-    //         setServices(data);
-    //     } catch (error) {
-    //         console.error('Erro ao buscar serviços:', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+    const filteredServices = services.filter((service) =>
+        selectedType === "todos"
+            ? true
+            : service?.nome?.toLowerCase().includes(selectedType.toLowerCase())
+    );
+
+    const {
+        actualPage,
+        getItemsPage,
+        handleBackPage,
+        handleNextPage,
+        totalPages,
+        setActualPage
+    } = usePagination(filteredServices, 8);
 
 
-    // useEffect(() => {
-    //     fetchServices();
-    // }, []);
+    useEffect(() => {
+        const fetchServicos = async () => {
+            setLoading(true);
+            try {
+                const response = await request.getServicos();
+                const servicesWithImages = response.data.map((service) => ({
+                    ...service,
+                    foto: fotos[service.descricao.toLowerCase()] || fotos["default"],
+                }));
 
-    const filteredServices = selectedType === 'todos'
-        ? services
-        : services.filter(service => service.titulo.toLowerCase() === selectedType);
+                const filteredServices = servicesWithImages.filter(service => service.descricao.includes('-'));
+                setServices(filteredServices);
+            } catch (err) {
+                console.log('Erro ao buscar os serviços', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchServicos();
+    }, []);
+
+    const paginatedServices = getItemsPage();
 
 
     const handleFileChange = (event) => {
@@ -60,6 +72,10 @@ const ServicosPage = () => {
         const inputFile = document.getElementById("large_size");
         setFile(null);
         inputFile.value = "";
+    };
+
+    const handlePageChange = (value) => {
+        setActualPage(value);
     };
 
     return (
@@ -82,9 +98,6 @@ const ServicosPage = () => {
                 </div>
                 {file && (
                     <div className="flex items-center space-x-2">
-                        {/* <button className="bg-roseprimary shadow-sm hover:shadow-xl transition-shadow p-3 rounded-xl text-branconeutro w-[25%] max-md:w-full">
-                            Agendar
-                        </button> */}
                         <ServiceDialog />
                     </div>
                 )}
@@ -108,19 +121,31 @@ const ServicosPage = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 gap-4">
-                        {filteredServices.map((service) => (
-                            <ServiceCard
-                                key={service.id}
-                                foto={service.foto}
-                                titulo={service.titulo}
-                                valorSinal={service.valorSinal}
-                                valorMinimo={service.valorMinimo}
-                                valorMaximo={service.valorMaximo}
-                            />
-                        ))}
+                        {paginatedServices.length > 0 ? (
+                            paginatedServices.map((service) => (
+                                <ServiceCard
+                                    key={service.id}
+                                    foto={service.foto}
+                                    titulo={service.nome}
+                                    valorSinal={service.valorSinal}
+                                    valorMinimo={service.valorServico}
+                                    valorMaximo={service.valorServico}
+                                    showTooltip
+                                />
+                            ))
+                        ) : (
+                            <p className="text-gray-500 text-center">Nenhum serviço encontrado.</p>
+                        )}
+
                     </div>
                 )}
             </div>
+            <PaginacaoServico
+                totalPages={totalPages}
+                currentPage={actualPage}
+                handleBackPage={handleBackPage}
+                handleNextPage={handleNextPage}
+                onPageChange={handlePageChange} />
             <Footer />
         </main>
     )

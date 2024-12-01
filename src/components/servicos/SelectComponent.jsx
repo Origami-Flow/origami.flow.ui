@@ -4,7 +4,7 @@ export function SelectComponent({selectedType, setSelectedType}) {
 
     return (
         <Select.Root defaultValue={selectedType} size={"3"} onValueChange={setSelectedType} >
-            <Select.Trigger radius="medium" className="bg-roseprimary"/>
+            <Select.Trigger radius="medium" className="bg-rosesecundary"/>
             <Select.Content>
                 <Select.Item value="todos">Todos</Select.Item>
                 <Select.Separator />

@@ -15,6 +15,9 @@ const request = {
   getClientes: async () => {
     return await api.get("/clientes");
   },
+  updateCliente: async (id, data) => {
+    return await api.put(`/clientes/${id}`, data)
+  },
   getProdutos: async () => {
     return await api.get("/estoques");
   },
@@ -39,6 +42,9 @@ const request = {
   updateEstoque: async (id, quantidade) => {
     return await api.put(`/estoques/${id}?quantidade=${quantidade}`)
   },
+  getServicos: async () => {
+    return await api.get("/servicos")
+  },
   getMetricas: async(mes, ano) => {
     return await api.get(`/metricas?mes=${mes}&ano=${ano}`)
   },
@@ -49,10 +55,6 @@ const request = {
   },
   getAuxiliaNome: async (nome = "") => {
     const result = await api.get(`/auxiliares/nome?nome=${nome}`);
-    return result;
-  },
-  getServicos: async () => {
-    const result = await api.get("/servicos");
     return result;
   },
   postEvento: async (payload) => {
