@@ -52,7 +52,6 @@ const request = {
     return await api.get(`/financas?mes=${mes}&ano=${ano}`)
   },
   postDespesa: async (data) => {
-    console.log("Dados recebidos no método postDespesa:", data);
     return await api.post("/despesas", data)
   },
   getAssistentes: async () => {
@@ -64,8 +63,8 @@ const request = {
   getCaixa: async (mes, ano) => {
     return await api.get(`/caixas/por/mes?mes=${mes}&ano=${ano}`)
   },
-  postCaixa: async (id, inicio, fim) => {
-    return await api.post(`/caixas/${id}?inicio=${inicio}&termino=${fim}`)
+  postCaixa: async (id) => {
+    return await api.post(`/caixas/${id}`)
   },
 };
 

@@ -14,13 +14,13 @@ export const useFinancas = (mes, ano) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const getLastDayOfMonth = (ano, mes) => {
-        return `${ano}-${mes.toString().padStart(2, "0")}-${new Date(ano, mes, 0).getDate()}`;
-    };
+    // const getLastDayOfMonth = (ano, mes) => {
+    //     return `${ano}-${mes.toString().padStart(2, "0")}-${new Date(ano, mes, 0).getDate()}`;
+    // };
 
-    const getFirstDayOfMonth = (ano, mes) => {
-        return `${ano}-${mes.toString().padStart(2, "0")}-01`;
-    };
+    // const getFirstDayOfMonth = (ano, mes) => {
+    //     return `${ano}-${mes.toString().padStart(2, "0")}-01`;
+    // };
 
     const checkOrCreateCaixa = async (ano, mes) => {
         try {
@@ -38,16 +38,18 @@ export const useFinancas = (mes, ano) => {
             if (caixa) {
                 console.log("Caixa já existente:", caixa);
                 return caixa;
-            }
+            } 
+            // else {
+            //     const createResponse = await request.postCaixa(
+            //         1,
+            //         getFirstDayOfMonth(ano, mes),
+            //         getLastDayOfMonth(ano, mes)
+            //     );
+    
+            //     console.log("Novo caixa criado:", createResponse.data);
+            //     return createResponse.data;
+            // }
 
-            const createResponse = await request.postCaixa(
-                1,
-                getFirstDayOfMonth(ano, mes),
-                getLastDayOfMonth(ano, mes)
-            );
-
-            console.log("Novo caixa criado:", createResponse.data);
-            return createResponse.data;
 
         } catch (err) {
             console.error("Erro ao verificar/criar caixa:", err);
@@ -67,10 +69,8 @@ export const useFinancas = (mes, ano) => {
         setError(null);
 
         try {
-            console.log("Iniciando requisição para o caixa...");
             const caixa = await checkOrCreateCaixa(ano, mes);
-            console.log("Resposta do caixa:", caixa);
-
+            
             if (!caixa?.dataAbertura || !caixa?.dataFechamento) {
                 setError("Não foi possível obter as datas de abertura e fechamento do caixa.");
                 setLoading(false);

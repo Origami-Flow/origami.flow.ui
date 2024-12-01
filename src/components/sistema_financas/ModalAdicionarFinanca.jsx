@@ -6,20 +6,11 @@ import { toast } from "react-toastify";
 import { request } from "@/axios/request";
 
 const camposPorTipo = {
-    receitas: {
-        "Venda de produto": [
-            { name: "Produto", field: "nomeProduto", type: "select" },
-            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "20" },
-            { name: "Quantidade", field: "quantidade", type: "number", placeholder: "10" },
-            { name: "Cliente", field: "cliente", type: "select" },
-            { name: "Data", field: "dataReceita", type: "date" }
-        ]
-    },
     despesas: {
         Mercadoria: [
             { name: "Nome", field: "nomeProduto", type: "text", placeholder: "Pomada" },
             { name: "Valor (R$)", field: "valor", type: "number", placeholder: "20" },
-            { name: "Quantidade", field: "quantidade", type: "number", placeholder: "10" },
+            // { name: "Quantidade", field: "quantidade", type: "number", placeholder: "10" },
             { name: "Data", field: "dataDespesa", type: "date" }
         ],
         Assistente: [
@@ -30,6 +21,12 @@ const camposPorTipo = {
         Pagamento: [
             { name: "Nome Assistente", field: "nomeAssistente", type: "select" },
             { name: "Valor mão de obra (R$)", field: "valor", type: "number", placeholder: "100" },
+            { name: "Data", field: "dataDespesa", type: "date" }
+        ],
+        Outro: [
+            { name: "Nome", field: "nomeOutro", type: "text", placeholder: "Conta de luz" },
+            { name: "Tipo", field: "tipo", type: "text", placeholder: "Conta" },
+            { name: "Valor (R$)", field: "valor", type: "number", placeholder: "100" },
             { name: "Data", field: "dataDespesa", type: "date" }
         ]
     }
@@ -106,7 +103,6 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, onSuccess, caixaId }) =
             }
         }
 
-
         try {
             const schema = getValidationSchema();
             schema.parse({ ...formValues, [field]: value });
@@ -168,64 +164,37 @@ const ModalAdicionarFinanca = ({ onClose, tipo, subTipo, onSuccess, caixaId }) =
         try {
             schema.parse(formValues);
             setErrors({});
-            const produtoEncontrado = produtos.find(produto => produto?.produto?.descricao === formValues.nomeProduto);
+            const produtoEncontrado = produtos.find(produto => produto?.produto?.nome === formValues.nomeProduto);
             const idProduto = produtoEncontrado?.produto?.id || null;
 
-            if (tipo == "despesas" && (subTipo == "Pagamento" || subTipo == "Mercadoria")) {
+            if (tipo == "despesas" && subTipo != "Assistente") {
                 const despesaData = {
-                    nome: formValues.nomeProduto || formValues.nomeAssistente || "Despesa Geral",
-                    descricao: subTipo || "",
+                    nome: formValues.nomeProduto || formValues.nomeAssistente || formValues.nomeOutro || "Despesa Geral",
+                    descricao: formValues.tipo || subTipo ||"",
                     valor: Number(formValues.valor) || 0,
                     data: formValues.dataDespesa || "",
                     idCaixa: caixaId,
                     idProduto: idProduto,
                 };
 
-                console.log("Dados válidos:", despesaData);
-
                 request.postDespesa(
                     despesaData
                 ).then(() => {
-
-                    if (subTipo == "Mercadoria" && idProduto != null) {
-                        const produtoData = {
-                            nome: formValues.nomeProduto,
-                            valorCompra: Number(formValues.valor) || 0,
-                            quantidade: Number(formValues.quantidade),
-                            idSalao: 1,
-                            marca: "",
-                            valorVenda: "1.0",
-                            quantidadeEmbalagem: "",
-                            unidadeMedida: "",
-                            tipo: "SALAO",
-                        };
-                        console.log("Dados válidos:", produtoData);
-
-                        request.postProdutos(
-                            produtoData
-                        ).then(() => {
-                            toast.success("Produto adicionado no estoque com sucesso!");
-                        }).catch(() => {
-                            toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
-                        })
-
-                    }
-
                     toast.success("Despesa cadastrada com sucesso!");
-                    if (onSuccess) {
-                        onSuccess();
-                    }
                     onClose();
+                    window.location.reload()
+                    // if (onSuccess) {
+                    //     onSuccess();
+                    // }
                 }).catch(() => {
                     toast.error("Não foi possível realizar o cadastro, tente novamente mais tarde");
                 })
 
-                setId(prevId => prevId + 1);
-            } else if (tipo == "despesas" && subTipo == "Assistente") {
+            } else {
                 const assistenteData = {
                     nome: formValues.nomeAssistente || "Despesa Pagamento",
                     email: formValues.email || "",
-                    valorMaoDeObra: formValues.valor
+                    valorMaoDeObra: formValues.valor || 0
                 };
                 console.log("Dados válidos:", assistenteData);
 
