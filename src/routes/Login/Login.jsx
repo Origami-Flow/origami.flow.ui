@@ -8,6 +8,7 @@ import IconeGoogle from "../../assets/icon-google.svg";
 import ImageLogin from "../../assets/icon-login.svg";
 import Header from "../../components/shared/Header";
 import InputFormulario from "../../components/shared/InputFormulario";
+import { encryptText } from "@/utils/criptografar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,11 +16,9 @@ const Login = () => {
   const navigate = useNavigate();
   const { setUsuario } = useUser();
 
-  
-
   const saveId = (id) => {
-
-    localStorage.setItem("id", id);
+    const idCriptografado = encryptText(id);
+    localStorage.setItem("id", idCriptografado);
   }
 
   const handleSubmit = () => {
@@ -31,7 +30,7 @@ const Login = () => {
         setUsuario(resposta);
 
         if(resposta.authorities?.includes("ROLE_ADMIN")){
-          saveId(resposta.id);
+          saveId(resposta?.id);
           navigate("/agendamentos");
         } else{ 
           navigate("/");

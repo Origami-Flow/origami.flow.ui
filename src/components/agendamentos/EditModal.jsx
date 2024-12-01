@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { DatePicker } from "../ui/datePicker";
 import ComboboxAgendamento from "./ComboboxAgendamentos";
+import { decryptText } from "@/utils/criptografar";
 
 const EditModal = ({ onClose, modalOpen, fetchEvents }) => {
   const event = modalOpen?.event;
@@ -75,12 +76,13 @@ const EditModal = ({ onClose, modalOpen, fetchEvents }) => {
 
   const handleSave = () => {
     let payload = {};
+    const idTrancista = decryptText(localStorage.getItem("id"));
     if (tipoEvento === "PESSOAL") {
       payload = {
         tipoEvento,
         dataHoraInicio: startTime,
         dataHoraTermino: endTime,
-        idTrancista: 1,
+        idTrancista,
       };
     } else {
       payload = {
@@ -90,7 +92,7 @@ const EditModal = ({ onClose, modalOpen, fetchEvents }) => {
         idServico: servico.id,
         dataHoraInicio: startTime,
         dataHoraTermino: endTime,
-        idTrancista: 1,
+        idTrancista,
       };
     }
     request
