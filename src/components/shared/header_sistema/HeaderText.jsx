@@ -1,11 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 
-const HeaderText = ({ item, icon, path, visibilidade }) => {
+const HeaderText = ({ item, icon, path, visibilidade, onClick }) => {
     const location = useLocation(); 
 
     return (
         <Link to={path}>
             <div 
+                onClick={onClick}
                 className={`${visibilidade} flex-col items-center cursor-pointer transition-all ease-in-out p-2 space-y-2 max-md:border-none ${
                     location.pathname === path ? 'border-r-[5px] border-r-roseprimary' : 'hover:border-r-[5px] hover:border-r-roseprimary'
                 }`}

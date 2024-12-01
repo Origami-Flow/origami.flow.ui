@@ -18,10 +18,16 @@ const Login = () => {
   const handleSubmit = () => {
     request.postLogin({ email, senha: password })
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
+        const resposta = response.data;
+        localStorage.setItem("token", resposta.token);
         toast.success("Login efetuado com sucesso");
-        setUsuario(response.data);
-        navigate("/");
+        setUsuario(resposta);
+
+        if(resposta.authorities?.includes("ROLE_ADMIN")){
+          navigate("/agendamentos");
+        } else{ 
+          navigate("/");
+        }
       })
       .catch(() => {
         toast.error("Usuário ou senha inválidos");

@@ -96,6 +96,7 @@ const Page = () => {
         nome: value.nome,
         email: value.email,
         senha: value.senha,
+        role: "USER",
         dataNascimento: value.dataNascimento,
         telefone: value.telefone,
         ocupacao: value.ocupacao,
