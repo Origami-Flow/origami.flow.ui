@@ -102,6 +102,12 @@ const request = {
   postCaixa: async (id) => {
     return await api.post(`/caixas/${id}`)
   },
+  postAvaliacaoUsuario: async (data) => {
+    return await api.post("/avaliacao-usuarios", data)
+  },
+  getAtendimentoRealizado: async (id) => {
+    return await api.get(`/eventos/por/cliente/${id}`)
+  }
 };
 
 export { api, request };

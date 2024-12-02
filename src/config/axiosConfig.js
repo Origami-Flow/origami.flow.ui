@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
       const { status } = error.response;
       const currentPath = window.location.pathname;
 
-      if (status === 401 && currentPath !== "/login") {
+      if (status === 401 && currentPath !== "/login" && currentPath !== "/servicos") {
         window.location.href = "/login";
       }
 

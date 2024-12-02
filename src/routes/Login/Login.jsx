@@ -29,8 +29,8 @@ const Login = () => {
         toast.success("Login efetuado com sucesso");
         setUsuario(resposta);
 
+        saveId(resposta?.id);
         if(resposta.authorities?.includes("ROLE_ADMIN")){
-          saveId(resposta?.id);
           navigate("/agendamentos");
         } else{ 
           navigate("/");
