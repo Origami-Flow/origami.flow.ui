@@ -85,7 +85,7 @@ const MetricasPage = () => {
             <div className="grid grid-cols-3 gap-6 max-md:grid-cols-1">
               <KpiCard titulo="Vendas" valor={metricas?.vendasDoMes || 0} cor="bg-verdeprimary/90" />
               <KpiCard titulo="Agendamentos" valor={metricas?.agendamentosDoMes || 0} cor="bg-verdeprimary/90" />
-              <KpiCard titulo="Clientes" valor={metricas?.clientesNovosNoMes || 0} cor="bg-verdeprimary/90" />
+              <KpiCard titulo="Novos Clientes" valor={metricas?.clientesNovosNoMes || 0} cor="bg-verdeprimary/90" />
             </div>
             <div className="grid grid-cols-2 gap-6 h-32">
               <KpiCard2
@@ -95,15 +95,15 @@ const MetricasPage = () => {
               />
               <KpiCard2
                 titulo="Taxa de Conversão em Agendamentos"
-                valor={metricas?.taxaDeClienteQueAgendaramNoMes}
+                valor={metricas?.taxaDeClienteQueAgendaramNoMes + "%"}
                 cor="bg-rosesecundary"
                 showTooltip
               />
             </div>
             <div>
               <KpiCard3
-                lucroMesAtual={metricas?.lucroDoMesAtual}
-                lucroMesAnterior={metricas?.lucroDoMesPassado}
+                lucroMesAtual={metricas?.lucroDoMesAtual?.toFixed(2)}
+                lucroMesAnterior={metricas?.lucroDoMesPassado?.toFixed(2)}
                 cor="bg-blue-200"
               />
             </div>

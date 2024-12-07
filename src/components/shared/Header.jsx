@@ -5,12 +5,16 @@ import HeaderText from "./HeaderText";
 import Menu from "./Menu";
 import { useNavigate } from "react-router-dom";
 import useLogout from "@/hooks/useLogOut";
+import MeusAgendamentosModal from "../home/MeusAgendamentosModal";
+import AvaliacaoModal from "../home/AvaliacaoModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { usuario } = useUser();
   const [nomeUsuario, setNomeUsuario] = useState();
+  const [isMeusAgendamentosOpen, setIsMeusAgendamentosOpen] = useState(false);
+  const [avaliacao, setAvaliacao] = useState({open: false, atendimentoRealizadoId: null});
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
   const { logOut } = useLogout();
@@ -81,7 +85,7 @@ const Header = () => {
                   <Pencil />
                   <p>Editar meu perfil</p>
                 </span>
-                <span className="flex gap-4 hover:bg-[#3e591e] p-2 rounded-sm cursor-pointer">
+                <span className="flex gap-4 hover:bg-[#3e591e] p-2 rounded-sm cursor-pointer"  onClick={() => setIsMeusAgendamentosOpen(true)}>
                   <Calendar />
                   <p>Meus Agendamentos</p>
                 </span>
@@ -107,6 +111,12 @@ const Header = () => {
         />
       </div>
       <Menu />
+      {isMeusAgendamentosOpen && (
+        <MeusAgendamentosModal onClose={() => setIsMeusAgendamentosOpen(false)} setAvaliacao={setAvaliacao}/>
+      )}
+      {avaliacao?.open && (
+        <AvaliacaoModal onClose={() => setAvaliacao(false)} openAgendamentos={() => setIsMeusAgendamentosOpen(true)} atendimentoRealizadoId={avaliacao.atendimentoRealizadoId}/>
+      )}
     </>
   );
 };
