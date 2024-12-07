@@ -13,7 +13,7 @@ const MeusAgendamentosModal = ({ onClose, setAvaliacao }) => {
   useEffect(() => {
     const clienteId = decryptText(localStorage.getItem("id"));
     request.getAtendimentoRealizado(clienteId).then((response) => {
-      setAgendamentos(response.data);
+      setAgendamentos(response?.data || []);
       console.log(response.data);
     });
   }, []);
@@ -46,13 +46,13 @@ const MeusAgendamentosModal = ({ onClose, setAvaliacao }) => {
     };
   }, [handleClickOutside, handleKeyDown]);
 
-  const agendamentosFinalizados = agendamentos.filter(
+  const agendamentosFinalizados = agendamentos?.filter(
     (a) => a.statusEvento === "FINALIZADO" && a?.avaliacao != null
   );
-  const agendamentosAvaliar = agendamentos.filter(
+  const agendamentosAvaliar = agendamentos?.filter(
     (a) => a.statusEvento === "FINALIZADO" && a?.avaliacao == null
   );
-  const agendamentosProximos = agendamentos.filter(
+  const agendamentosProximos = agendamentos?.filter(
     (a) => a.statusEvento === "PROGRAMADO"
   );
 

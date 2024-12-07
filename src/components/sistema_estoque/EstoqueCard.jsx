@@ -24,9 +24,9 @@ const EstoqueCard = ({ produtoData, onPlusClick, onMinusClick }) => {
                 <span className="text-branconeutro font-bold text-lg">{produtoData?.produto.nome || "Nome não disponível"}</span>
                 {/* <span className="text-branconeutro text-lg max-md:text-base">Em estoque: {produtoData?.unidades || "Unidades não disponível"}</span> */}
                 <div className="flex space-x-3">
-                    <CircleMinus color="#fefefe" className="cursor-pointer" onClick={onMinusClick}/>
+                    <CircleMinus color="#fefefe" className="cursor-pointer" onClick={onPlusClick}/>
                     <span className="text-branconeutro">{produtoData?.quantidade}</span>
-                    <CirclePlus color="#fefefe" className="cursor-pointer" onClick={onPlusClick}/>
+                    <CirclePlus color="#fefefe" className="cursor-pointer" onClick={onMinusClick}/>
                 </div>
                 <div className="flex justify-end w-full cursor-pointer" onClick={openModal}>
                     <span className="text-branconeutro text-base mr-2 font-semibold">Editar</span>

@@ -64,7 +64,7 @@ const AvaliacaoModal = ({
         comentario: feedback,
         salaoId: 1,
         clienteId,
-        atendimentoRealizadoId,
+        atendimentoRealizadoId: 2,
       })
       .then(() => {
         onClose();
