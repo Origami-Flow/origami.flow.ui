@@ -28,11 +28,9 @@ const Extrato = ({ tipoExtrato, error, dados, showTooltip }) => {
     const transacoes = [
         ...dados.despesas.map(item => ({ ...item, tipo: "despesa" })),
         ...dados.receitas.map(item => ({ ...item, tipo: "receita" }))
-    ].sort((a, b) => {
-        const dataA = new Date(a.data[0], a.data[1] - 1, a.data[2]);
-        const dataB = new Date(b.data[0], b.data[1] - 1, b.data[2]);
-        return dataB - dataA;
-    });
+    ]
+    console.log(transacoes)
+
 
     return (
         <>
