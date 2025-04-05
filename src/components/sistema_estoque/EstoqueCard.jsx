@@ -16,9 +16,9 @@ const EstoqueCard = ({ produtoData, onPlusClick, onMinusClick }) => {
     return (
         <div className="bg-roseprimary w-full p-5 rounded-lg flex max-h-[150px] max-md:max-h-[150px]">
             <img
-                src={produtoData?.foto}
+                src={produtoData?.foto || "https://res.cloudinary.com/dt5smeslb/image/upload/v1743895768/produtos/isjpg6jmh8tpw6shmvc5.png"}
                 alt={`Produto ${produtoData?.nome || "Indefinido"}`}
-                className="w-[30%] h-auto rounded-lg mr-5"
+                className="w-[17%] h-auto rounded-lg mr-5 object-contain"
             />
             <div className="flex flex-col w-[70%] justify-evenly">
                 <span className="text-branconeutro font-bold text-lg">{produtoData?.produto.nome || "Nome não disponível"}</span>
