@@ -51,7 +51,6 @@ const ModalAdicionar = ({ onClose, campos }) => {
 
 
     const handleSave = () => {
-        console.log("Objeto enviado para a API:", value);
         const formData = new FormData();
 
         formData.append("nome", value.nome);
