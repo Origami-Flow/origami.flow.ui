@@ -81,7 +81,6 @@ const EstoquePage = () => {
                 const response = await request.getProdutos();
                 setProdutos(response.data || []);
                 setProdutosOriginais(response.data)
-                console.log(response.data)
             } catch (err) {
                 console.log('Erro ao buscar os produtos', err);
             } finally {
