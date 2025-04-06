@@ -28,9 +28,7 @@ const request = {
     return await api.get(`/produtos/filtro-nome?nome=${nome}`);
   },
   postProdutos: async (data) => {
-    return await api.post("/produtos", data, {headers: {
-      "Content-Type": "multipart/form-data",
-    }});
+    return await api.post("/produtos", data);
   },
   deleteProdutos: async (id) => {
     return await api.delete(`/produtos/${id}`, id);
@@ -39,9 +37,7 @@ const request = {
     return await api.delete(`/estoques/${id}`, id);
   },
   updateProduto: async (id, data) => {
-    return await api.put(`/produtos/${id}`, data, {headers: {
-      "Content-Type": "multipart/form-data",
-    }})
+    return await api.put(`/produtos/${id}`, data)
   },
   updateEstoque: async (id, quantidade) => {
     return await api.put(`/estoques/${id}?quantidade=${quantidade}`)

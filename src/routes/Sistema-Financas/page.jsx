@@ -34,7 +34,7 @@ const FinancasPage = () => {
         }
     };
 
-    const nomeMes = new Date(ano, mes - 1)?.toLocaleString('pt-BR', { month: 'long' });
+    const nomeMes = new Date(ano, mes - 1).toLocaleString('pt-BR', { month: 'long' });
 
     return (
         <main className="flex flex-col items-center justify-start relative pl-32 h-screen max-md:pl-0 max-md:pb-24">
@@ -46,7 +46,7 @@ const FinancasPage = () => {
                 <div className="flex items-center justify-between max-w-md w-[20%] self-center">
                     <button className="text-2xl" onClick={handleMesAnterior}>{'<'}</button>
                     <span className="text-lg font-semibold">
-                        {nomeMes?.charAt(0).toUpperCase() + nomeMes?.slice(1)} {ano}
+                        {nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1)} {ano}
                     </span>
                     <button className="text-2xl" onClick={handleProximoMes}>{'>'}</button>
                 </div>

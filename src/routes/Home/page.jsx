@@ -9,42 +9,59 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useParallax } from "react-scroll-parallax";
+import Entrelacando1 from "../../assets/entrelacando1.svg";
+import Entrelacando2 from "../../assets/entrelacando2.svg";
+import Entrelacando3 from "../../assets/entrelacando3.svg";
+import Imagem1 from "../../assets/imagem1_home.svg";
+import Imagem2 from "../../assets/imagem2_home.svg";
+import Imagem3 from "../../assets/imagem3_home.svg";
+import Imagem4 from "../../assets/imagem4_home.svg";
+import Imagem5 from "../../assets/imagem5_home.svg";
+import SvgHome from "../../assets/svg_home.svg";
 
 const HomePage = () => {
   const cardsAvaliacoes = [
     {
-      nome: "Gaby",
-      texto: `A trança ficou sensacional, só tirei porque já estava 700 dedos. Sem frizz, perfeita. Uma menina do trabalho falou: “Meu Deus, olha minha trança!” Tirou em um mês. Acho que foi a técnica nova, deu super bom. Eu e a Mary ficamos quase três meses.`,
+      nome: "Rafaela",
+      texto:
+        "As tranças que fiz com a Paula foram simplesmente maravilhosas! Ela tem uma habilidade incrível e realmente entendeu o que eu queria. O ambiente é acolhedor e a atenção aos detalhes é excepcional. Recomendo a todos!",
       qtdEstrelas: 5,
-      foto: "https://res.cloudinary.com/dt5smeslb/image/upload/v1743893476/home/xewalfeeoutwoufqtwyv.jpg",
+      foto: "https://images.unsplash.com/photo-1724812773684-e93ac802c2e0?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       nome: "Pedro",
       texto:
-        "Todo mundo elogiando seu trabalho aqui, slc a melhor mesmo! Parabéns 🔥👏🏽",
+        "Fiquei muito satisfeito com o resultado das minhas tranças! A trancista foi extremamente atenta às minhas necessidades e fez um trabalho impecável. Além disso, a experiência foi relaxante e divertida. Voltarei com certeza!",
       qtdEstrelas: 5,
-      foto: "https://res.cloudinary.com/dt5smeslb/image/upload/v1743893565/home/sgwhs9sdgvfwarm6y5pt.jpg",
+      foto: "https://images.unsplash.com/photo-1521151716396-b2da27b1a19f?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
-      nome: "Beatriz",
+      nome: "Ana",
       texto:
-        "Nega, já estou a 21 dias com as tranças e elas seguem impecáveis, é a primeira vez que fico tanto tempo com uma trança sem enjoar ou me senti feia kjkk, só queria te dar esse feedback.",
+        "A experiência que tive com a trancista foi fantástica! Desde o início, ela foi super profissional e atenciosa. As tranças ficaram exatamente como eu imaginava, e ainda recebi muitos elogios. Muito feliz com o resultado!",
       qtdEstrelas: 5,
-      foto: "https://res.cloudinary.com/dt5smeslb/image/upload/v1743894087/home/wakszryjyvkjgqtbsl7i.jpg",
+      foto: "https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      nome: "Leonardo",
+      texto:
+        "A trancista é uma verdadeira artista! O trabalho dela é de alta qualidade e ela faz tudo com muito carinho. Adorei a forma como ela cuidou de mim durante todo o processo. As tranças estão lindas e duradouras. Super recomendo!",
+      qtdEstrelas: 5,
+      foto: "https://plus.unsplash.com/premium_photo-1683121366070-5ceb7e007a97?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ];
 
   const imagensEntrelacando = [
     {
-      src: "https://res.cloudinary.com/dt5smeslb/image/upload/v1743893005/home/tmwmstibow54zlpqwplt.svg",
+      src: Entrelacando1,
       alt: "Imagem Detalhada de uma trança desenhada",
     },
     {
-      src: "https://res.cloudinary.com/dt5smeslb/image/upload/v1743893006/home/t2yjztfdat9jfplkzao9.svg",
+      src: Entrelacando2,
       alt: "Imagem Detalhada de uma trança desenhada",
     },
     {
-      src: "https://res.cloudinary.com/dt5smeslb/image/upload/v1743893005/home/kfwoyk6fdqnnhexfvbw9.svg",
+      src: Entrelacando3,
       alt: "Imagem Detalhada de uma trança desenhada",
     },
   ];
@@ -59,9 +76,7 @@ const HomePage = () => {
   return (
     <>
       <img
-        src={
-          "https://res.cloudinary.com/dt5smeslb/image/upload/v1743892657/home/zkb5usm2cx9cxfnjkzsd.svg"
-        }
+        src={SvgHome}
         className="absolute w-[72rem] top-0 right-0 -z-10 p-0"
         alt=""
       />
@@ -70,43 +85,20 @@ const HomePage = () => {
         <div className="w-full justify-between flex">
           <div ref={parallax.ref} className="gap-12 h-[600px] flex">
             <div>
-              <img
-                className="h-full"
-                src={
-                  "https://res.cloudinary.com/dt5smeslb/image/upload/v1743892658/home/s3d5uyp3w7m1awpofifr.svg"
-                }
-                alt=""
-              />
+              <img className="h-full" src={Imagem1} alt="" />
             </div>
             <div className="flex flex-col justify-between py-2">
-              <img
-                className="h-[48%]"
-                src={
-                  "https://res.cloudinary.com/dt5smeslb/image/upload/v1743892659/home/cinoannlhif8j9ntzzq9.svg"
-                }
-                alt=""
-              />
-              <img
-                className="h-[48%]"
-                src={
-                  "https://res.cloudinary.com/dt5smeslb/image/upload/v1743892659/home/scpkcufdf1wyutjvh05x.svg"
-                }
-                alt=""
-              />
+              <img className="h-[48%]" src={Imagem2} alt="" />
+              <img className="h-[48%]" src={Imagem3} alt="" />
             </div>
             <div className="self-end h-[80%]">
-              <img
-                className="h-full"
-                src={
-                  "https://res.cloudinary.com/dt5smeslb/image/upload/v1743892659/home/r4nv49psmimsjytybfzr.svg"
-                }
-                alt=""
-              />
+              <img className="h-full" src={Imagem4} alt="" />
             </div>
           </div>
           <div className="flex items-center px-16">
             <p className="text-white font-laisha text-[2.55rem] w-80 text-center">
-              Onde a paixão pela beleza e pelos cabelos se unem à&nbsp; <br />
+              Onde a paixão pela beleza e pelos cabelos se 
+              unem à&nbsp; <br />
               <span className="font-bold">criatividade</span>.
             </p>
           </div>
@@ -147,14 +139,7 @@ const HomePage = () => {
           </Button>
         </div>
         <div>
-          <img
-            ref={ref.ref}
-            className="drop-shadow-2xl"
-            src={
-              "https://res.cloudinary.com/dt5smeslb/image/upload/v1743892659/home/nxhfjl8kjonsirknvjka.svg"
-            }
-            alt=""
-          />
+          <img ref={ref.ref} className="drop-shadow-2xl" src={Imagem5} alt="" />
         </div>
       </div>
 

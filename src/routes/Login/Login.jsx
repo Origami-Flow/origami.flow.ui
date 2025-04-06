@@ -19,11 +19,10 @@ const Login = () => {
   const saveId = (id) => {
     const idCriptografado = encryptText(id);
     localStorage.setItem("id", idCriptografado);
-  };
+  }
 
   const handleSubmit = () => {
-    request
-      .postLogin({ email, senha: password })
+    request.postLogin({ email, senha: password })
       .then((response) => {
         const resposta = response.data;
         localStorage.setItem("token", resposta.token);
@@ -31,9 +30,9 @@ const Login = () => {
         setUsuario(resposta);
 
         saveId(resposta?.id);
-        if (resposta.authorities?.includes("ROLE_ADMIN")) {
+        if(resposta.authorities?.includes("ROLE_ADMIN")){
           navigate("/agendamentos");
-        } else {
+        } else{ 
           navigate("/");
         }
       })
@@ -43,7 +42,7 @@ const Login = () => {
   };
 
   return (
-    <main className="h-screen font-medium">
+    <main className="h-screen">
       <Header />
       <div className="flex h-full">
         <div className="w-1/2 h-full flex flex-col justify-between">
@@ -79,7 +78,11 @@ const Login = () => {
               type={"password"}
               placeholder={"*******"}
             />
-          </div>{" "}
+          </div>
+
+          <button className=" justify-center bg-white border rounded-full w-[30%] h-[7%]">
+            <img className="w-[20%]" src={IconeGoogle} alt="Icone Google" />
+          </button>
           <div className="flex flex-col items-center gap-4 w-full">
             <h1 className="text-white">
               Não possui uma conta? &nbsp;
@@ -90,10 +93,7 @@ const Login = () => {
               </Link>
             </h1>
 
-            <Button
-              onClick={() => handleSubmit()}
-              className="justify-center text-white bg-verdeprimary rounded-xl w-[25%] h-12"
-            >
+            <Button onClick={() => handleSubmit()} className="justify-center text-white bg-verdeprimary rounded-xl w-[25%] h-12">
               <b>Entrar</b>
             </Button>
           </div>
