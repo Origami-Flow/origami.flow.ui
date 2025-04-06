@@ -52,7 +52,7 @@ const CalendarGrid = ({
 
   return (
     <div>
-      <div className="grid grid-cols-[1.5fr,3fr,3fr,3fr,3fr,3fr,3fr,3fr] pb-1 text-center sticky top-0 z-20 bg-white">
+      <div className="grid grid-cols-[1.5fr,3fr,3fr,3fr,3fr,3fr,3fr,3fr] pb-1 text-center sticky top-0 z-10 bg-white">
         <div className="col-span-1 "></div>
         {days.map((day, index) => (
           <div

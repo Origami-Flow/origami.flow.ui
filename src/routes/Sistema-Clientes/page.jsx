@@ -13,13 +13,11 @@ const ClientesPage = () => {
 
     useEffect(() => {
         const fetchClientes = async () => {
-            try {
-                const response = await request.getClientes();
-                setClientes(response.data);
-            } catch (err) {
-                setError('Erro ao buscar os clientes');
-            }
-        }
+            request.getClientes()
+                .then(response => {
+                    setClientes(response.data);
+                })
+        };
 
         fetchClientes();
     }, []);

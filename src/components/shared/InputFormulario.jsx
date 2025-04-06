@@ -48,7 +48,7 @@ const InputFormulario = forwardRef(
           {...props}
           className={clsx(
             "px-3 pb-2.5 pt-3 w-[20vw] bg-transparent focus:outline-none transition-all ease-in-out duration-1000",
-            `border focus:ring-2 focus:ring-${color} focus:border-${color}`,
+            `border border-gray-300 focus:ring-2 focus:ring-${color}  focus:border-${color}`,
             color === "white" ? "border-white text-white focus:ring-white focus:border-white" : `border-${color} text-${color}`,
             color === "white" && "placeholder-slate-200",
             type === "password" && "pr-10"
