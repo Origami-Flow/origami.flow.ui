@@ -57,7 +57,7 @@ const campos = [
     },
 ];
 
-const ModalEditar = ({ onClose, nameProduct, idProduct }) => {
+const ModalEditar = ({ onClose, nameProduct, idProduct, idEstoque }) => {
     const [isOptionDisabled, setIsOptionDisabled] = useState(true);
     const [isModalOpen, setModalOpen] = useState(false);
     const [value, setValue] = useState({
@@ -136,7 +136,7 @@ const ModalEditar = ({ onClose, nameProduct, idProduct }) => {
 
     const handleDelete = async (id) => {
         try {
-            await request.deleteEstoque(id);
+            await request.deleteEstoque(idEstoque);
             await request.deleteProdutos(id);
             toast.success("Produto deletado com sucesso!", 3000);
             closeModal();
@@ -164,7 +164,7 @@ const ModalEditar = ({ onClose, nameProduct, idProduct }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-            <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
+            <div className="bg-white rounded-lg p-6 max-w-fit shadow-lg">
                 <h2 className="text-xl font-bold mb-7 text-black">Editar</h2>
 
                 <div className="grid grid-cols-2 gap-4">

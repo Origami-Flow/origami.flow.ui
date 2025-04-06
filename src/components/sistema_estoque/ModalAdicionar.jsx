@@ -18,6 +18,12 @@ const ModalAdicionar = ({ onClose, campos }) => {
         quantidade: "",
         idSalao: "",
     });
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        console.log(event.target.files);
+        setFile(event.target.files[0]);
+    };
 
     const [tempValue, setTempValue] = useState({ ...value });
 
@@ -46,18 +52,20 @@ const ModalAdicionar = ({ onClose, campos }) => {
 
     const handleSave = () => {
         console.log("Objeto enviado para a API:", value);
+        const formData = new FormData();
 
-        request.postProdutos({
-            nome: value.nome,
-            marca: value.marca,
-            valorCompra: value.valorCompra,
-            valorVenda: value.valorVenda || "1.0",
-            quantidadeEmbalagem: value.quantidadeEmbalagem,
-            unidadeMedida: value.unidadeMedida,
-            tipo: value.tipo,
-            quantidade: value.quantidade,
-            idSalao: value.idSalao,
-        }).then(() => {
+        formData.append("nome", value.nome);
+        formData.append("marca", value.marca);
+        formData.append("valorCompra", value.valorCompra);
+        formData.append("valorVenda", value.valorVenda || "1.0");
+        formData.append("quantidadeEmbalagem", value.quantidadeEmbalagem);
+        formData.append("unidadeMedida", value.unidadeMedida);
+        formData.append("tipo", value.tipo);
+        formData.append("quantidade", value.quantidade);
+        formData.append("idSalao", value.idSalao);
+        formData.append("imagem", file);
+
+        request.postProdutos(formData).then(() => {
             toast.success("Cadastro realizado com sucesso!");
 
             onClose();
@@ -70,7 +78,7 @@ const ModalAdicionar = ({ onClose, campos }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-2xl w-full shadow-lg max-md:w-[80%]">
+            <div className="bg-white rounded-lg p-6 min-w-fit shadow-lg ">
                 <h2 className="text-xl font-bold mb-7 text-black">Adicionar</h2>
 
                 <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
@@ -109,7 +117,12 @@ const ModalAdicionar = ({ onClose, campos }) => {
                                     color="black"
                                 />
                             ) : campo.field === "foto" ? (
-                                <input className="block w-full max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" id="large_size" type="file" />
+                                <input
+                                    className="block w-full max-sm:w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                                    id="large_size"
+                                    type="file"
+                                    onChange={handleFileChange}
+                                />
                             ) : (
                                 <InputFormulario
                                     key={index}

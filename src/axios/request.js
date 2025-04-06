@@ -28,7 +28,9 @@ const request = {
     return await api.get(`/produtos/filtro-nome?nome=${nome}`);
   },
   postProdutos: async (data) => {
-    return await api.post("/produtos", data);
+    return await api.post("/produtos", data, {headers: {
+      "Content-Type": "multipart/form-data",
+    }});
   },
   deleteProdutos: async (id) => {
     return await api.delete(`/produtos/${id}`, id);

@@ -16,7 +16,7 @@ const EstoqueCard = ({ produtoData, onPlusClick, onMinusClick }) => {
     return (
         <div className="bg-roseprimary w-full p-5 rounded-lg flex max-h-[150px] max-md:max-h-[150px]">
             <img
-                src={produtoData?.foto || "https://res.cloudinary.com/dt5smeslb/image/upload/v1743895768/produtos/isjpg6jmh8tpw6shmvc5.png"}
+                src={produtoData?.produto?.imagemUrl || "https://res.cloudinary.com/dt5smeslb/image/upload/v1743895768/produtos/isjpg6jmh8tpw6shmvc5.png"}
                 alt={`Produto ${produtoData?.nome || "Indefinido"}`}
                 className="w-[17%] h-auto rounded-lg mr-5 object-contain"
             />
@@ -33,7 +33,7 @@ const EstoqueCard = ({ produtoData, onPlusClick, onMinusClick }) => {
                     <Edit2Icon color="#fefefe" />
                 </div>
             </div>
-            {isModalOpen && (<ModalEditar idProduct={produtoData?.produto.id} onClose={closeModal} nameProduct={produtoData?.produto.nome} />)}
+            {isModalOpen && (<ModalEditar idProduct={produtoData?.produto.id} onClose={closeModal} nameProduct={produtoData?.produto.nome} idEstoque={produtoData.id} />)}
         </div>
     )
 }
