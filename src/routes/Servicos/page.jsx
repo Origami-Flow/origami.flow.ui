@@ -122,8 +122,8 @@ const ServicosPage = () => {
                   }
                   titulo={service.nome}
                   valorSinal={service.valorSinal}
-                  valorMinimo={service.valorServico}
-                  valorMaximo={service.valorServico}
+                  valorMinimo={service.valorMinimoServico}
+                  valorMaximo={service.valorMaximoServico}
                   showTooltip
                 />
               ))
