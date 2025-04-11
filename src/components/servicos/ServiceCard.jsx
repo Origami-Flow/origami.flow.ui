@@ -5,7 +5,7 @@ const ServiceCard = ({ foto, titulo, valorSinal, valorMinimo, valorMaximo, showT
     const cardRef = useRef(null);
 
     return (
-        <div ref={cardRef} className="h-[88%] w-[90%] min-h-[400px] max-md:w-full max-md:h-full max-lg:h-full max-lg:w-full p-4 flex flex-col rounded-xl border-black/10 border-2 justify-between shadow-md hover:shadow-xl transition-shadow relative">
+        <div ref={cardRef} className="h-[88%] w-[90%] min-h-[520px] max-md:w-full max-md:h-full max-lg:h-full max-lg:w-full p-4 flex flex-col rounded-xl border-black/10 border-2 justify-between shadow-md hover:shadow-xl transition-shadow relative">
             <img src={foto} alt={"Foto do serviço " + titulo || "N/A"} className="w-full h-[60%] object-cover rounded-xl" />
             <span className="text-2xl max-md:text-xl font-bold">{titulo || "N/A"}</span>
             <div className="flex justify-between w-full" >
