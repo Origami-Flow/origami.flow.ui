@@ -73,8 +73,8 @@ const request = {
     const result = await api.put(`/eventos/${id}`, payload);
     return result;
   },
-  putFinalizarEvento: async (id, produtosUtilizadoRequestDTO) => {
-    const result = await api.put(`/eventos/finalizar/${id}`, produtosUtilizadoRequestDTO);
+  putFinalizarEvento: async (id, produtosUtilizadoRequestDTO, valorCobrado) => {
+    const result = await api.put(`/eventos/finalizar/${id}?valorCobrado=${valorCobrado}`, produtosUtilizadoRequestDTO);
     return result;
   },
   deleteEvento: async (id) => {
