@@ -76,7 +76,7 @@ Gostaria de confirmar? ✨`;
   };
 
   const finalizarAgendamento = () => {
-    request.putFinalizarEvento(event.id, []).then(() => {
+    request.putFinalizarEvento(event.id, [], 0.0).then(() => {
       toast.success("Agendamento finalizado com sucesso!");
       fetchEvents();
       onClose();
