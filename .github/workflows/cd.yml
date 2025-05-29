@@ -1,0 +1,25 @@
+name: CD for private instance
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        run: sudo docker pull ${{secrets.DOCKERHUB_USER}}/origami-flow-ui:latest
+
+      - name: Stop Docker Container
+        run: sudo docker stop origami-flow-ui || true
+
+      - name: Remove Docker Container
+        run: sudo docker rm origami-flow-ui || true
+
+      - name: Run Docker Container
+        run: |
+          sudo docker run -d \
+          --name origami-flow-ui \
+          -p 80:80 \
+          ${{ secrets.DOCKERHUB_USER }}/origami-flow-ui:latest
