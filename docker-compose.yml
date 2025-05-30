@@ -1,0 +1,10 @@
+nginx:
+        container_name: example_nginx_prod
+        image: davifeitosa0/origami-flow-ui:latest
+        ports:
+            - "443:443"
+            - "80:80"
+        volumes:
+            - ./:/usr/share/nginx/html
+            - /etc/letsencrypt/ssl/fullchain.pem:/etc/nginx/ssl/fullchain.pem
+            - /etc/letsencrypt/ssl/privkey.pem:/etc/nginx/ssl/privkey.pem
